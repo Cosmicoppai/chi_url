@@ -3,7 +3,7 @@ from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
 from cassandra.auth import PlainTextAuthProvider
-from config import Settings
+from src.chi_url.config import Settings
 from functools import lru_cache
 
 
@@ -23,7 +23,8 @@ _keyspace = _cred.keyspace
 
 
 # Database log
-logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/debug.log', encoding='utf-8')], level=logging.DEBUG)
+logging.basicConfig(handlers=[logging.FileHandler(filename='../../logs/debug.log', encoding='utf-8')], level=logging.DEBUG)
+logging.basicConfig(handlers=[logging.FileHandler(filename='../../logs/db_error.log', encoding='utf-8')], level=logging.ERROR)
 
 profiles = ExecutionProfile(
     load_balancing_policy=DCAwareRoundRobinPolicy(),

@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Path, status
+import uvicorn
+from fastapi import FastAPI, Path, status, Depends
 import logging
 from pydantic import BaseModel, EmailStr
 import session_token, url_hashing_algo
@@ -6,7 +7,7 @@ from db import session
 from session_token import get_password_hash
 
 # Error log
-logging.basicConfig(handlers=[logging.FileHandler(filename="../logs/main.log", encoding="utf-8")], level=logging.ERROR)
+logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/main.log", encoding="utf-8")], level=logging.ERROR)
 user_add_stmt = session.prepare("INSERT INTO user (user_name, disabled, email, hashed_password) VALUES (?, TRUE, ?, ?)")  # prepared statement to add user
 
 app = FastAPI()
@@ -49,16 +50,10 @@ async def check_user(username:str = Path(..., title="username", description="use
         print(f"Exception {e}")
 
 
-@app.get('/verify', tags=["users"])
-async def verify_acc():
-    pass
+"""@app.get('/verify/{jwt}', tags=["users"])
+async def verify_acc(data: Depends()):
+    _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user={data.username}")"""
 
 
-@app.get("/metrics", tags=["metrics and health"])
-async def get_metrics():
-    pass
-
-
-@app.get("/health", tags=["metrics and health"])
-async def get_health():
-    return {'status':status.HTTP_200_OK, 'message':'ALL OK'}
+if __name__ == "__main__":
+    uvicorn.run(app, port=6969)

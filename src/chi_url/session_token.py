@@ -5,7 +5,7 @@ from typing import Optional
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from config import JWT_Settings
+from src.chi_url.config import JWT_Settings
 from functools import lru_cache
 from db import session  # Cassandra Database session
 
@@ -110,7 +110,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
     if current_user.disable:  # if disable == True(i.e user id not active then raise inactive user flag)
         raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user
+    return {"username": current_user.username}
 
 
 # To generate a new token after logging in
@@ -126,9 +126,3 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         data={"sub": _user.username}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-
-
-# To get the status of the current user
-@router.get("/get_user/me", response_model=User, tags=["users"])
-async def read_users_me(current_user: User = Depends(get_current_active_user)):
-    return current_user

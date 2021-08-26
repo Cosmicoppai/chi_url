@@ -58,7 +58,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
                     session.execute(check_short_url_stmt, [hashed_url])
                     # raw_url is pydantic model, therefore the only url part is seperated from the key
                     session.execute(url_add_stmt, [hashed_url, raw_url.url, _user])
-                    background_tasks.add_task(add_resolve_count, raw_url, hashed_url, _user)
+                    background_tasks.add_task(add_resolve_count, raw_url.url, hashed_url, _user)
                     return {"short url": hashed_url}
 
                 except Exception as e:
@@ -80,14 +80,13 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
 async def get_url(background_tasks: BackgroundTasks,
         hashed_url: str = Path(..., title="hashed url", description="Hashed url which is stored in the DB as key")):
 
-    _url = session.execute(url_get_stmt, [hashed_url]).one()
+    _url = session.execute(url_get_stmt, [hashed_url])
     try:
-        background_tasks.add_task(add_resolve_count, _url[0], hashed_url, _url[1])  # update the resolveCount in the background
-        return RedirectResponse(url=f"{_url[0]}")  # Redirect to the mapped url from the DB♥
+        background_tasks.add_task(add_resolve_count, _url[0][0], hashed_url, _url[0][1])  # update the resolveCount in the background
+        return RedirectResponse(url=f"{_url[0][0]}")  # Redirect to the mapped url from the DB♥
     except IndexError or TypeError:
         raise HTTPException(status_code=404, detail="Url not Found")
 
 
 def add_resolve_count(url:str, short_url:str, user: str):
-    print(short_url, user, url)
     session.execute(f"UPDATE resolve_count SET resolves=resolves+1 WHERE user='{user}' AND url='{url}' AND short_url='{short_url}'")

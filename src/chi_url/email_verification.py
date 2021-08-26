@@ -19,9 +19,8 @@ def create_email_verification_token(data: dict):
 
 def send_verification_code(user: str, user_email:EmailStr, background_tasks:BackgroundTasks):
     verification_code = random.randrange(100000, 1000000)
-    _data = {'user':user, "verification_code": verification_code}
     session.execute(f"UPDATE user SET verification_code='{verification_code}' WHERE user_name='{user}';")
-    verification_token = create_email_verification_token(data=_data)
+    verification_token = create_email_verification_token(data={'user':user, "verification_code": verification_code})
     background_tasks.add_task(send_email, token=verification_token, user=user, email=user_email)
 
     return {"status":status.HTTP_200_OK, "message":"Email Sent"}

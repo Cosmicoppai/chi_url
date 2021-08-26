@@ -56,7 +56,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
             else:
                 try:
                     session.execute(check_short_url_stmt, [hashed_url])
-                    # raw_url is pydantic model, therefore the only url part is seperated from the key
+                    # raw_url is pydantic model, separate the url part
                     session.execute(url_add_stmt, [hashed_url, raw_url.url, _user])
                     background_tasks.add_task(add_resolve_count, raw_url.url, hashed_url, _user)
                     return {"short url": hashed_url}
@@ -65,15 +65,16 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
                     with open("../../logs/db_error.log", 'a') as f:
                         f.write(str(e))
 
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
-                headers={"WWW-Authenticate": 'Bearer'}
-            )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Try again Later"
         )
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": 'Bearer'}
+    )
 
 
 @router.get("/{hashed_url}", tags=["url"])

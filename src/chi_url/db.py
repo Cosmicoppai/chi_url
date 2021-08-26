@@ -3,7 +3,7 @@ from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
 from cassandra.auth import PlainTextAuthProvider
-from src.chi_url.config import Settings
+from config import Settings
 from functools import lru_cache
 
 

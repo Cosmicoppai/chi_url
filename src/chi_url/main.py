@@ -1,10 +1,10 @@
-import uvicorn
-from fastapi import FastAPI, Path, status, Depends
+from fastapi import FastAPI, Path, status, BackgroundTasks
 import logging
 from pydantic import BaseModel, EmailStr
 import session_token, url_hashing_algo
 from db import session
 from session_token import get_password_hash
+import email_verification
 
 # Error log
 logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/main.log", encoding="utf-8")], level=logging.ERROR)
@@ -14,6 +14,7 @@ app = FastAPI()
 
 app.include_router(session_token.router)
 app.include_router(url_hashing_algo.router)
+app.include_router(email_verification.router)
 
 
 class User(BaseModel):
@@ -28,13 +29,12 @@ async def home():
 
 
 @app.post("/add_user", tags=["users"], status_code=status.HTTP_201_CREATED)
-async def add_user(user: User):
+async def add_user(user: User,  background_tasks:BackgroundTasks):
     exist = await check_user(user.username)
     if not exist:
         _password = get_password_hash(user.password)
         session.execute(user_add_stmt, [user.username, user.email, _password])  # replace the pre_stmt with the actual values
-
-        # session.execute(f"INSERT INTO user (user_name, disabled, email, hashed_password) VALUES ('{user.username}', TRUE, '{user.email}', '{_password}')")
+        background_tasks.add_task(email_verification.send_verification_code, user.username, user.email)
 
         return True
     return False
@@ -48,12 +48,3 @@ async def check_user(username:str = Path(..., title="username", description="use
         return False
     except Exception as e:
         print(f"Exception {e}")
-
-
-"""@app.get('/verify/{jwt}', tags=["users"])
-async def verify_acc(data: Depends()):
-    _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user={data.username}")"""
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, port=6969)

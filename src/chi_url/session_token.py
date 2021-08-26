@@ -5,7 +5,7 @@ from typing import Optional
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from src.chi_url.config import JWT_Settings
+from config import JWT_Settings
 from functools import lru_cache
 from db import session  # Cassandra Database session
 

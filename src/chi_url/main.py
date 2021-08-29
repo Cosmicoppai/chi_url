@@ -36,7 +36,7 @@ async def add_user(user: User,  background_tasks:BackgroundTasks):
         session.execute(user_add_stmt, [user.username, user.email, _password])  # replace the pre_stmt with the actual values
         background_tasks.add_task(email_verification.send_verification_code, user.username, user.email)
 
-        return True
+        return {"status"}
     return False
 
 
@@ -45,6 +45,6 @@ async def check_user(username:str = Path(..., title="username", description="use
     try:
         if session.execute(f"SELECT user_name FROM user WHERE user_name='{username}'").one()[0] == username:
             return True
+        # return False
+    except TypeError:
         return False
-    except Exception as e:
-        print(f"Exception {e}")

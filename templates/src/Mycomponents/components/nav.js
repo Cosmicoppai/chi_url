@@ -1,13 +1,12 @@
 import { React } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, useHistory} from 'react-router-dom';
 
 const Nav = () => {
+    const History = useHistory();
     const logout = (e) => {
         e.preventDefault();
         localStorage.clear();
-        return (
-            <Redirect to="/login"></Redirect>
-        )
+        History.push('/login')
     }
 
     return (

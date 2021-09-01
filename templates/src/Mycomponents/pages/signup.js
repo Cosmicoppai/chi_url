@@ -31,22 +31,22 @@ const Signup = () => {
                 }
             })
             .then((resp) => {
-                // console.log(resp)
-                if (resp.status === 200) {
+                console.log(resp)
+                if (resp.status === 201) {
                     setLoading(false);
                     setRedirect(true);
                 }
                 else {
                     return (
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div className="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Error!</strong> You should check in on some of those fields below.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
                         </div>)
                 }
             })
             .catch((error) => {
                 setLoading(false);
-                // console.error(error);
+                console.error(error);
             })
     }
 
@@ -98,7 +98,7 @@ const Signup = () => {
             )}
             {loading && (
                 <button className="btn btn-dark mt-3 px-4" type="button" disabled>
-                    <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"/>
                     Loading...
                 </button>
             )}

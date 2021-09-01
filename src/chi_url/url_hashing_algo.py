@@ -4,7 +4,7 @@ from fastapi import HTTPException, status, APIRouter, Path, Depends, BackgroundT
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 from db import session
-from session_token import get_current_user, User
+from session_token import get_current_active_user, User
 
 logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
 
@@ -37,7 +37,7 @@ def encoding(_id):
              tags=["url"],
              status_code=status.HTTP_201_CREATED,
              response_description="Short Url successfully created")
-async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User = Depends(get_current_user)):
+async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User = Depends(get_current_active_user)):
     _user = _user.username
 
     if _user:
@@ -59,7 +59,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
                     # raw_url is pydantic model, separate the url part
                     session.execute(url_add_stmt, [hashed_url, raw_url.url, _user])
                     background_tasks.add_task(add_resolve_count, raw_url.url, hashed_url, _user)
-                    return {"short url": hashed_url}
+                    return {"short_url": hashed_url}
 
                 except Exception as e:
                     with open("../../logs/db_error.log", 'a') as f:

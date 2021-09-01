@@ -119,7 +119,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     _user = authenticate_user(form_data.username, form_data.password)  # Verify the credentials
     if not _user:
         raise HTTPException(status_code=400, detail="Incorrect Username or Password", headers={"WWW-Authenticate": "Bearer"})
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)  # set the expire time after 69 days(you know why...)
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     # Create an access token with data containing username of the user and the expire time of the token
     access_token = create_access_token(

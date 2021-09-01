@@ -36,9 +36,9 @@ const Login = () => {
         // })
 
 
-        await axios.post({
+        await axios({
             url: "token",
-            // method: "POST",
+            method: "POST",
             data: 'grant_type=password&username=' + userName + '&password=' + passWord,
             headers: {
                 'Accept': 'application/json',
@@ -56,9 +56,9 @@ const Login = () => {
                 setRedirect(true);
             }
             else if (resp.status === 400) {
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div className="alert alert-warning alert-dismissible fade show" role="alert">
                     <strong>Error!</strong> Incorrect username or password!
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
                 </div>
             }
         })
@@ -103,7 +103,7 @@ const Login = () => {
             )}
             {loading && (
                 <button className="btn btn-dark mt-3 px-4" type="button" disabled>
-                    <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"/>
                     Loading...
                 </button>
             )}

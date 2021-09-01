@@ -41,15 +41,15 @@ export const Search = () => {
             }
         })
             .then((response) => {
-                // console.log(response.data.shorturl); //check the resp
+                console.log(response.data.short_url); //check the resp
                 setIsLoading(false);
                 if (response.status === 201) {
-                    setShort(response.data.shorturl);
+                    setShort(response.data.short_url);
                 }
                 else if (response.status === 401) {
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div className="alert alert-warning alert-dismissible fade show" role="alert">
                         <strong>Error!</strong> Incorrect username or password!
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 }
             })
@@ -61,14 +61,14 @@ export const Search = () => {
     }
 
     // Copy function used to copy url
-    const copyfunction = (e) => {
-        e.preventDefault();
-        var copyText = document.getElementById("myInput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(copyText.value);
-        alert("Copied the text: " + copyText.value);
-    }
+    // const copyfunction = (e) => {
+       // e.preventDefault();
+        // let copyText = document.getElementById("myInput");
+        // copyText.select();
+        // copyText.setSelectionRange(0, 99999);
+        // navigator.clipboard.writeText(copyText.value);
+        // alert("Copied the text: " + copyText.value);
+    // }
 
 
 // stylesheet
@@ -98,8 +98,8 @@ let mystyle = {
                 </form>
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                        <h4><span type="text" className="badge  bg-dark px-5" id="myInput"> `{baseUrl}{short}`</span> </h4>
-                        <button type="button" onclick={copyfunction} class="btn btn-outline-dark">Copy</button>
+                        <h4><span type="text" className="badge  bg-dark px-5" id="myInput"> {baseUrl}{short}</span> </h4>
+                        <button type="button" className="btn btn-outline-dark">Copy</button>
                     </div>
                 )}
             </div>

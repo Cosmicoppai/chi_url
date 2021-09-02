@@ -21,7 +21,7 @@ class JWT_Settings(BaseSettings):
 
 class EmailSettings(BaseSettings):
     email: str
-    password: str
+    email_password: str
 
     class Config:
         env_file = '.env'

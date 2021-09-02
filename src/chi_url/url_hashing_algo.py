@@ -4,7 +4,9 @@ from fastapi import HTTPException, status, APIRouter, Path, Depends, BackgroundT
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 from db import session
+from cassandra.query import SimpleStatement
 from session_token import get_current_active_user, User
+import binascii
 
 logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
 
@@ -38,7 +40,7 @@ def encoding(_id):
              status_code=status.HTTP_201_CREATED,
              response_description="Short Url successfully created")
 async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User = Depends(get_current_active_user)):
-    _user = _user.username
+    _user = _user.get('username', None)
 
     if _user:
         _time = str(time.time_ns())  # get the current time
@@ -69,6 +71,31 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Try again Later"
         )
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": 'Bearer'}
+    )
+
+
+@router.get("/url-stats", tags=["url"], status_code=status.HTTP_200_OK)
+async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
+    _user = _user.get('username', None)
+    if _user:
+        statement = SimpleStatement(f"SELECT * FROM resolve_count WHERE user='{_user}'", fetch_size=5)
+        ps = binascii.unhexlify(paging_state) if paging_state else None  # check if paging state exists or not
+        results = session.execute(statement, paging_state=ps)
+        # web_session = {'paging_state': results.paging_state}
+        data = []
+        for stat in results.current_rows:
+            data.append(
+                {"url": stat.url,
+                 "short-url": stat.short_url,
+                 "resolves": stat.resolves}
+            )
+        paging_state = binascii.hexlify(results.paging_state).decode() if results.paging_state else None  # fi all results are queried set paging_state as None
+        return {"stats": data, "paging_state": paging_state}  # return the data and the paging state
 
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

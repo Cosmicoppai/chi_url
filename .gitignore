@@ -1,4 +1,5 @@
 .idea
+logs
 src/chi_url/.env
 env
 src/chi_url/__pycache__

@@ -1,53 +1,26 @@
-from fastapi import FastAPI, Path, status, BackgroundTasks, HTTPException
-import logging
-from pydantic import BaseModel, EmailStr
-import session_token, url_hashing_algo
-from db import session
-from session_token import get_password_hash
-import email_verification
+from fastapi import FastAPI
+import session_token, url_hashing_algo, email_verification, users
 
-# Error log
-logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/main.log", encoding="utf-8")], level=logging.ERROR)
-user_add_stmt = session.prepare("INSERT INTO user (user_name, disabled, email, hashed_password) VALUES (?, TRUE, ?, ?)")  # prepared statement to add user
 
-app = FastAPI()
+
+app = FastAPI(
+    title='小 URL',
+    description='An URL Shortener written in python',
+    version='0.1',
+    contact={
+        "name": "CosmicOppai",
+        "url": "https://github.com/Cosmicoppai/chi_url",
+        "email": "oppaiharem69@gmail.com",
+    },
+    license_info={
+        "name": "MIT",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    # docs_url=None,
+    # redoc_url=None
+)
 
 app.include_router(session_token.router)
-app.include_router(url_hashing_algo.router)
 app.include_router(email_verification.router)
-
-
-class User(BaseModel):
-    username: str
-    email: EmailStr
-    password: str
-
-
-@app.get("/", tags=["home"])
-async def home():
-    return {"message": "yo yo"}
-
-
-@app.post("/add_user", tags=["users"], status_code=status.HTTP_201_CREATED)
-async def add_user(user: User,  background_tasks:BackgroundTasks):
-    exist = await check_user(user.username)
-    if not exist:
-        _password = get_password_hash(user.password)
-        session.execute(user_add_stmt, [user.username, user.email, _password])  # replace the pre_stmt with the actual values
-        background_tasks.add_task(email_verification.send_verification_code, user.username, user.email)
-        return True
-
-    return HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail="username already exists, please choose a different username"
-    )
-
-
-@app.get("/get_user/check/{username}", tags=["users"])
-async def check_user(username:str = Path(..., title="username", description="username of the user")):  # Check if user exists or not.
-    try:
-        if session.execute(f"SELECT user_name FROM user WHERE user_name='{username}'").one():
-            return True
-        return False
-    except TypeError:
-        return False
+app.include_router(users.router)
+app.include_router(url_hashing_algo.router)

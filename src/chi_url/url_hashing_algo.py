@@ -1,12 +1,13 @@
 import logging
 import time
-from fastapi import HTTPException, status, APIRouter, Path, Depends, BackgroundTasks
+from fastapi import status, APIRouter, Path, Depends, BackgroundTasks
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
 from db import session
 from cassandra.query import SimpleStatement
 from session_token import get_current_active_user, User
 import binascii
+from errors import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
 
 logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
 
@@ -67,16 +68,9 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
                     with open("../../logs/db_error.log", 'a') as f:
                         f.write(str(e))
 
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Try again Later"
-        )
+        raise HTTP_500_INTERNAL_SERVER_ERROR
 
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": 'Bearer'}
-    )
+    raise HTTP_401_UNAUTHORIZED
 
 
 @router.get("/url-stats", tags=["url"], status_code=status.HTTP_200_OK)
@@ -97,11 +91,7 @@ async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
         paging_state = binascii.hexlify(results.paging_state).decode() if results.paging_state else None  # fi all results are queried set paging_state as None
         return {"stats": data, "paging_state": paging_state}  # return the data and the paging state
 
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": 'Bearer'}
-    )
+    raise HTTP_401_UNAUTHORIZED
 
 
 @router.get("/{hashed_url}", tags=["url"])
@@ -113,7 +103,7 @@ async def get_url(background_tasks: BackgroundTasks,
         background_tasks.add_task(add_resolve_count, _url[0][0], hashed_url, _url[0][1])  # update the resolveCount in the background
         return RedirectResponse(url=f"{_url[0][0]}")  # Redirect to the mapped url from the DB♥
     except IndexError or TypeError:
-        raise HTTPException(status_code=404, detail="Url not Found")
+        raise HTTP_404_NOT_FOUND
 
 
 def add_resolve_count(url:str, short_url:str, user: str):

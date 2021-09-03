@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Path, status, BackgroundTasks, HTTPException
+from fastapi import APIRouter, Path, status, BackgroundTasks
 import logging
 from pydantic import BaseModel, EmailStr
 from db import session
 from session_token import get_password_hash
 import email_verification
+from errors import HTTP_400_BAD_REQUEST
 
 # Error log
 logging.basicConfig(handlers=[logging.FileHandler(filename="../../logs/main.log", encoding="utf-8")], level=logging.ERROR)
@@ -29,10 +30,7 @@ async def add_user(user: User,  background_tasks:BackgroundTasks):
         background_tasks.add_task(email_verification.send_verification_code, user.username, user.email)
         return True
 
-    return HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail="username already exists, please choose a different username"
-    )
+    raise HTTP_400_BAD_REQUEST
 
 
 @router.get("/get_user/check/{username}", tags=["users"])

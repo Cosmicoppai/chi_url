@@ -1,6 +1,6 @@
 import ssl, random, smtplib
 from db import session
-from fastapi import status, APIRouter, HTTPException, Depends
+from fastapi import status, APIRouter, Depends
 from datetime import timedelta, datetime
 from pydantic import EmailStr
 from session_token import SECRET_KEY, ALGORITHM
@@ -12,6 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from config import EmailSettings
 from functools import lru_cache
 from session_token import User, get_current_user
+from errors import HTTP_404_NOT_FOUND
 
 router = APIRouter()
 
@@ -74,17 +75,14 @@ async def verify_acc(token):
     try:
         payload = jwt.decode(token, SECRET_KEY, ALGORITHM)
     except jwt.ExpiredSignatureError or jwt.JWTClaimsError:  # check if token expired or not
-        return HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Page Not Found"
-        )
+        raise HTTP_404_NOT_FOUND
     _user: str = payload.get('user')  # get the username from the token
     verification_code_from_jwt: str = payload.get('verification_code')  # get the verification code
     _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user_name='{_user}'").one()[0]  # get the verification code from the database
 
     if verification_code_from_jwt == int(_verification_code):  # check if both tokens are same or not
-        session.execute(f"UPDATE user SET disabled=FALSE WHERE user_name='{_user}'")  # Activate the user
-        return {"status": status.HTTP_201_CREATED, "message": "Email Successfully verified"}
+        session.execute(f"UPDATE user SET disabled=FALSE, verification_code=NULL WHERE user_name='{_user}'")  # Activate the user
+        return {"status": status.HTTP_200_OK, "message": "Email Successfully verified"}
 
     return {"status":status.HTTP_400_BAD_REQUEST, "message":"Verification code not valid"}
 

@@ -1,6 +1,6 @@
 .idea
 logs
-src/chi_url/.env
+backend/chi_url/.env
 env
-src/chi_url/__pycache__
-/src/chi_url/test.py
+backend/chi_url/__pycache__
+/backend/chi_url/test.py

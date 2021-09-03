@@ -121,4 +121,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     access_token = create_access_token(
         data={"sub": _user.username}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    # _user = await get_current_user(access_token)
+    is_active = False if (await get_current_user(access_token)).disable else True
+    return {"access_token": access_token, "token_type": "bearer", "is_active":is_active}

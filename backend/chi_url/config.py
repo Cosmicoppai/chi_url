@@ -25,3 +25,10 @@ class EmailSettings(BaseSettings):
 
     class Config:
         env_file = '.env'
+
+
+class OriginSettings(BaseSettings):
+    origin: str
+
+    class Config:
+        env_file = '.env'

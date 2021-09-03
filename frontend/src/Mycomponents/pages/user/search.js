@@ -50,12 +50,10 @@ export const Search = () => {
                 if (response.status === 201) {
                     setShort(response.data.short_url);
                 }
-                else if (response.status === 401) {
-                    <Redirect to="/verify" />
-                }
             })
             .catch((error) => {
                 setIsLoading(false);
+                return <Redirect to="/verify" />
                 // console.error(error); //check the error
             })
 

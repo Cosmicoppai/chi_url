@@ -6,44 +6,44 @@ import axios from 'axios';
 const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
     const [data, setdata] = useState([]);
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        axios.get('url-stats', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then((resp) => {
-                // console.log(resp); //check the resp
-                if (resp.status === 200) {
-                    setPagingstatus(resp.paging_state)
-                    setdata(resp.data)
+        useEffect(() => {
+            const token1 = localStorage.getItem("token");
+            axios.get('url-stats', {
+                headers: {
+                    'Authorization': `Bearer ${token1}`,
+                    'accept': 'application/json'
                 }
-    
             })
-            .catch((error) => {
-                // console.error(error); //check the error
-            })
-    }, [])
+                .then((resp) => {
+                    console.log(resp.data.paging_state); //check the resp
+                    if (resp.status === 200) {
+                        setPagingstatus(resp.data.paging_state)
+                        setdata(resp.data)
+                    }
+
+                })
+                .catch((error) => {
+                    console.error(error); //check the error
+                })
+        },[])
 
     const moreRequest = async (e) => {
         e.preventDefault();
-        axios.get('url-stats', {
-            params: {
-                paging_state: pagingStatus
-            }
-        } ,
+        const token2 = localStorage.getItem("token");
+        await axios.get(`url-stats/?paging_state=${pagingStatus}`
+        ,
             {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token2}`,
+                    'accept': 'application/json',
                 }
             })
             .then((resp) => {
-                // console.log(resp); //check the resp
+                console.log(resp); //check the resp
                 if (resp.status === 200) {
-                setPagingstatus(resp.paging_state);
+                setPagingstatus(resp.data.paging_state);
                 setdata(resp.data)
                 }
 
@@ -54,7 +54,7 @@ const UserPage = () => {
     }
 
 
-    const columns = data[0] && Object.keys(data[0]);
+    // const columns = data[0] && Object.keys(data[0]);
     return (
         <div>
             <Search />
@@ -67,11 +67,11 @@ const UserPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {data.map(row =><tr>
+                {/*{data.map(row =><tr>
                     {
                         columns.map(column=><td>{row[column]}</td>)
                     }
-                </tr>)}
+                </tr>)}*/}
                 </tbody>
             </table>
             <button type="button" className="btn btn-link mt-2 d-grid mx-auto btn-lg" onClick={moreRequest}>More.</button>

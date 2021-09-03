@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 import session_token, url_hashing_algo, email_verification, users
+from fastapi.middleware.cors import CORSMiddleware
+from functools import lru_cache
+from config import OriginSettings
 
 
 
@@ -18,6 +21,25 @@ app = FastAPI(
     },
     # docs_url=None,
     # redoc_url=None
+)
+
+
+@lru_cache()
+def get_origin():
+    return OriginSettings()
+
+
+_origins = get_origin()
+
+
+origin = [_origins.origin, ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origin,
+    allow_credentials=True,
+    allow_headers=['*', ],
+    allow_methods=['*', ]
 )
 
 app.include_router(session_token.router)

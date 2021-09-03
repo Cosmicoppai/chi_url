@@ -21,21 +21,6 @@ const Login = () => {
     const loginClick = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // axios.get('/get_user/check/{username}', {   //ye dekh resp null hi deta hai
-        //     username: username
-        // }, {
-        //     headers: {
-        //         'Accept': 'application/json',
-        //     }
-        // })
-        // .then(resp=>{
-        //     console.log(resp);
-        // })
-        // .catch(error=>{
-        //     console.error(error);
-        // })
-
-
         await axios({
             url: "token",
             method: "POST",
@@ -65,7 +50,6 @@ const Login = () => {
             .catch((error) => {
                 setLoading(false);
                 // console.error(error.response.data.errors); // to see what is the error 
-
             })
 
 

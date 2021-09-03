@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Redirect } from 'react-router';
+
 
 const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 export const Search = () => {
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
+    const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const token = localStorage.getItem("token");
 
@@ -47,10 +51,7 @@ export const Search = () => {
                     setShort(response.data.short_url);
                 }
                 else if (response.status === 401) {
-                    <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong> Incorrect username or password!
-                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <Redirect to="/verify" />
                 }
             })
             .catch((error) => {
@@ -62,20 +63,20 @@ export const Search = () => {
 
     // Copy function used to copy url
     // const copyfunction = (e) => {
-       // e.preventDefault();
-        // let copyText = document.getElementById("myInput");
-        // copyText.select();
-        // copyText.setSelectionRange(0, 99999);
-        // navigator.clipboard.writeText(copyText.value);
-        // alert("Copied the text: " + copyText.value);
+    // e.preventDefault();
+    // let copyText = document.getElementById("myInput");
+    // copyText.select();
+    // copyText.setSelectionRange(0, 99999);
+    // navigator.clipboard.writeText(copyText.value);
+    // alert("Copied the text: " + copyText.value);
     // }
 
 
-// stylesheet
-let mystyle = {
-    backgroundColor: "#F8F9FA",
-    marginTop: "150px",
-}
+    // stylesheet
+    let mystyle = {
+        backgroundColor: "#F8F9FA",
+        marginTop: "150px",
+    }
 
 
     return (
@@ -98,8 +99,10 @@ let mystyle = {
                 </form>
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                        <h4><span type="text" className="badge  bg-dark px-5" id="myInput"> {baseUrl}{short}</span> </h4>
-                        <button type="button" className="btn btn-outline-dark">Copy</button>
+                        <h4><span type="text" className="badge  bg-dark px-5" value={inputValue} onChange={e => setInputValue(e.target.value)}> {baseUrl}{short}</span> </h4>
+                        <CopyToClipboard text={inputValue}>
+                            <button type="button" className="btn btn-outline-dark">Copy</button>
+                        </CopyToClipboard>
                     </div>
                 )}
             </div>

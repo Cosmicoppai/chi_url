@@ -54,7 +54,7 @@ const UserPage = () => {
     }
 
 
-    // const columns = data[0] && Object.keys(data[0]);
+    const columns = data[0] && Object.keys(data[0]);
     return (
         <div>
             <Search />
@@ -67,11 +67,11 @@ const UserPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {/*{data.map(row =><tr>
+                {data.map(row =><tr>
                     {
                         columns.map(column=><td>{row[column]}</td>)
                     }
-                </tr>)}*/}
+                </tr>)}
                 </tbody>
             </table>
             <button type="button" className="btn btn-link mt-2 d-grid mx-auto btn-lg" onClick={moreRequest}>More.</button>

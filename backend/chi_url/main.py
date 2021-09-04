@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import session_token, url_hashing_algo, email_verification, users
+import session_token, url_routing, email_verification, users
 from fastapi.middleware.cors import CORSMiddleware
 from functools import lru_cache
 from config import OriginSettings
@@ -43,6 +43,6 @@ app.add_middleware(
 )
 
 app.include_router(session_token.router)
-app.include_router(email_verification.router)
 app.include_router(users.router)
-app.include_router(url_hashing_algo.router)
+app.include_router(email_verification.router)
+app.include_router(url_routing.router)

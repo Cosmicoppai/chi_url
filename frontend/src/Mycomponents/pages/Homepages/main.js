@@ -10,8 +10,7 @@ export const Main = () => {
 
 return (
     <div className="bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden w-100 border-0" >
-        <div className="my-3 py-2">
-            {/* <h1 className="display-5">Simple and fast URL shortener!</h1> */}
+        <div className="my-3 ">
             <p className="lead py-2"></p>
         </div>
         <div className="bg-light shadow-sm mx py-auto " style={myStyle}></div>

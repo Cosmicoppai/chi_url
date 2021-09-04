@@ -26,4 +26,22 @@ module.exports = function(App){
             changeOrigin : true
         })
     );
+    App.use(
+        proxy("url-stats",{
+            target:"http://127.0.0.1:8000/",
+            changeOrigin : true
+        })
+    );
+    App.use(
+        proxy(`url-stats/?paging_state=${pagingStatus}`,{
+            target:"http://127.0.0.1:8000/",
+            changeOrigin : true
+        })
+    );
+    App.use(
+        proxy('send-code',{
+            target:"http://127.0.0.1:8000/",
+            changeOrigin : true
+        })
+    );
 };

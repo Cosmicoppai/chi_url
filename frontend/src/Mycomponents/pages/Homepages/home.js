@@ -16,7 +16,6 @@ const Home = () => {
     return (
         <div>
              <Main/>  
-            {/* <Page/>  */}
             <div className="cover-container d-flex w-100 h-100 p-3 mt-5 flex-column">                
             <header className="mb-5">
                     <div>

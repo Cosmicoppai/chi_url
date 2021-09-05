@@ -1,9 +1,9 @@
 import React from 'react'
-import Login from "./Mycomponents/pages/login";
-import Signup from "./Mycomponents/pages/signup";
-import Verifymail from "./Mycomponents/pages/verifymail";
-import Home from "./Mycomponents/pages/Home/home";
-import UserPage from "./Mycomponents/pages/user/userpage";
+import Login from "./Mycomponents/pages/signuppages/login";
+import Signup from "./Mycomponents/pages/signuppages/signup"
+import Verifymail from "./Mycomponents/pages/signuppages/verifymail";
+import Home from "./Mycomponents/pages/Homepages/home";
+import UserPage from "./Mycomponents/pages/userpages/userpage";
 import Nav from "./Mycomponents/components/nav";
 import Footer from "./Mycomponents/components/footer"
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";

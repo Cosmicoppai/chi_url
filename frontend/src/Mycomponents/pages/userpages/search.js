@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Redirect } from 'react-router';
+
 
 
 const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
@@ -53,22 +53,13 @@ export const Search = () => {
             })
             .catch((error) => {
                 setIsLoading(false);
-                return <Redirect to="/verify" />
+               
                 // console.error(error); //check the error
             })
 
     }
 
-    // Copy function used to copy url
-    // const copyfunction = (e) => {
-    // e.preventDefault();
-    // let copyText = document.getElementById("myInput");
-    // copyText.select();
-    // copyText.setSelectionRange(0, 99999);
-    // navigator.clipboard.writeText(copyText.value);
-    // alert("Copied the text: " + copyText.value);
-    // }
-
+    
 
     // stylesheet
     let mystyle = {

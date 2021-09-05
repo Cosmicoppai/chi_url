@@ -1,6 +1,7 @@
 .idea
-logs
+backend/logs
 backend/chi_url/.env
 env
 backend/chi_url/__pycache__
 /backend/chi_url/test.py
+Dockerfile

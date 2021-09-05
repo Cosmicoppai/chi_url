@@ -5,8 +5,8 @@ import axios from 'axios';
 
 const Login = () => {
     let mystyle = {
-        marginTop: "100px",
-        marginBottom: "290px",
+        marginTop: "130px",
+        marginBottom: "220px",
         maxWidth: "500px"
     }
 
@@ -14,7 +14,8 @@ const Login = () => {
     const [passWord, setpassword] = useState('');
     const [loading, setLoading] = useState(false);
     // const [error, setError] = useState(false);
-    const [redirect, setRedirect] = useState(false);
+    const [redirectlogin, setRedirectlogin] = useState(false);
+    const [redirectverify, setRedirectverify] = useState(false);
 
 
 
@@ -34,17 +35,14 @@ const Login = () => {
         }).then((resp) => {
             // console.log(resp.data.access_token);//Check the response if its ok then comment this
             setLoading(false);
-            if (resp.status === 200) {
+            if (resp.data.is_verified === true) {
                 localStorage.setItem("token", resp.data.access_token)
                 // const token = localStorage.getItem("token")
                 // console.log(token);
-                setRedirect(true);
+                setRedirectlogin(true);
             }
-            else if (resp.status === 400) {
-                <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Error!</strong> Incorrect username or password!
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
-                </div>
+            else if (resp.data.is_verified === false){
+                setRedirectverify(true);
             }
         })
             .catch((error) => {
@@ -54,13 +52,18 @@ const Login = () => {
 
 
     }
-    if (redirect) {
+    if (redirectlogin) {
         return <Redirect to="/user" />
+    }
+    if (redirectverify) {
+        return <Redirect to="/verify" />
     }
 
     return (
+        <div className="container bg-dark text-light border border-dark w-50">
         <form className="container text-center " style={mystyle}>
             <h1 style={{ fontFamily: 'Droid Sans' }}>Login</h1>
+            <hr />
             <label htmlFor="exampleInputUsername mt-5" className="form-label mt-3"
             ><h5>Username</h5></label
             >
@@ -83,15 +86,16 @@ const Login = () => {
             />
 
             {!loading && (
-                <button className="btn btn-dark mt-3 px-4" type="button" onClick={loginClick}>Log in</button>
+                <button className="btn btn-light mt-3 px-4" type="button" onClick={loginClick}>Log in</button>
             )}
             {loading && (
-                <button className="btn btn-dark mt-3 px-4" type="button" disabled>
+                <button className="btn btn-light mt-3 px-4" type="button" disabled>
                     <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"/>
                     Loading...
                 </button>
             )}
         </form>
+        </div>
 
     )
 }

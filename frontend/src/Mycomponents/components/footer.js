@@ -6,7 +6,7 @@ const Footer = () => {
         marginTop:"-100px"
     }
     return (
-        <footer className="footer mt-auto py-1 bg-light text-dark " style={myStyle}>
+        <footer className="footer mt-auto py-1 bg-dark text-light " style={myStyle}>
             <div className="container text-center">
                  Copyright &copy;Easer.com   
             </div>
@@ -17,17 +17,7 @@ const Footer = () => {
                 <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-reddit"></i></a> </span>
             </div>
         </footer>
-        // <footer className="footer   text-light  " style={myStyle}>
-        //     <div className="container text-center">
-        //         Copyright &copy;Easer.com
-        //     </div>
-        //     <div className="container text-center">
-        //     <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-github "></i></a></span>
-        //     <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-instagram"></i></a></span>
-        //     <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-twitter"></i></a></span>
-        //     <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-reddit"></i></a> </span>  
-        //     </div>
-        // </footer>
+        
     )
 }
 

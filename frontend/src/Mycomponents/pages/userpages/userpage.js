@@ -43,9 +43,12 @@ const UserPage = () => {
             })
             .then((resp) => {
                 console.log(resp); //check the resp
-                if (resp.status === 200) {
+                if (resp.data.paging_state!==null) {
                     setPagingstatus(resp.data.paging_state);
-                    setdatas(resp.data)
+                    setdatas(resp.data);
+                }
+                else{
+                    setdatas(null);
                 }
             }, [])
             .catch((error) => {

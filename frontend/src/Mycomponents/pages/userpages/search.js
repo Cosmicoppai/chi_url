@@ -45,7 +45,7 @@ export const Search = () => {
             }
         })
             .then((response) => {
-                console.log(response.data.short_url); //check the resp
+                // console.log(response.data.short_url); //check the resp
                 setIsLoading(false);
                 if (response.status === 201) {
                     setShort(response.data.short_url);
@@ -53,26 +53,28 @@ export const Search = () => {
             })
             .catch((error) => {
                 setIsLoading(false);
-               
+
                 // console.error(error); //check the error
             })
 
     }
 
-    
+
 
     // stylesheet
     let mystyle = {
         backgroundColor: "#F8F9FA",
         marginTop: "150px",
     }
+    
+
 
 
     return (
         <>
-            <div className="container mb-5 " style={mystyle}>
-                <form className="d-flex justify-content-center align-items-center text-center flex-column  " >
-                    <div className="mb-3 px-5 w-75 " >
+            <div className=" mb-5  " style={mystyle}>
+                <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
+                    <div className="mb-3 px-5 w-100 " >
                         <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
                         <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => setLink(e.target.value)} />
                     </div>
@@ -88,8 +90,8 @@ export const Search = () => {
                 </form>
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                        <h4><span type="text" className="badge  bg-dark px-5" value={inputValue} onChange={e => setInputValue(e.target.value)}> {baseUrl}{short}</span> </h4>
-                        <CopyToClipboard text={inputValue}>
+                        <h4><span type="text" className="badge  bg-dark px-5" value={inputValue} onChange={({target:{ inputValue }})=>setInputValue(inputValue)}> {baseUrl}{short}</span> </h4>
+                        <CopyToClipboard text={inputValue} >
                             <button type="button" className="btn btn-outline-dark">Copy</button>
                         </CopyToClipboard>
                     </div>

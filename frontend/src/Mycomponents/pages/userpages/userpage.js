@@ -7,6 +7,8 @@ import axios from 'axios';
 const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
     const [datas, setdatas] = useState([]);
+    const [button, setbutton] = useState();
+    const [datas1, setdatas1] = useState([]);
     // const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -18,15 +20,19 @@ const UserPage = () => {
             }
         })
             .then((resp) => {
-                console.log(resp.data.paging_state); //check the resp
-                if (resp.status === 200) {
+                // console.log(resp); //check the resp
+                if (resp.status === 200 &&  resp.data.paging_state !== null) {
                     setPagingstatus(resp.data.paging_state)
-                    setdatas(resp.data)
+                    setdatas(resp.data.stats)
+                    setbutton(true)
+                }
+                else{
+                    setbutton(false)
                 }
 
             })
             .catch((error) => {
-                console.error(error); //check the error
+                // console.error(error); //check the error
             })
     }, [])
 
@@ -42,44 +48,54 @@ const UserPage = () => {
                 }
             })
             .then((resp) => {
-                console.log(resp); //check the resp
-                if (resp.data.paging_state!==null) {
+                // console.log(resp); //check the resp
+                if (resp.data.paging_state !== null) {
                     setPagingstatus(resp.data.paging_state);
-                    setdatas(resp.data);
+                    setdatas1(resp.data.stats);
+                    setbutton(true)
                 }
-                else{
-                    setdatas(null);
+                else {
+                    setdatas1(resp.data.stats);
+                    setbutton(false);
                 }
-            }, [])
+            })
             .catch((error) => {
                 // console.error(error); //check the error
             })
     }
-
     
-
+    // console.log(datas)
+    const columns = datas[0] && Object.keys(datas[0])
+    const columns1 = datas1[0] && Object.keys(datas1[0])
     return (
-        <div>
+        <div >
             <Search />
-            <table className="table table-bordered">
-                <thead className="table-dark">
-                    <tr>
-                        <th scope="col">Long Url</th>
-                        <th scope="col">Shortened Url</th>
-                        <th scope="col">Number of clicks</th>
-                    </tr>
-                </thead>
-                <tbody>
-        {datas.map((data,index)=>{
-            <tr key={index}>
-            <td>{data.url}</td>
-            <td>{data.short_url}</td>
-            <td>{data.resolves}</td>
-          </tr>
-        })}
-                </tbody>
-            </table>
-            <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
+            <div className="container">
+                <table className="table table-bordered ">
+                    <thead className="table-dark">
+                        <tr>
+                            <th scope="col" className="w-25">Long Url</th>
+                            <th scope="col"className="w-25">Shortened Url</th>
+                            <th scope="col"className="w-25">Number of clicks</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        {datas.map((row,pos)=> <tr key={pos}>
+                            {
+                                columns.map((column,col) => <td key={col}>{row[column]}</td>)
+                            }
+                        </tr>)}
+                        {datas1.map((row,index) => <tr key={index} >
+                            {
+                                columns1.map((column,ind) => <td key={ind}>{row[column]}</td>)
+                            }
+                        </tr>)}
+                    </tbody>
+                </table>
+                {button &&(
+                <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
+                )}
+            </div>
         </div>
     )
 }

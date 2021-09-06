@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import * as yup from 'yup';
+
 
 const Signup = () => {
     let mystyle = {
@@ -15,9 +17,41 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [error, setError] = useState();
-
+    const [passworderror, setPassworderror] = useState();
+    const [emailerror, setEmailerror] = useState();
+    const [usernameerror, setUsernamerror] = useState();
+    const [confirmpassworderror, setConfirmpassworderror] = useState();
+    
+    
     const signupClick = async (e) => {
         e.preventDefault();
+        if(passwordReg  === ''){
+            setPassworderror(true);
+        }
+        else{
+            setPassworderror(false);
+        }
+        
+        if(usernameReg  === ''){
+            setUsernamerror(true);
+        }
+        else{
+            setUsernamerror(false);
+        }
+        
+        if(emailReg  === ''){
+            setEmailerror(true);
+        }
+        else{
+            setEmailerror(false);
+        }
+        if(confirmpassword  === ''){
+            setConfirmpassworderror(true);
+        }
+        else{
+            setConfirmpassworderror(false);
+        }
+        
         setLoading(true);
         await axios.post("add_user", {
             username: usernameReg,
@@ -81,10 +115,11 @@ const Signup = () => {
                     value={emailReg}
                     onChange={(e) => { setemailReg(e.target.value) }}
                 />
-                <div id="emailHelp" className="form-text">
-                    We'll never share your email with anyone else.
-                </div>
-
+               {emailerror && (
+                    <p className="text-danger" role="alert">
+                        Email is required!
+                    </p>
+                )}
 
                 <label htmlFor="exampleInputUsername" className="form-label mt-3"
                 ><h5>Username</h5>
@@ -97,7 +132,11 @@ const Signup = () => {
                     value={usernameReg}
                     onChange={(e) => { setusernameReg(e.target.value) }}
                 />
-
+                {usernameerror && (
+                    <p className="text-danger " role="alert">
+                        Username is required!
+                    </p>
+                )}
                 <label htmlFor="exampleInputPassword" className="form-label mt-3"
                 ><h5>Password</h5></label
                 >
@@ -109,6 +148,12 @@ const Signup = () => {
                     value={passwordReg}
                     onChange={(e) => { setpasswordReg(e.target.value) }}
                 />
+                {passworderror && (
+                    <p className="text-danger " role="alert">
+                        Password is required!
+                    </p>
+                )}
+                
                 <label htmlFor="exampleInputPassword1" className="form-label mt-3"
                 ><h5>Confirm Password</h5></label
                 >
@@ -120,18 +165,19 @@ const Signup = () => {
                     value={confirmpassword}
                     onChange={(e) => { confirmPassWordHandler(e) }}
                 />
-                {error && (
-                    <div className="alert alert-warning " role="alert">
-                        Password does not match!
-                    </div>
+                {confirmpassworderror && (
+                    <p className="text-danger " role="alert">
+                        Confirm Password is required!
+                    </p>
                 )}
-                
-
-
-
-
+                {error && (
+                    <p className="text-danger" role="alert">
+                        Password does not match!
+                    </p>
+                )}
+        
                 {!loading && (
-                    <button className="btn btn-light mt-4  px-4" onClick={signupClick} type="button">Sign up</button>
+                    <button className="btn btn-light mt-4  px-4" onClick={signupClick} type="submit">Sign up</button>
                 )}
                 {loading && (
                     <button className="btn btn-light mt-4 px-4" type="button" disabled>

@@ -23,8 +23,8 @@ _keyspace = _cred.keyspace
 
 # print(_username,_password,_keyspace)
 # Database log
-# logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/debug.log', encoding='utf-8')], level=logging.DEBUG)
-# logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/db_error.log', encoding='utf-8')], level=logging.ERROR)
+logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/debug.log', encoding='utf-8')], level=logging.DEBUG)
+logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/db_error.log', encoding='utf-8')], level=logging.ERROR)
 
 profiles = ExecutionProfile(
     load_balancing_policy=DCAwareRoundRobinPolicy(),

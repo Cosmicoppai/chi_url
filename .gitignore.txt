@@ -1,4 +1,8 @@
 backend/chi_url/
+backend/chi_url/
+backend/chi_url/
+backend/chi_url/
+backend/chi_url/
 .gitignore/
 docker-compose
 Dockerfile

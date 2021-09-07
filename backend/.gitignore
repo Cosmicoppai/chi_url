@@ -1,0 +1,5 @@
+../.idea
+chi_url/.env
+env
+chi_url/__pycache__
+chi_url/test.py

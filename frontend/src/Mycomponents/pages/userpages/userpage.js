@@ -12,6 +12,7 @@ const UserPage = () => {
     // const token = localStorage.getItem("token");
 
     useEffect(() => {
+        const ac = new AbortController();
         const token1 = localStorage.getItem("token");
         axios.get('url-stats', {
             headers: {
@@ -34,6 +35,7 @@ const UserPage = () => {
             .catch((error) => {
                 // console.error(error); //check the error
             })
+        return() => ac.abort()
     }, [])
 
     const moreRequest = async (e) => {

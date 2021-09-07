@@ -1,67 +1,57 @@
 version: '3.8'
 services:
   node-1:
-    image: cassandra:4.0
+    build:
+      context: cassandra
     container_name: node-1
     environment: &environment
-      - CASSANDRA_CLUSTER_NAME: cluster1
-      - CASSANDRA_DC: Mumbai
-      - CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
-      - CASSANDRA_SEEDS: "node-1, node-2"
-    networks:
-      cassandra_network
+      - CASSANDRA_CLUSTER_NAME=cluster1
+      - CASSANDRA_DC=Mumbai
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_SEEDS="node-1, node-2"
     volumes:
       - node1-vol:/var/lib/cassandra
-      - cassandra/node1:/etc/cassandra
+      - ./cassandra/node1:/etc/cassandra
   node-2:
     image: cassandra:4.0
     container_name: node-2
     environment: *environment
-    networks:
-      cassandra_network
     volumes:
     - node2-vol:/var/lib/cassandra
-    - cassandra/node2:/etc/cassandra
+    - ./cassandra/node2:/etc/cassandra
     depends_on:
       - node-1
   node-3:
     image: cassandra:4.0
     container_name: node-3
     environment: *environment
-    networks:
-      cassandra_network
     volumes:
     - node3-vol:/var/lib/cassandra
-    - cassandra/node3:/etc/cassandra
+    - ./cassandra/node3:/etc/cassandra
     depends_on:
       - node-2
   backend:
-    container_name: backend
     build:
       context: backend
+    container_name: backend
     depends_on:
       - node-1
       - node-2
       - node-3
-    networks:
-      cassandra_network
     env_file:
-      - backend/chi_url/.env
+      - .env
     ports:
     - 8000:8000
   frontend:
-    container_name: frontend
     build:
       context: frontend
+    container_name: frontend
     depends_on:
       - backend
     ports:
     - 3000:3000
-  volumes:
-    node1-vol:
-      driver: local
-    node2-vol:
-      driver: local
-    node3-vol:
-      driver: local
+volumes:
+  node1-vol:
+  node2-vol:
+  node3-vol:
 

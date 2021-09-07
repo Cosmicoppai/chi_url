@@ -9,7 +9,7 @@ from session_token import get_current_active_user, User
 import binascii
 from errors import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
 
-# logging.basicConfig(handlers=[logging.FileHandler(filename="../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
+logging.basicConfig(handlers=[logging.FileHandler(filename="../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
 
 url_add_stmt = session.prepare("Insert INTO url_map (short_url, created_on, url, user) VALUES (?, toTimestamp(now()), ?, ?)")
 url_get_stmt = session.prepare("SELECT url,user From url_map WHERE short_url=?")

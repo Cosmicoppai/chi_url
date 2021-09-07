@@ -52,10 +52,10 @@ const Nav = () => {
                                 </ul>
                                 <div className="dropdown">
                                     <Link to="/user" className="btn btn-light  dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Welcome to Easer
+                                        Welcome to 小URL
                                     </Link>
                                     <ul className="dropdown-menu" >
-                                        <li ><a onClick={logout} className="dropdown-item text-center">Logout</a></li>
+                                        <li ><button onClick={logout} className="dropdown-item text-center">Logout</button></li>
                                     </ul>
                                 </div>
                             </div>

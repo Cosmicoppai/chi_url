@@ -13,30 +13,17 @@ const Login = () => {
     const [userName, setusername] = useState('');
     const [passWord, setpassword] = useState('');
     const [loading, setLoading] = useState(false);
-    // const [error, setError] = useState(false);
     const [redirectlogin, setRedirectlogin] = useState(false);
     const [redirectverify, setRedirectverify] = useState(false);
     const [usernameerror, setUsernamerror] = useState();
     const [passworderror, setPassworderror] = useState();
 
 
-
+    let button = usernameerror===false &&  passworderror===false ;
 
     const loginClick = async (e) => {
         e.preventDefault();
         setLoading(true);
-        if(passWord  === ''){
-            setPassworderror(true);
-        }
-        else{
-            setPassworderror(false);
-        }
-        if(userName  === ''){
-            setUsernamerror(true);
-        }
-        else{
-            setUsernamerror(false);
-        }
         await axios({
             url: "token",
             method: "POST",
@@ -48,12 +35,9 @@ const Login = () => {
                 'withCredentials': 'true'
             }
         }).then((resp) => {
-            // console.log(resp);//Check the response if its ok then comment this
             setLoading(false);
             localStorage.setItem("token", resp.data.access_token)
             if (resp.data.is_active === true) {
-                // const token = localStorage.getItem("token")
-                // console.log(token);
                 setRedirectlogin(true);
             }
             else if (resp.data.is_active === false){
@@ -62,7 +46,6 @@ const Login = () => {
         })
             .catch((error) => {
                 setLoading(false);
-                // console.error(error.response.data.errors); // to see what is the error 
             })
 
 
@@ -72,6 +55,28 @@ const Login = () => {
     }
     if (redirectverify) {
         return <Redirect to="/verify" />
+    }
+    const PassWordHandler = (e) => {
+        const Pass = e.target.value;
+        setpassword(Pass);
+        if(Pass  === ''){
+            setPassworderror(true);
+        }
+        else{
+            setPassworderror(false);
+        }
+        
+    }
+    const usernameHandler = (e) => {
+        const Name = e.target.value;
+        setusername(Name);
+        if(Name  === ''){
+            setUsernamerror(true);
+        }
+        else{
+            setUsernamerror(false);
+        }
+        
     }
 
     return (
@@ -87,7 +92,7 @@ const Login = () => {
                 className="form-control  "
                 id="exampleInputUsername"
                 value={userName}
-                onChange={(e) => { setusername(e.target.value) }}
+                onChange={(e) => { usernameHandler(e) }}
             />
             {usernameerror && (
                     <p className="text-danger " role="alert">
@@ -102,7 +107,7 @@ const Login = () => {
                 className="form-control"
                 id="exampleInputPassword1"
                 value={passWord}
-                onChange={(e) => { setpassword(e.target.value) }}
+                onChange={(e) => { PassWordHandler(e) }}
             />
             {passworderror && (
                     <p className="text-danger " role="alert">
@@ -111,7 +116,15 @@ const Login = () => {
                 )}
 
             {!loading && (
-                <button className="btn btn-light mt-3 px-4" type="submit" onClick={loginClick}>Log in</button>
+                
+                <>
+                    {!button &&(
+                    <button className="btn btn-light mt-3 px-4" type="submit" disabled>Log in</button>
+                    )}
+                    {button &&(
+                    <button className="btn btn-light mt-3 px-4" type="submit" onClick={loginClick}>Log in</button>
+                    )}
+                    </>
             )}
             {loading && (
                 <button className="btn btn-light mt-3 px-4" type="button" disabled>

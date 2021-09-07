@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
-
+//eslint-disable-next-line
 const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 export const Search = () => {
@@ -90,10 +89,9 @@ export const Search = () => {
                 </form>
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                        <h4><span type="text" className="badge  bg-dark px-5" value={inputValue} onChange={({target:{ inputValue }})=>setInputValue(inputValue)}> {baseUrl}{short}</span> </h4>
-                        <CopyToClipboard text={inputValue} >
-                            <button type="button" className="btn btn-outline-dark">Copy</button>
-                        </CopyToClipboard>
+                        <h4><span type="text" className="badge  bg-dark px-5" value={inputValue} onChange={(e)=>setInputValue(e.target.value)}> {baseUrl}{short}</span> </h4>
+                            <button type="button" className="btn btn-outline-dark" onClick={() => {navigator.clipboard.writeText(inputValue)}}>Copy</button>
+                       
                     </div>
                 )}
             </div>

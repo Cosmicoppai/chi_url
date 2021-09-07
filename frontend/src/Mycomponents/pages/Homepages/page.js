@@ -40,7 +40,7 @@ export const Page = () => {
                         </div>
                         <div>
                             <h2>Compatible</h2>
-                            <p>We provide data for each of your short link and check the amount of clicks that your shortened url received</p>
+                            <p>We provide data of the  amount of clicks that your shortened url has received</p>
                         </div>
                     </div>
                     <div className="col d-flex align-items-start pt-3 ">

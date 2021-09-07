@@ -105,7 +105,7 @@ const Signup = () => {
             setPasswordregexerror(false);
         }
         else{
-            setpasswordReg(true);
+            setPasswordregexerror(true);
         }
         
     }

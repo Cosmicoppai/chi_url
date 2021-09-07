@@ -18,11 +18,14 @@ const Signup = () => {
     const [redirect, setRedirect] = useState(false);
     const [error, setError] = useState();
     const [passworderror, setPassworderror] = useState();
+    const [passwordregexerror, setPasswordregexerror] = useState();
     const [emailerror, setEmailerror] = useState();
+    const [emailregexerror, setEmailregexerror] = useState();
     const [usernameerror, setUsernamerror] = useState();
+    const [usernameregexerror, setUsernameregexrror] = useState();
     const [confirmpassworderror, setConfirmpassworderror] = useState();
     
-    let button = usernameerror===false && emailerror===false && passworderror===false && confirmpassworderror===false;
+    let button = usernameerror===false && usernameregexerror===true && emailerror===false && emailregexerror===true && passworderror===false && passwordregexerror===true && confirmpassworderror===false;
     
     const signupClick = async (e) => {
         e.preventDefault();
@@ -87,11 +90,22 @@ const Signup = () => {
     const PassWordHandler = (e) => {
         const Pass = e.target.value;
         setpasswordReg(Pass);
+        const passtest = (PasswordParameter)=>{  
+            let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+             return strongPassword.test(PasswordParameter)
+        };
+
         if(Pass  === ''){
             setPassworderror(true);
         }
         else{
             setPassworderror(false);
+        }
+        if(passtest(Pass)){
+            setPasswordregexerror(false);
+        }
+        else{
+            setpasswordReg(true);
         }
         
     }
@@ -104,16 +118,32 @@ const Signup = () => {
         else{
             setUsernamerror(false);
         }
+        if(Name.length < 11 && Name.length > 2){
+            setUsernameregexrror(false);
+        }
+        else{
+            setUsernameregexrror(true);
+        }
         
     }
     const emailHandler = (e) => {
         const Email = e.target.value;
         setemailReg(Email);
+        const passtest = (emailParameter)=>{  
+            let strongemail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return strongemail.test(String(emailParameter).toLowerCase());
+        };
         if(Email  === ''){
             setEmailerror(true);
         }
         else{
             setEmailerror(false);
+        }
+        if(passtest(Email)){
+            setEmailregexerror(false);
+        }
+        else{
+            setEmailregexerror(true);
         }
         
     }
@@ -138,6 +168,11 @@ const Signup = () => {
                         Email is required!
                     </p>
                 )}
+                {emailregexerror && (
+                    <p className="text-danger " role="alert">
+                        You have entered an invalid e-mail.
+                    </p>
+                )}
 
                 <label htmlFor="exampleInputUsername" className="form-label mt-3"
                 ><h5>Username</h5>
@@ -155,6 +190,11 @@ const Signup = () => {
                         Username is required!
                     </p>
                 )}
+                {usernameregexerror && (
+                    <p className="text-danger " role="alert">
+                        Your username should consist of minimum 2 and maximum 11 characters.
+                    </p>
+                )}
                 <label htmlFor="exampleInputPassword" className="form-label mt-3"
                 ><h5>Password</h5></label
                 >
@@ -169,6 +209,11 @@ const Signup = () => {
                 {passworderror && (
                     <p className="text-danger " role="alert">
                         Password is required!
+                    </p>
+                )}
+                {passwordregexerror && (
+                    <p className="text-danger " role="alert">
+                        Password must consist of minimum eight characters,at least one letter,number and special character
                     </p>
                 )}
                 

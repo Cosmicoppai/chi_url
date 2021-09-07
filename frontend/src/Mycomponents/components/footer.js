@@ -8,8 +8,8 @@ const Footer = () => {
                  Copyright &copy;小URL.com   
             </div>
             <div className="container text-center">
-                <span className="me-2"><a href="https://github.com/Cosmicoppai/chi_url" target={'_blank'}><i className="bi bi-github "></i></a></span>
-                <span className="me-2"><a href="https://twitter.com/URL09412520" target={'_blank'}><i className="bi bi-twitter"></i></a></span>
+                <span className="me-2"><a href="https://github.com/Cosmicoppai/chi_url" target={'_blank'} rel="noreferrer"><i className="bi bi-github "></i></a></span>
+                <span className="me-2"><a href="https://twitter.com/URL09412520" target={'_blank'} rel="noreferrer"><i className="bi bi-twitter"></i></a></span>
             </div>
         </footer>
         

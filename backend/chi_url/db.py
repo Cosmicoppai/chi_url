@@ -21,14 +21,14 @@ _username = _cred.db_username
 _password = _cred.db_password
 _keyspace = _cred.keyspace
 
-# print(_username,_password,_keyspace)
+
 # Database log
 logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/debug.log', encoding='utf-8')], level=logging.DEBUG)
 logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/db_error.log', encoding='utf-8')], level=logging.ERROR)
 
 profiles = ExecutionProfile(
     load_balancing_policy=DCAwareRoundRobinPolicy(),
-    # consistency_level=ConsistencyLevel.LOCAL_QUORUM,
+    consistency_level=ConsistencyLevel.LOCAL_QUORUM,
     request_timeout=15,
 )
 

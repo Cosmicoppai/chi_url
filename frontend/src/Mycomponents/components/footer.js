@@ -1,20 +1,15 @@
 import React from 'react'
-
+import './footer.css';
 const Footer = () => {
-    const myStyle = {
-        backgroundColor: "#212529",
-        marginTop:"-100px"
-    }
+    
     return (
-        <footer className="footer mt-auto py-1 bg-dark text-light " style={myStyle}>
-            <div className="container text-center">
-                 Copyright &copy;Easer.com   
+        <footer className="footer mt-auto py-1 bg-dark text-light  cont" >
+            <div className="container text-center ">
+                 Copyright &copy;小URL.com   
             </div>
             <div className="container text-center">
-                <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-github "></i></a></span>
-                <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-instagram"></i></a></span>
+                <span className="me-2"><a href="https://github.com/Cosmicoppai/chi_url" target={'_blank'}><i className="bi bi-github "></i></a></span>
                 <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-twitter"></i></a></span>
-                <span className="me-2"><a href="" target={'_blank'}><i className="bi bi-reddit"></i></a> </span>
             </div>
         </footer>
         

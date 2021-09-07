@@ -67,6 +67,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
                 except Exception as e:
                     with open("../logs/db_error.log", 'a') as f:
                         f.write(str(e))
+                    
 
         raise HTTP_500_INTERNAL_SERVER_ERROR
 

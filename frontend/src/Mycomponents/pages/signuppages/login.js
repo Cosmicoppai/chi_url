@@ -16,12 +16,27 @@ const Login = () => {
     // const [error, setError] = useState(false);
     const [redirectlogin, setRedirectlogin] = useState(false);
     const [redirectverify, setRedirectverify] = useState(false);
+    const [usernameerror, setUsernamerror] = useState();
+    const [passworderror, setPassworderror] = useState();
+
 
 
 
     const loginClick = async (e) => {
         e.preventDefault();
         setLoading(true);
+        if(passWord  === ''){
+            setPassworderror(true);
+        }
+        else{
+            setPassworderror(false);
+        }
+        if(userName  === ''){
+            setUsernamerror(true);
+        }
+        else{
+            setUsernamerror(false);
+        }
         await axios({
             url: "token",
             method: "POST",
@@ -33,15 +48,15 @@ const Login = () => {
                 'withCredentials': 'true'
             }
         }).then((resp) => {
-            // console.log(resp.data.access_token);//Check the response if its ok then comment this
+            // console.log(resp);//Check the response if its ok then comment this
             setLoading(false);
-            if (resp.data.is_verified === true) {
-                localStorage.setItem("token", resp.data.access_token)
+            localStorage.setItem("token", resp.data.access_token)
+            if (resp.data.is_active === true) {
                 // const token = localStorage.getItem("token")
                 // console.log(token);
                 setRedirectlogin(true);
             }
-            else if (resp.data.is_verified === false){
+            else if (resp.data.is_active === false){
                 setRedirectverify(true);
             }
         })
@@ -74,6 +89,11 @@ const Login = () => {
                 value={userName}
                 onChange={(e) => { setusername(e.target.value) }}
             />
+            {usernameerror && (
+                    <p className="text-danger " role="alert">
+                        Username is required!
+                    </p>
+                )}
             <label htmlFor="exampleInputPassword1 " className="form-label mt-3"
             ><h5>Password</h5></label
             >
@@ -84,9 +104,14 @@ const Login = () => {
                 value={passWord}
                 onChange={(e) => { setpassword(e.target.value) }}
             />
+            {passworderror && (
+                    <p className="text-danger " role="alert">
+                        Password is required!
+                    </p>
+                )}
 
             {!loading && (
-                <button className="btn btn-light mt-3 px-4" type="button" onClick={loginClick}>Log in</button>
+                <button className="btn btn-light mt-3 px-4" type="submit" onClick={loginClick}>Log in</button>
             )}
             {loading && (
                 <button className="btn btn-light mt-3 px-4" type="button" disabled>

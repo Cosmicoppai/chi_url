@@ -34,7 +34,7 @@ profiles = ExecutionProfile(
 
 _AUTH_PROVIDER = PlainTextAuthProvider(username=_username, password=_password)
 
-_CLUSTER = Cluster(contact_points=['node1', 'node2', 'node3'], port=9042, ssl_context=None,
+_CLUSTER = Cluster(contact_points=['node1', 'node2', 'node3'],port=9042, ssl_context=None,
                    protocol_version=5,
                    auth_provider=_AUTH_PROVIDER,
                    execution_profiles={EXEC_PROFILE_DEFAULT: profiles})

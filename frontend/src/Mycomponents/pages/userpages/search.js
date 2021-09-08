@@ -2,19 +2,21 @@ import React, { useState } from 'react'
 import axios from 'axios';
 
 
+
+
 //eslint-disable-next-line
 const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 export const Search = () => {
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
-    const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const token = localStorage.getItem("token");
+    const [copyText, setCopyText] = useState('');
 
+   
 
-    const baseUrl = "http://127.0.0.1:8000/";
-    // console.log(link);
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (checkLink(link)) {
@@ -30,7 +32,7 @@ export const Search = () => {
         // Regex to check if string is a valid URL
         return string.match(HTTP_URL_VALIDATOR_REGEX);
     };
-
+   
     // Function that calls the backend is valid
     const getLink = async () => {
         await axios.post('add_url', {
@@ -48,11 +50,11 @@ export const Search = () => {
                 setIsLoading(false);
                 if (response.status === 201) {
                     setShort(response.data.short_url);
+                    setCopyText(`http://127.0.0.1:8000/${short}`)
                 }
             })
             .catch((error) => {
                 setIsLoading(false);
-
                 // console.error(error); //check the error
             })
 
@@ -65,10 +67,10 @@ export const Search = () => {
         backgroundColor: "#F8F9FA",
         marginTop: "150px",
     }
-    
 
 
 
+    // console.log(inputValue)
     return (
         <>
             <div className=" mb-5  " style={mystyle}>
@@ -89,12 +91,12 @@ export const Search = () => {
                 </form>
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                        <h4><span type="text" className="badge  bg-dark px-5" value={inputValue} onChange={(e)=>setInputValue(e.target.value)}> {baseUrl}{short}</span> </h4>
-                            <button type="button" className="btn btn-outline-dark" onClick={() => {navigator.clipboard.writeText(inputValue)}}>Copy</button>
-                       
+                        <h4 ><span type="text" className="badge  bg-dark px-5" >{copyText}</span> </h4> 
+                       <button type="button" className="btn btn-outline-dark" onClick={() =>  navigator.clipboard.writeText(copyText)}>Copy</button>
                     </div>
                 )}
             </div>
         </>
     )
 }
+

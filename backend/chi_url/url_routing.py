@@ -1,5 +1,7 @@
 import logging
 import time
+from functools import lru_cache
+from config import OriginSettings
 from fastapi import status, APIRouter, Path, Depends, BackgroundTasks
 from pydantic import BaseModel
 from starlette.responses import RedirectResponse
@@ -19,6 +21,15 @@ BASE_ALPH = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+="
 BASE_LEN = 64
 
 router = APIRouter()
+
+
+@lru_cache()
+def get_host_name():
+    return OriginSettings()
+
+
+class Host(BaseModel):
+    host: str = get_host_name().host
 
 
 class Url(BaseModel):
@@ -86,7 +97,7 @@ async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
         for stat in results.current_rows:
             data.append(
                 {"url": stat.url,
-                 "short-url": stat.short_url,
+                 "short-url": f"Host.host/{stat.short_url}",
                  "resolves": stat.resolves}
             )
         paging_state = binascii.hexlify(results.paging_state).decode() if results.paging_state else None  # fi all results are queried set paging_state as None

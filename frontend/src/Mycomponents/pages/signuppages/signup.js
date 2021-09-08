@@ -25,7 +25,7 @@ const Signup = () => {
     const [usernameregexerror, setUsernameregexrror] = useState();
     const [confirmpassworderror, setConfirmpassworderror] = useState();
     
-    let button = usernameerror===false && usernameregexerror===true && emailerror===false && emailregexerror===true && passworderror===false && passwordregexerror===true && confirmpassworderror===false;
+    let button = usernameerror===false  && emailerror===false  && passworderror===false  && confirmpassworderror===false;
     
     const signupClick = async (e) => {
         e.preventDefault();

@@ -1,39 +1,58 @@
 version: '3.8'
 services:
+
+  #Node 1
   node-1:
-    build:
-      context: cassandra
+    image: cassandra:4.0
     container_name: node-1
     environment: &environment
       - CASSANDRA_CLUSTER_NAME=cluster1
       - CASSANDRA_DC=Mumbai
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-      - CASSANDRA_SEEDS="node-1, node-2"
+      - CASSANDRA_SEEDS=node-1, node-2
     volumes:
       - node1-vol:/var/lib/cassandra
-      - ./cassandra/node1:/etc/cassandra
+      - ./cassandra/node1/cassandra:/etc/cassandra
+    restart: always
+
+  #Node 2
   node-2:
     image: cassandra:4.0
     container_name: node-2
     environment: *environment
     volumes:
-    - node2-vol:/var/lib/cassandra
-    - ./cassandra/node2:/etc/cassandra
+      - node2-vol:/var/lib/cassandra
+      - ./cassandra/node2/cassandra:/etc/cassandra
+      - ./cassandra/init_keyspace.cql:/schema.cql
     depends_on:
-      - node-1
+      node-1:
+        condition: service_healthy
+    command: /bin/bash -c "sleep 60 && cqlsh node-1 -f /schema.cql -u cassandra -p cassandra"
+    restart: always
+
+  #Node 3
   node-3:
     image: cassandra:4.0
     container_name: node-3
     environment: *environment
     volumes:
-    - node3-vol:/var/lib/cassandra
-    - ./cassandra/node3:/etc/cassandra
+      - node3-vol:/var/lib/cassandra
+      - ./cassandra/node3/cassandra:/etc/cassandra
     depends_on:
+      - node-1
       - node-2
+    restart: always
+
+  # Backend
   backend:
     build:
       context: backend
     container_name: backend
+    healthcheck:
+      test: ["CMD", "curl", "f", "http://backend:8000" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     depends_on:
       - node-1
       - node-2
@@ -42,16 +61,46 @@ services:
       - .env
     ports:
     - 8000:8000
+    restart: always
+
+  # Frontend
   frontend:
     build:
       context: frontend
     container_name: frontend
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     ports:
     - 3000:3000
+
+  # Nginx service
+  nginx:
+    image: nginx:1.21-alpine
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - ./nginx:/etc/nginx/conf.d
+    - ./data/certbot/conf:/etc/letsencrypt
+    - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on:
+      - backend
+      - frontend
+
+  #CertBot
+  certbot:
+    image: certbot/certbot
+    volumes:
+    - ./data/certbot/conf:/etc/letsencrypt
+    - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - nginx
+
+# Volumes
 volumes:
   node1-vol:
   node2-vol:
   node3-vol:
-

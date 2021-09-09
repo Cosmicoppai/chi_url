@@ -1,7 +1,7 @@
 
-CREATE KEYSPACE chi_url WITH replication = {'class': 'NetworkTopologyStrategy', 'mumbai': '3'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS chi_url  WITH replication = {'class': 'NetworkTopologyStrategy', 'mumbai': '3'}  AND durable_writes = true;
 
-CREATE TABLE chi_url.resolve_count (
+CREATE TABLE IF NOT EXISTS chi_url.resolve_count (
     user text,
     url text,
     short_url text,
@@ -22,7 +22,7 @@ CREATE TABLE chi_url.resolve_count (
     AND min_index_interval = 128
     AND speculative_retry = '99p';
 
-CREATE TABLE chi_url.url_map (
+CREATE TABLE IF NOT EXISTS chi_url.url_map (
     short_url text,
     created_on timestamp,
     url text,
@@ -43,7 +43,7 @@ CREATE TABLE chi_url.url_map (
     AND min_index_interval = 128
     AND speculative_retry = '99p';
 
-CREATE TABLE chi_url.user (
+CREATE TABLE IF NOT EXISTS chi_url.user (
     user_name text PRIMARY KEY,
     disabled boolean,
     email text,
@@ -63,5 +63,8 @@ CREATE TABLE chi_url.user (
     AND min_index_interval = 128
     AND speculative_retry = '99p';
 
-CREATE ROLE cosmicoppai with superuser = true AND LOGIN = true and PASSWORD = 'dry-flower@04';
-DROP ROLE cassandra;
+CREATE ROLE IF NOT EXISTS cosmicoppai with superuser = true AND LOGIN = true and PASSWORD = 'dry-flower@04';
+DROP ROLE IF EXISTS cassandra;
+
+ALTER KEYSPACE "system_auth"
+WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 3};

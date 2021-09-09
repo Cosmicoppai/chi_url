@@ -9,7 +9,7 @@ from email.header import Header
 from email.utils import formataddr
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config import EmailSettings
+from config import EmailSettings, OriginSettings
 from functools import lru_cache
 from session_token import User, get_current_user
 from errors import HTTP_404_NOT_FOUND
@@ -22,7 +22,13 @@ def email_cred():
     return EmailSettings()
 
 
+@lru_cache()
+def get_host_name():
+    return OriginSettings
+
+
 _cred = email_cred()
+_host = get_host_name()
 
 _email_address = _cred.email
 _password = _cred.email_password
@@ -59,7 +65,7 @@ def send_email(token:str, user:str, user_email:EmailStr):
         html = f"""
         <h2>Thanks {user} for signing up</h2>
         <p>Verify Your email</p>
-        <a href="http://localhost:8000/verify/?token={token}">Verify</a>
+        <a href="https://{_host.host}/verify/?token={token}">Verify</a>
         """
         message.attach(MIMEText(html, 'html'))
         server.send_message(message)

@@ -19,8 +19,8 @@ app = FastAPI(
         "name": "MIT",
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    # docs_url=None,
-    # redoc_url=None
+    docs_url=None,
+    redoc_url=None
 )
 
 

@@ -4,17 +4,19 @@ WORKDIR /frontend
 
 COPY package.json ./
 
+EXPOSE 3000
+
+RUN  npm config set registry https://registry.npmjs.com/
+
 RUN npm install
 
 COPY . ./
 
-EXPOSE 3000
-
 RUN npm run build
 
-FROM nginx
+FROM nginx:1.21-alpine
 
-COPY ../nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=frontend /frontend/build /usr/share/nginx/html
 

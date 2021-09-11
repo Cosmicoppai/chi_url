@@ -91,6 +91,7 @@ services:
     depends_on:
       - backend
       - frontend
+    restart: always
 
   #CertBot
   certbot:

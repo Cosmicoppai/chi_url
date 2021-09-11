@@ -1,8 +1,8 @@
 {
-  "name": "easer",
+  "name": "pbl.asia",
   "homepage": "https://pbl.asia",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@babel/eslint-parser": "^7.15.4",
     "@hapi/hoek": "^9.2.0",

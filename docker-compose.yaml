@@ -58,11 +58,6 @@ services:
     build:
       context: backend
     container_name: backend
-    healthcheck:
-      test: ["CMD", "curl", "f", "http://backend:8000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
     depends_on:
       - pseudo-node
     env_file:
@@ -77,8 +72,7 @@ services:
       context: frontend
     container_name: frontend
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
     ports:
     - 3000:3000
     restart: always

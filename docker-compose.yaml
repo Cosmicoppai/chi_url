@@ -25,9 +25,7 @@ services:
       - ./cassandra/node2/cassandra:/etc/cassandra
       - ./cassandra/init_keyspace.cql:/schema.cql
     depends_on:
-      node-1:
-        condition: service_healthy
-    command: /bin/bash -c "sleep 60 && cqlsh node-1 -f /schema.cql -u cassandra -p cassandra"
+      - node-1
     restart: always
 
   #Node 3
@@ -39,9 +37,21 @@ services:
       - node3-vol:/var/lib/cassandra
       - ./cassandra/node3/cassandra:/etc/cassandra
     depends_on:
-      - node-1
       - node-2
     restart: always
+
+  # schema loading node
+  pseudo-node:
+    image: cassandra:4.0
+    container_name: pseudo-node
+    environment: *environment
+    volumes:
+      - ./cassandra/init_keyspace.cql:/schema.cql
+    depends_on:
+      - node-3
+    command: /bin/bash -c "sleep 60 && cqlsh node-1 -f /schema.cql -u cassandra -p cassandra"
+    restart: on-failure
+
 
   # Backend
   backend:
@@ -54,9 +64,7 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      - node-1
-      - node-2
-      - node-3
+      - pseudo-node
     env_file:
       - .env
     ports:
@@ -73,6 +81,7 @@ services:
         condition: service_healthy
     ports:
     - 3000:3000
+    restart: always
 
   # Nginx service
   nginx:

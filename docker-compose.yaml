@@ -73,9 +73,8 @@ services:
     container_name: frontend
     depends_on:
       - backend
-    ports:
-    - 3000:3000
-    restart: always
+    volumes:
+    - react_build:frontend/build
 
   # Nginx service
   nginx:
@@ -87,7 +86,7 @@ services:
     - ./nginx:/etc/nginx/conf.d
     - ./data/certbot/conf:/etc/letsencrypt
     - ./data/certbot/www:/var/www/certbot
-    - ./frontend/build:/usr/share/nginx/html
+    - react_build:/usr/share/nginx/html
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
       - backend
@@ -109,3 +108,4 @@ volumes:
   node1-vol:
   node2-vol:
   node3-vol:
+  react_build:

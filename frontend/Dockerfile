@@ -1,4 +1,4 @@
-FROM node:16.8.0-slim AS frontend
+FROM node:16.8.0-slim
 
 WORKDIR /frontend
 
@@ -13,5 +13,3 @@ RUN npm install
 COPY . ./
 
 RUN npm run build
-
-CMD ["npm", "start"]

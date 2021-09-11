@@ -1,5 +1,6 @@
 {
   "name": "easer",
+  "homepage": "https://pbl.asia",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

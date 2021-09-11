@@ -14,6 +14,8 @@ COPY . ./
 
 RUN npm run build
 
+CMD ["npm", "start"]
+
 FROM nginx:1.21-alpine
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf

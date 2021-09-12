@@ -49,7 +49,6 @@ export const Search = () => {
                 setIsLoading(false);
                 if (response.status === 201) {
                     setShort(response.data.short_url);
-                    setCopyText(`https://pbl.asia/${short}`)
                 }
             })
             .catch((error) => {

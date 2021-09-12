@@ -1,6 +1,6 @@
 {
   "name": "pbl.asia",
-  "homepage": "https://pbl.asia",
+  "homepage": ".",
   "version": "0.1.0",
   "private": false,
   "dependencies": {

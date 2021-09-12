@@ -2,6 +2,7 @@
   "name": "pbl.asia",
   "homepage": ".",
   "version": "0.1.0",
+  "proxy": "http://backend:8000",
   "private": false,
   "dependencies": {
     "@babel/eslint-parser": "^7.15.4",

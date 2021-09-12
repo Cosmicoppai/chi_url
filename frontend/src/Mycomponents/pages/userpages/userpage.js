@@ -72,7 +72,7 @@ const UserPage = () => {
     return (
         <div >
             <Search />
-            <div className="container">
+            <div>
                 <table className="table table-bordered ">
                     <thead className="table-dark">
                         <tr>

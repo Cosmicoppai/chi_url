@@ -77,8 +77,8 @@ const UserPage = () => {
                     <thead className="table-dark">
                         <tr>
                             <th scope="col" className="w-25">Long Url</th>
-                            <th scope="col"className="w-25">Shortened Url</th>
-                            <th scope="col"className="w-25">Number of clicks</th>
+                            <th scope="col" className="w-25">Shortened Url</th>
+                            <th scope="col" className="w-25">Number of clicks</th>
                         </tr>
                     </thead>
                     <tbody >

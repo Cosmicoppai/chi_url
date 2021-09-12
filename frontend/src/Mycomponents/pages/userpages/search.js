@@ -12,7 +12,6 @@ export const Search = () => {
     const [short, setShort] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const token = localStorage.getItem("token");
-    const [copyText, setCopyText] = useState('');
 
    
 
@@ -91,8 +90,8 @@ export const Search = () => {
                 </form>
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                        <h4 ><span type="text" className="badge  bg-dark px-5" >{copyText}</span> </h4> 
-                       <button type="button" className="btn btn-outline-dark" onClick={() =>  navigator.clipboard.writeText(copyText)}>Copy</button>
+                        <h4 ><span type="text" className="badge  bg-dark px-5" >`https://pbl.asia/${short}`</span> </h4>
+                       <button type="button" className="btn btn-outline-dark" onClick={() =>  navigator.clipboard.writeText(`https://pbl.asia/${short}`)}>Copy</button>
                     </div>
                 )}
             </div>

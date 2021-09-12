@@ -65,7 +65,7 @@ def send_email(token:str, user:str, user_email:EmailStr):
         html = f"""
         <h2>Thanks {user} for signing up</h2>
         <p>Verify Your email</p>
-        <a href="https://{_host.host}/verify/?token={token}">Verify</a>
+        <a href="{_host.host}/verify/?token={token}">Verify</a>
         """
         message.attach(MIMEText(html, 'html'))
         server.send_message(message)

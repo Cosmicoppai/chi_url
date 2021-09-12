@@ -110,7 +110,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
 
 
 # To generate a new token after logging in
-@router.post("/token", tags=["users"], status_code=status.HTTP_200_OK)
+@router.post("/get_token", tags=["users"], status_code=status.HTTP_200_OK)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     _user = authenticate_user(form_data.username, form_data.password)  # Verify the credentials
     if not _user:

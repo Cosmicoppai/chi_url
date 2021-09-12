@@ -24,7 +24,7 @@ def email_cred():
 
 @lru_cache()
 def get_host_name():
-    return OriginSettings
+    return OriginSettings()
 
 
 _cred = email_cred()

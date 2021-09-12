@@ -35,7 +35,7 @@ export const Search = () => {
    
     // Function that calls the backend is valid
     const getLink = async () => {
-        await axios.post('add_url', {
+        await axios.post('http://backend:8000/add_url', {
             url: link
         }, {
             headers: {
@@ -50,7 +50,7 @@ export const Search = () => {
                 setIsLoading(false);
                 if (response.status === 201) {
                     setShort(response.data.short_url);
-                    setCopyText(`http://127.0.0.1:8000/${short}`)
+                    setCopyText(`https://pbl.asia/${short}`)
                 }
             })
             .catch((error) => {

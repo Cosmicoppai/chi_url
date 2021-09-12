@@ -7,7 +7,7 @@ const Verifymail = () => {
 
     const emailVerification = async () => {
         const token = localStorage.getItem("token");
-        await axios.get('send-code', {
+        await axios.get('http://backend:8000/send-code', {
             headers: {
                 'Authorization': ` Bearer ${token}`,
                 'Accept':'application/json'

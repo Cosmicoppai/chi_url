@@ -13,6 +13,7 @@ from config import EmailSettings, OriginSettings
 from functools import lru_cache
 from session_token import User, get_current_user
 from errors import HTTP_404_NOT_FOUND
+from starlette.responses import RedirectResponse
 
 router = APIRouter()
 
@@ -97,4 +98,4 @@ async def verify_acc(token):
 def resend_verification_code(_user: User = Depends(get_current_user)):  # get the username from the jwt
     _email = session.execute(f"SELECT email From user WHERE user_name='{_user.username}'").one()[0]  # get the email id from the db
     send_verification_code(user=_user.username, user_email=_email)  # call the function to send email
-    return {"message":"verification code successfully sent"}
+    return RedirectResponse(url=f"{_host.host}/user")

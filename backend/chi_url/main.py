@@ -32,7 +32,7 @@ def get_origin():
 _origins = get_origin()
 
 
-origin = [_origins.origin, ]
+origin = [_origins.origin, _origins.origin2]
 
 app.add_middleware(
     CORSMiddleware,

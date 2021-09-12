@@ -14,7 +14,7 @@ const UserPage = () => {
     useEffect(() => {
         const ac = new AbortController();
         const token1 = localStorage.getItem("token");
-        axios.get('http://backend:8000/url-stats', {
+        axios.get('url-stats', {
             headers: {
                 'Authorization': `Bearer ${token1}`,
                 'accept': 'application/json'
@@ -41,7 +41,7 @@ const UserPage = () => {
     const moreRequest = async (e) => {
         e.preventDefault();
         const token2 = localStorage.getItem("token");
-        await axios.get(`http://backend:8000/url-stats/?paging_state=${pagingStatus}`
+        await axios.get(`url-stats/?paging_state=${pagingStatus}`
             ,
             {
                 headers: {

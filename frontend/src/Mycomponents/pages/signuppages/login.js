@@ -25,7 +25,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         await axios({
-            url: "http://backend:8000/token",
+            url: "token",
             method: "POST",
             data: 'grant_type=password&username=' + userName + '&password=' + passWord,
             headers: {

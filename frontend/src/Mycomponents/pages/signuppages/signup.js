@@ -31,7 +31,7 @@ const Signup = () => {
         e.preventDefault();
         setLoading(true);
         
-            await axios.post("http://backend:8000/add_user", {
+            await axios.post("add_user", {
                 username: usernameReg,
                 email: emailReg,
                 password: passwordReg

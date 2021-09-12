@@ -35,7 +35,7 @@ export const Search = () => {
    
     // Function that calls the backend is valid
     const getLink = async () => {
-        await axios.post('http://backend:8000/add_url', {
+        await axios.post('add_url', {
             url: link
         }, {
             headers: {

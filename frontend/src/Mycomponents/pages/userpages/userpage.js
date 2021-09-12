@@ -22,7 +22,7 @@ const UserPage = () => {
         })
             .then((resp) => {
                 // console.log(resp); //check the resp
-                if (resp.status === 200 &&  resp.data.paging_state !== null) {
+                if (resp.status === 200) {
                     setPagingstatus(resp.data.paging_state)
                     setdatas(resp.data.stats)
                     setbutton(true)

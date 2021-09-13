@@ -63,7 +63,7 @@ case "$email" in
   *) email_arg="--email $email" ;;
 esac
 
-# Enable staging mode if needed
+# Enable staging mode if needed.
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
 sudo docker-compose run --rm --entrypoint "\

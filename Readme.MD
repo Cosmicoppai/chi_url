@@ -1,7 +1,7 @@
 # 小 URL
-![Github All Contributors](https://img.shields.io/github/all-contributors/Cosmicoppai/chi_url/master?color=lightgrey)
-[![GitHub forks](https://img.shields.io/github/forks/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/network)
-[![GitHub stars](https://img.shields.io/github/stars/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/stargazers)
+![Github All Contributors](https://img.shields.io/github/all-contributors/cosmicoppai/chi_url/master?color=lightgrey)
+[![GitHub forks](https://img.shields.io/github/forks/cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/network)
+[![GitHub stars](https://img.shields.io/github/stars/cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/issues)
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgrey)](./LICENSE)
 

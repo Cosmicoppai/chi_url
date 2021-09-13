@@ -1,28 +1,23 @@
-![Github All Contributors](https://img.shields.io/github/all-contributors/all-contributors/all-contributors/master?color=lightgrey)
+# 小 URL
+![Github All Contributors](https://img.shields.io/github/all-contributors/Cosmicoppai/chi_url/master?color=lightgrey)
 [![GitHub forks](https://img.shields.io/github/forks/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/network)
 [![GitHub stars](https://img.shields.io/github/stars/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/issues)
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgrey)](https://github.com/Cosmicoppai/chi_url/issues/license)
 
-<div class="example">
-  <img src="static/icon.png" style="height: 100px;
-  width: 100px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 20px;" alt="">
-</div>
+## About
+<img align="right" width="150" height="170" src="static/icon.png">
+ An URL Shortener developed using FASTAPI, Cassandra and React and deployed using containers on cloud.
 
-
-<h2 align="center">小 URL</h2>
-<p align="center">
-    An URL Shortener developed using FASTAPI, Cassandra and React.
-    <br />
-
-# * Simple Architecture
+- Easy to Scale
+- Highly available
+- Provide stats
+- ... etc
+  
+## Simple Architecture
 ![Architecture](static/architecture.png)
 
-# * Tech Stack
+## Tech Stack
 > ### Backend
 > * FASTAPI
 > ### Front-End
@@ -37,7 +32,34 @@
 > * Docker
 
 
-# * SetUp and Installation
+## SetUp and Installation
 
+Clone the repository
+```
+git clone https://github.com/Cosmicoppai/chi_url
+```
+Create a virtual environment
+```
+virtualenv venv -p python3
+```
+Install the dependencies
+```
+pip install -r local/requirements.txt
+```
+add the key-value pairs in local/.env
 
-# * TO DO
+```
+cd local
+
+docker-compose up
+```
+App should be running on [localhost](localhost)
+
+## TO DO
+
+- Set up a Caching layer like Redis to reduce the read time
+
+## License
+[MIT][mit] © [CosmicOppai][author]
+[mit]:      http://opensource.org/licenses/MIT
+[author]:   http://github.com/cosmicoppai

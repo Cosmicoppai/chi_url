@@ -65,6 +65,5 @@ CREATE TABLE IF NOT EXISTS chi_url.user (
 
 CREATE ROLE IF NOT EXISTS cosmicoppai with superuser = true AND LOGIN = true and PASSWORD = 'dry-flower@04';
 // DROP ROLE IF EXISTS cassandra;
-
 ALTER KEYSPACE "system_auth"
 WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 3};

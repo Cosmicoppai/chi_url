@@ -16,7 +16,6 @@ services:
     volumes:
     - ./local_nginx:/etc/nginx/conf.d
     - react_build:/usr/share/nginx/html
-    command: "/bin/sh nginx -g \"daemon off;\""
     depends_on:
       - frontend
     restart: always

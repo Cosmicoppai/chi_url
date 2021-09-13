@@ -24,7 +24,7 @@ const Verifymail = () => {
             })
     }
     if (redirect) {
-        return <Redirect to="/" />
+        return <Redirect to="/user" />
     }
 
 

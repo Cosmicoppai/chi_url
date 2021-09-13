@@ -4,12 +4,12 @@ import axios from 'axios';
 
 
 
+
 const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
     const [datas, setdatas] = useState([]);
-    const [button, setbutton] = useState();
+    const [button, setbutton] = useState(true);
     const [datas1, setdatas1] = useState([]);
-    // const token = localStorage.getItem("token");
 
     useEffect(() => {
         const ac = new AbortController();
@@ -22,20 +22,22 @@ const UserPage = () => {
         })
             .then((resp) => {
                 // console.log(resp); //check the resp
-                if (resp.status === 200) {
+                if (resp.data.paging_state === null ) {
+                    setPagingstatus(resp.data.paging_state)
+                    setdatas(resp.data.stats)
+                    setbutton(false)
+                }
+                else{
                     setPagingstatus(resp.data.paging_state)
                     setdatas(resp.data.stats)
                     setbutton(true)
-                }
-                else{
-                    setbutton(false)
                 }
 
             })
             .catch((error) => {
                 // console.error(error); //check the error
             })
-        return() => ac.abort()
+            return () => ac.abort();
     }, [])
 
     const moreRequest = async (e) => {
@@ -51,14 +53,15 @@ const UserPage = () => {
             })
             .then((resp) => {
                 // console.log(resp); //check the resp
-                if (resp.data.paging_state !== null) {
+                if (resp.data.paging_state === null) {
                     setPagingstatus(resp.data.paging_state);
                     setdatas1(resp.data.stats);
-                    setbutton(true)
+                    setbutton(false)
                 }
-                else {
+                else{
+                    setPagingstatus(resp.data.paging_state);
                     setdatas1(resp.data.stats);
-                    setbutton(false);
+                    setbutton(true);
                 }
             })
             .catch((error) => {
@@ -72,24 +75,24 @@ const UserPage = () => {
     return (
         <div >
             <Search />
-            <div>
-                <table className="table table-bordered ">
+            <div className="container" >
+                <table className="table table-bordered text-center">
                     <thead className="table-dark">
                         <tr>
                             <th scope="col" className="w-25">Long Url</th>
-                            <th scope="col" className="w-25">Shortened Url</th>
-                            <th scope="col" className="w-25">Number of clicks</th>
+                            <th scope="col"className="w-25">Shortened Url</th>
+                            <th scope="col"className="w-25">Number of clicks</th>
                         </tr>
                     </thead>
-                    <tbody >
-                        {datas.map((row,pos)=> <tr key={pos}>
+                    <tbody className="w-25">
+                        {datas.map((row,pos)=> <tr className="w-25" key={pos}>
                             {
-                                columns.map((column,col) => <td key={col}>{row[column]}</td>)
+                                columns.map((column,col) => <td className="w-25" key={col}>{row[column]}</td>)
                             }
                         </tr>)}
-                        {datas1.map((row,index) => <tr key={index} >
+                        {datas1.map((row,index) => <tr className="w-25" key={index} >
                             {
-                                columns1.map((column,ind) => <td key={ind}>{row[column]}</td>)
+                                columns1.map((column,ind) => <td className="w-25" key={ind}>{row[column]}</td>)
                             }
                         </tr>)}
                     </tbody>

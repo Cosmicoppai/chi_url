@@ -1,13 +1,34 @@
-# 小 URL
-* Highly Scalable, Highly Available URL Shortener Web App written in python using FASTAPI, Cassandra and React.
-* Deployed using container with K8s on Cloud.
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
-# Setup And Installation
+<img src="icon.png" align="right" alt="icon">
+<h3 align="center">小 URL</h3>
+<p align="center">
+    An URL Shortener developed using FASTAPI, Cassandra and React.
+    <br />
 
+# Simple Architecture
+![](https://app.terrastruct.com/diagrams/1032762936)
+
+# Tech Stack
+> ### Backend
+> * FASTAPI
+> ### Front-End
+> * REACT
+> ### Database
+> * Cassandra
+> ### Load Balancer and Reverse Proxy
+> * Nginx
+> ### Cloud Platform
+> * AWS
+> ### Container Tool
+> * Docker
+
+
+# SetUp and Installation
 
 
 # TO DO
-* Write Docker Compose File and YAML for K8s.
-* Make React Frontend(Add frontend files in template folder... ♥)
-* Optimize Cassandra Data Model and Query.  ✔️
-## DeadLine 31st Aug

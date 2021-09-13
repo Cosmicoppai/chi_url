@@ -60,6 +60,4 @@ App should be running on [localhost](localhost)
 - Set up a Caching layer like Redis to reduce the read time
 
 ## License
-[MIT][mit] © [CosmicOppai][author]
-[mit]:      http://opensource.org/licenses/MIT
-[author]:   http://github.com/cosmicoppai
+[MIT](http://opensource.org/licenses/MIT) © [CosmicOppai](https://github.com/cosmicoppai)

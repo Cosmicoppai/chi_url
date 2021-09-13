@@ -14,7 +14,7 @@
 - Provide stats
 - ... etc
   
-## Simple Architecture
+## Simplified Architecture
 ![Architecture](static/architecture.png)
 
 ## Tech Stack

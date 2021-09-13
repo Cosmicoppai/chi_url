@@ -1,19 +1,28 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+![Github All Contributors](https://img.shields.io/github/all-contributors/all-contributors/all-contributors/master?color=lightgrey)
+[![GitHub forks](https://img.shields.io/github/forks/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/network)
+[![GitHub stars](https://img.shields.io/github/stars/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/Cosmicoppai/chi_url?color=lightgrey)](https://github.com/Cosmicoppai/chi_url/issues)
+[![MIT License](https://img.shields.io/badge/license-MIT-lightgrey)](https://github.com/Cosmicoppai/chi_url/issues/license)
 
-<img src="icon.png" align="right" alt="icon">
-<h3 align="center">小 URL</h3>
+<div class="example">
+  <img src="static/icon.png" style="height: 100px;
+  width: 100px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 20px;" alt="">
+</div>
+
+
+<h2 align="center">小 URL</h2>
 <p align="center">
     An URL Shortener developed using FASTAPI, Cassandra and React.
     <br />
 
-# Simple Architecture
-![](https://app.terrastruct.com/diagrams/1032762936)
+# * Simple Architecture
+![Architecture](static/architecture.png)
 
-# Tech Stack
+# * Tech Stack
 > ### Backend
 > * FASTAPI
 > ### Front-End
@@ -28,7 +37,7 @@
 > * Docker
 
 
-# SetUp and Installation
+# * SetUp and Installation
 
 
-# TO DO
+# * TO DO

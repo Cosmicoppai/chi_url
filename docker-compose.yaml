@@ -52,6 +52,7 @@ services:
     command: /bin/bash -c "sleep 60 && cqlsh node-1 -f /schema.cql -u cassandra -p cassandra"
     restart: on-failure
 
+
   # Backend
   backend:
     build:

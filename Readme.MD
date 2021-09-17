@@ -6,7 +6,7 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-lightgrey)](./LICENSE)
 
 ## About
-<img align="right" width="150" height="170" src="static/icon.png">
+<img align="right" width="150" height="170" src="static/icon.png" alt="icon">
  An URL Shortener developed using FASTAPI, Cassandra and React and deployed using containers on cloud.
 
 - Easy to Scale
@@ -53,7 +53,7 @@ cd local
 
 docker-compose up
 ```
-App should be running on [localhost](localhost)
+App should be running on [localhost](http://localhost)
 
 ## TO DO
 

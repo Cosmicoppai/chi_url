@@ -1,28 +1,70 @@
 version: '3.8'
 services:
+
+  #Node 1
+  node-1:
+    image: cassandra:4.0
+    container_name: node-1
+    environment: &environment
+      - CASSANDRA_CLUSTER_NAME=cluster1
+      - CASSANDRA_DC=Mumbai
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_SEEDS=node-1
+    volumes:
+      - node1-vol:/var/lib/cassandra
+      - ../cassandra/node1/cassandra:/etc/cassandra
+    restart: always
+
+  # schema loading node
+  pseudo-node:
+    image: cassandra:4.0
+    container_name: pseudo-node
+    environment: *environment
+    volumes:
+      - ../cassandra/init_keyspace.cql:/schema.cql
+    depends_on:
+      - node-1
+    command: /bin/bash -c "sleep 60 && cqlsh node-1 -f /schema.cql -u cassandra -p cassandra"
+    restart: on-failure
+
+  # Backend
+  backend:
+    build:
+      context: ../backend
+    container_name: backend
+    depends_on:
+      - pseudo-node
+    env_file:
+      - .env
+    ports:
+    - 8000:8000
+    restart: always
+
   # Frontend
   frontend:
     build:
       context: ../frontend
     container_name: frontend
+    depends_on:
+      - backend
     volumes:
     - react_build:/frontend/build
 
   # Nginx service
   nginx:
-    image: nginx:1.21
+    image: nginx:1.21-alpine
     ports:
     - 80:80
     volumes:
     - ./local_nginx:/etc/nginx/conf.d
     - react_build:/usr/share/nginx/html
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     depends_on:
+      - backend
       - frontend
     restart: always
 
 # Volumes
 volumes:
   node1-vol:
-  node2-vol:
-  node3-vol:
   react_build:

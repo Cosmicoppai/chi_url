@@ -9,35 +9,10 @@ services:
       - CASSANDRA_CLUSTER_NAME=cluster1
       - CASSANDRA_DC=Mumbai
       - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-      - CASSANDRA_SEEDS=node-1, node-2
+      - CASSANDRA_SEEDS=node-1
     volumes:
       - node1-vol:/var/lib/cassandra
       - ./cassandra/node1/cassandra:/etc/cassandra
-    restart: always
-
-  #Node 2
-  node-2:
-    image: cassandra:4.0
-    container_name: node-2
-    environment: *environment
-    volumes:
-      - node2-vol:/var/lib/cassandra
-      - ./cassandra/node2/cassandra:/etc/cassandra
-      - ./cassandra/init_keyspace.cql:/schema.cql
-    depends_on:
-      - node-1
-    restart: always
-
-  #Node 3
-  node-3:
-    image: cassandra:4.0
-    container_name: node-3
-    environment: *environment
-    volumes:
-      - node3-vol:/var/lib/cassandra
-      - ./cassandra/node3/cassandra:/etc/cassandra
-    depends_on:
-      - node-2
     restart: always
 
   # schema loading node
@@ -48,7 +23,7 @@ services:
     volumes:
       - ./cassandra/init_keyspace.cql:/schema.cql
     depends_on:
-      - node-3
+      - node-1
     command: /bin/bash -c "sleep 60 && cqlsh node-1 -f /schema.cql -u cassandra -p cassandra"
     restart: on-failure
 
@@ -105,6 +80,4 @@ services:
 # Volumes
 volumes:
   node1-vol:
-  node2-vol:
-  node3-vol:
   react_build:

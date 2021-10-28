@@ -1,5 +1,5 @@
 
-CREATE KEYSPACE IF NOT EXISTS chi_url  WITH replication = {'class': 'NetworkTopologyStrategy', 'Mumbai': '3'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS chi_url  WITH replication = {'class': 'NetworkTopologyStrategy', 'Mumbai': '1'}  AND durable_writes = true;
 
 CREATE TABLE IF NOT EXISTS chi_url.resolve_count (
     user text,
@@ -67,4 +67,4 @@ CREATE ROLE IF NOT EXISTS cosmicoppai with superuser = true AND LOGIN = true and
 // DROP ROLE IF EXISTS cassandra;
 
 ALTER KEYSPACE "system_auth"
-WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 3};
+WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 1};

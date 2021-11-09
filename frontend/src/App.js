@@ -5,28 +5,20 @@ import Verifymail from "./Mycomponents/pages/signuppages/verifymail";
 import Home from "./Mycomponents/pages/Homepages/home";
 import UserPage from "./Mycomponents/pages/userpages/userpage";
 import { BrowserRouter as Router,  Navigate ,Route,Routes} from "react-router-dom";
+import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 
 
 function App() {
   
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth ? children : <Navigate to="/home" />;
+    return auth ? children : <Navigate to="/" />;
   }
   return (
     <>
       <Router>
-      
         <Routes>
-        <Route path="/"  render={() => {
-            const user = localStorage.getItem("token");
-            return (
-              user ?
-                <Navigate to="/user" /> :
-                <Navigate to="/home" />
-            )
-          }} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verify" element={
@@ -37,6 +29,7 @@ function App() {
           <ProtectedRoute>
               <UserPage />
             </ProtectedRoute>}  />
+            <Route path='*' element={<ErrorPage />} />
          </Routes>
       </Router>
 

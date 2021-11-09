@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react'
 import { Search } from './search'
 import axios from 'axios';
+import Nav from "../components/nav";
+import Footer from "../components/footer"
 
 
 
@@ -74,6 +76,7 @@ const UserPage = () => {
     const columns1 = datas1[0] && Object.keys(datas1[0])
     return (
         <div >
+            <Nav/>
             <Search />
             <div className="container" >
                 <table className="table table-bordered text-center">
@@ -101,6 +104,7 @@ const UserPage = () => {
                 <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
                 )}
             </div>
+            <Footer/>
         </div>
     )
 }

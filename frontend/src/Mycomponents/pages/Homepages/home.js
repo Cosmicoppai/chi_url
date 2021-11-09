@@ -1,7 +1,8 @@
 import React from 'react'
 import { Main } from './main'
 import { Page } from './page'
-import Nav from '../../components/nav'
+import Nav from '../components/nav'
+import Footer from "../components/footer"
 import { Link } from 'react-router-dom'
 
 
@@ -37,6 +38,7 @@ const Home = () => {
 
 
             </div>
+            <Footer/>
         </div>
     )
 }

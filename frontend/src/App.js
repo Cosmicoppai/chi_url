@@ -11,14 +11,22 @@ function App() {
   
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth ? children : <Navigate to="/" />;
+    return auth ? children : <Navigate to="/home" />;
   }
   return (
     <>
       <Router>
       
         <Routes>
-          <Route path="/" element={<Home />} />
+        <Route path="/"  render={() => {
+            const user = localStorage.getItem("token");
+            return (
+              user ?
+                <Navigate to="/user" /> :
+                <Navigate to="/home" />
+            )
+          }} />
+          <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verify" element={

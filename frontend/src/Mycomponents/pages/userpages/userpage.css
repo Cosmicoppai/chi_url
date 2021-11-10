@@ -1,0 +1,9 @@
+.visitedLink:link, .visitedLink:visited {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .visitedLink:link:active, .visitedLink:visited:active {
+    color: black;
+  }

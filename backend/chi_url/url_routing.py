@@ -10,6 +10,8 @@ from cassandra.query import SimpleStatement
 from session_token import get_current_active_user, User
 import binascii
 from errors import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
+import redis
+
 
 logging.basicConfig(handlers=[logging.FileHandler(filename="../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
 
@@ -19,6 +21,8 @@ check_short_url_stmt = session.prepare("SELECT url FROM url_map WHERE short_url=
 
 BASE_ALPH = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+="
 BASE_LEN = 64
+
+cache = redis.Redis(host='redis')
 
 router = APIRouter()
 
@@ -110,7 +114,10 @@ async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
 async def get_url(background_tasks: BackgroundTasks,
         hashed_url: str = Path(..., title="hashed url", description="Hashed url which is stored in the DB as key")):
 
-    _url = session.execute(url_get_stmt, [hashed_url])
+    _url = cache.get(hashed_url)  # check the cache
+    if not _url:
+        _url = session.execute(url_get_stmt, [hashed_url])
+        background_tasks.add_task(add_cache, _url[0][0], _url[0][1])  # cache the result
     try:
         background_tasks.add_task(add_resolve_count, _url[0][0], hashed_url, _url[0][1])  # update the resolveCount in the background
         return RedirectResponse(url=f"{_url[0][0]}")  # Redirect to the mapped url from the DB♥
@@ -120,3 +127,7 @@ async def get_url(background_tasks: BackgroundTasks,
 
 def add_resolve_count(url:str, short_url:str, user: str):
     session.execute(f"UPDATE resolve_count SET resolves=resolves+1 WHERE user='{user}' AND url='{url}' AND short_url='{short_url}'")
+
+
+def add_cache(url:str, short_url:str):
+    cache.set(name=short_url, value=url)

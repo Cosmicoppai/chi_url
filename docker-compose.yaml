@@ -48,6 +48,11 @@ services:
     volumes:
     - react_build:/frontend/build
 
+  redis:
+    image: redis
+    depends_on:
+      - backend
+
   # Nginx service
   nginx:
     image: nginx:1.21-alpine

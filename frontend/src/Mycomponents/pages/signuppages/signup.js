@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router-dom';
+import Nav from "../components/nav";
+import Footer from "../components/footer"
 
 
 
@@ -67,7 +69,7 @@ const Signup = () => {
     }
 
     if (redirect) {
-        return <Redirect to="/login" />
+        return <Navigate to="/login" />
     }
     
     const confirmPassWordHandler = (e) => {
@@ -148,6 +150,8 @@ const Signup = () => {
         
     }
     return (
+    <>
+<Nav/>
         <div className="container bg-dark text-light border border-dark w-75 ">
             <form className="container text-center  py-2 " style={mystyle}>
                 <h1 className="mt-1" style={{ fontFamily: 'Droid Sans' }}>Please Sign-up</h1>
@@ -258,6 +262,8 @@ const Signup = () => {
                 
             </form>
         </div>
+        <Footer/>
+        </>
 
     )
 }

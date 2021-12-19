@@ -9,11 +9,8 @@ import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 
 
 function App() {
-  const auth = localStorage.getItem("token");
-  useEffect(() => {
-    if (auth) return  window.location.replace('/login');
-  }, [auth]);
   function ProtectedRoute({ children }) {
+    const auth = localStorage.getItem("token");
     return auth ? children : <Navigate to="/" />;
   }
   return (
@@ -27,7 +24,7 @@ function App() {
           <ProtectedRoute>
           <Verifymail />
         </ProtectedRoute>} />
-          <Route path="/auth" element={
+          <Route path="/user" element={
           <ProtectedRoute>
               <UserPage />
             </ProtectedRoute>}  />
@@ -41,5 +38,3 @@ function App() {
 }
 
 export default App
-
-

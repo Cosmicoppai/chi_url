@@ -46,7 +46,7 @@ export const Page = () => {
                     </div>
                     <div className="col d-flex align-items-start pt-3 ">
                         <div className="icon-square bg-light text-dark flex-shrink-0 me-3">
-                        <img src="https://cdn-icons.flaticon.com/png/128/3887/premium/3887066.png?token=exp=1636457064~hmac=d2529d9472a660fb7be246f09d585c4f" alt="" width="50px" height="50px"/>
+                        <img src="https://cdn-icons-png.flaticon.com/512/1320/1320521.png" alt="" width="50px" height="50px"/>
                         </div>
                         <div>
                             <h2>Reliable</h2>

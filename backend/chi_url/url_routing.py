@@ -97,7 +97,7 @@ async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
         for stat in results.current_rows:
             data.append(
                 {"url": stat.url,
-                 "short-url": f"{Host().host}/{stat.short_url}",
+                 "short_url": f"{Host().host}/{stat.short_url}",
                  "resolves": stat.resolves}
             )
         paging_state = binascii.hexlify(results.paging_state).decode() if results.paging_state else None  # fi all results are queried set paging_state as None

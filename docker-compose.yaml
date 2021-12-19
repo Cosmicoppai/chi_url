@@ -45,8 +45,6 @@ services:
     build:
       context: frontend
     container_name: frontend
-    depends_on:
-      - backend
     volumes:
     - react_build:/frontend/build
 

@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Nav = () => {
     const [user, setUser] = useState({});
@@ -10,7 +10,7 @@ const Nav = () => {
         }, 1)
     });
 
-    const History = useHistory();
+    const History = useNavigate();
     const logout = () => {
         localStorage.clear();
         History.push('/login')

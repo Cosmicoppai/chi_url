@@ -29,7 +29,7 @@ const Nav = () => {
         <div>
 
 
-            {!user  && active == false && (
+            {!user && && activeStatus == true (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">
@@ -48,7 +48,7 @@ const Nav = () => {
                     </nav>
                 </>
             )}
-            {user && active == true && (
+            {user && activeStatus == true && (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">

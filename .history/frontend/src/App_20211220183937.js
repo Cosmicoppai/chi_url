@@ -19,6 +19,7 @@ function App() {
     else{
       activeStatus = active
     }
+    console.log("userRoute", active)
     return (auth && activeStatus == true) ? <Navigate to="/user" /> : children;
   }
   function ProtectedRoute({ children }) {
@@ -31,6 +32,7 @@ function App() {
     else{
       activeStatus = active
     }
+    console.log("pr", active)
     return (auth && activeStatus == true)  ? children : <Navigate to="/" />;
   }
   return (

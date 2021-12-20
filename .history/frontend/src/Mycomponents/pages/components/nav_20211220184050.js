@@ -29,7 +29,7 @@ const Nav = () => {
         <div>
 
 
-            {!user  && active == false && (
+            {!user  && active == f && (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">

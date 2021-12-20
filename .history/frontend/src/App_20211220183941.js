@@ -31,6 +31,7 @@ function App() {
     else{
       activeStatus = active
     }
+    console.log("pr", active)
     return (auth && activeStatus == true)  ? children : <Navigate to="/" />;
   }
   return (

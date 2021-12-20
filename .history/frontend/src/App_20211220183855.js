@@ -16,22 +16,14 @@ function App() {
     if (active === null){
       activeStatus = false;
     }
-    else{
-      activeStatus = active
-    }
-    return (auth && activeStatus == true) ? <Navigate to="/user" /> : children;
+    console.log("userRoute", active)
+    return (auth && active) ? <Navigate to="/user" /> : children;
   }
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
-    let activeStatus 
-    if (active === null){
-      activeStatus = false;
-    }
-    else{
-      activeStatus = active
-    }
-    return (auth && activeStatus == true)  ? children : <Navigate to="/" />;
+    console.log("pr", active)
+    return (auth && active) ? children : <Navigate to="/" />;
   }
   return (
     <>

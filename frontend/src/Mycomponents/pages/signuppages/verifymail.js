@@ -5,14 +5,10 @@ import Footer from "../components/footer"
 
 const Verifymail = () => {
     localStorage.removeItem('token');
-    const [redirect, setRedirect] = useState(false);
-    if (redirect) {
-        return <Navigate
-            to="/login" />
-    }
+    // const [redirect, setRedirect] = useState(false);
     const emailVerification = async () => {
         
-        const token = localStorage.getItem("verifyEmail");
+        const token = localStorage.getItem("verifyMail");
         await axios.get('send-code', {
             headers: {
                 'Authorization': ` Bearer ${token}`,
@@ -41,6 +37,7 @@ const Verifymail = () => {
         marginTop: "150px",
         marginBottom: "350px",
     }
+
     return (
         <>
             <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
@@ -65,7 +62,7 @@ const Verifymail = () => {
             </div>
             <div className="alert alert-dark d-flex justify-content-center text-center " id='alertBar' role="alert" style={mystyle2}>
                 Verify your email and login again to use our services!!!
-                <button type="button" onClick={setRedirect(true)} class="btn btn-light ms-2">Go to login page</button>
+                <a type="button"  href="/login" className="btn btn-light ms-2">Go to login page</a>
             </div> 
             <Footer />
         </>

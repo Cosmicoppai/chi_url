@@ -5,10 +5,10 @@ const Nav = () => {
     const [user, setUser] = useState({});
     useEffect(() => {
         setInterval(() => {
-    
+
             const user = localStorage.getItem("token");
             setUser(user);
-            
+
         }, 1)
     });
 

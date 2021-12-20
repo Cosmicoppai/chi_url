@@ -46,8 +46,7 @@ const Login = () => {
             if (resp.data.is_active === true) {
                 setRedirectlogin(true);
             }
-            else if (resp.data.is_active === false){
-                localStorage.removeItem("token")
+            else {
                 setRedirectverify(true);
             } 
         })

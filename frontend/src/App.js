@@ -36,9 +36,9 @@ function App() {
             </UserRoute>
             } />
           <Route path="/verify" element={
-            <UserRoute>
+            <ProtectedRoute>
               <Verifymail />
-            </UserRoute>} />
+            </ProtectedRoute>} />
           <Route path="/user" element={
             <ProtectedRoute>
               <UserPage />

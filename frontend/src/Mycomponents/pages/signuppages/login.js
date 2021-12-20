@@ -42,6 +42,7 @@ const Login = () => {
             localStorage.setItem("token", resp.data.access_token)
             if (resp.data.is_active === true) {
                 setRedirectlogin(true);
+                localStorage.setItem("active", 'Active')
             }
             else if (resp.data.is_active === false){
                 setRedirectverify(true);

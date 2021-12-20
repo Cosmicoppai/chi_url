@@ -149,7 +149,8 @@ const UserPage = () => {
                         </p>
                     )}
                     {!isLoading && (
-                        <button onClick={(e) => handleSubmit(e)} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
+                        <button onClick={(e) => {handleSubmit(e)
+                                                getUrls()}} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
                     )}
                     {isLoading && (
                         <button className="btn btn-primary" type="button" disabled>
@@ -161,11 +162,7 @@ const UserPage = () => {
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
                         <h4 ><span type="text" className="badge  bg-dark px-5" >https://pbl.asia/{short}</span> </h4>
-                        <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => {
-                            navigator.clipboard.writeText(`https://pbl.asia/${short}`);
-                            getUrls()
-                        }
-                        }>Copy</button>
+                        <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`https://pbl.asia/${short}`); }>Copy</button>
                     </div>
                 )}
             </div>

@@ -47,6 +47,7 @@ const Login = () => {
                 setRedirectlogin(true);
             }
             else if (resp.data.is_active === false){
+                localStorage.removeItem("token")
                 setRedirectverify(true);
             } 
         })

@@ -7,7 +7,7 @@
 
 ## About
 <img align="right" width="150" height="170" src="static/icon.png" alt="icon">
- An URL Shortener developed using FASTAPI, Cassandra and React and deployed using containers on cloud.
+ An URL Shortener developed using FASTAPI, Cassandra, React and deployed using containers on cloud.
 
 - Easy to Scale
 - Highly available
@@ -30,6 +30,8 @@
 > * AWS
 > ### Container Tool
 > * Docker
+> ### Caching
+> * Redis
 
 
 ## SetUp and Installation
@@ -54,10 +56,6 @@ cd local
 docker-compose up
 ```
 App should be running on [localhost](http://localhost)
-
-## TO DO
-
-- Set up a Caching layer like Redis to reduce the read time
 
 ## License
 [MIT](http://opensource.org/licenses/MIT) © [CosmicOppai](https://github.com/cosmicoppai)

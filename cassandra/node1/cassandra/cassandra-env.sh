@@ -304,4 +304,3 @@ if [ "x$MX4J_PORT" != "x" ]; then
 fi
 
 JVM_OPTS="$JVM_OPTS $JVM_EXTRA_OPTS"
-

@@ -8,12 +8,13 @@ const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=
 export const Search = () => {
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
+    const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const token = localStorage.getItem("token");
 
-   
 
-    
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (checkLink(link)) {
@@ -21,7 +22,10 @@ export const Search = () => {
             setLink('');
             setIsLoading(!isLoading);
         }
-        // console.log(link);
+        else {
+            setError(true)
+        }
+
     }
 
     // Link Validation Function
@@ -29,7 +33,7 @@ export const Search = () => {
         // Regex to check if string is a valid URL
         return string.match(HTTP_URL_VALIDATOR_REGEX);
     };
-   
+
     // Function that calls the backend is valid
     const getLink = async () => {
         await axios.post('add_url', {
@@ -75,6 +79,11 @@ export const Search = () => {
                         <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
                         <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => setLink(e.target.value)} />
                     </div>
+                    {error && (
+                        <p className="text-danger " role="alert">
+                          Invalid url!
+                        </p>
+                    )}
                     {!isLoading && (
                         <button onClick={(e) => handleSubmit(e)} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
                     )}
@@ -88,11 +97,10 @@ export const Search = () => {
                 {short && (
                     <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
                         <h4 ><span type="text" className="badge  bg-dark px-5" >https://pbl.asia/{short}</span> </h4>
-                       <button type="button" className="btn btn-outline-dark" onClick={() =>  navigator.clipboard.writeText(`https://pbl.asia/${short}`)}>Copy</button>
+                        <button type="button" className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`https://pbl.asia/${short}`)}>Copy</button>
                     </div>
                 )}
             </div>
         </>
     )
 }
-

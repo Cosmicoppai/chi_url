@@ -75,6 +75,13 @@ services:
     volumes:
     - react_build:/frontend/build
 
+  # Redis
+  redis:
+    image: redis
+    depends_on:
+      - backend
+    restart: always
+
   # Nginx service
   nginx:
     image: nginx:1.21-alpine

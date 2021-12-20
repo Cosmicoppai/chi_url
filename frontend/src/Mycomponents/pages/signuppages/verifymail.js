@@ -4,13 +4,15 @@ import { Navigate, Link } from 'react-router-dom';
 import Footer from "../components/footer"
 
 const Verifymail = () => {
+    localStorage.removeItem('token');
     const [redirect, setRedirect] = useState(false);
     if (redirect) {
         return <Navigate
             to="/login" />
     }
     const emailVerification = async () => {
-        const token = localStorage.getItem("token");
+        
+        const token = localStorage.getItem("verifyEmail");
         await axios.get('send-code', {
             headers: {
                 'Authorization': ` Bearer ${token}`,

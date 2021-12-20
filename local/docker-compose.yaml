@@ -55,6 +55,7 @@ services:
     image: redis
     depends_on:
       - backend
+    restart: always
 
   # Nginx service
   nginx:

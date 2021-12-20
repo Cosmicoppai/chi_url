@@ -19,8 +19,8 @@ const Verifymail = () => {
         })
             .then(resp => {
                 console.log(resp);
+            localStorage.clear()
                 if (resp.status === 200) {
-                    localStorage.clear()
                     document.getElementById('verifyMail').style.display ='none'
                     document.getElementById('alertBar').style.display ='block'
                 }

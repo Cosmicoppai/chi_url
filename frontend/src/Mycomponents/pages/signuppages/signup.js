@@ -47,6 +47,7 @@ const Signup = () => {
                     }
                 })
                 .then((resp) => {
+                    console.log(resp)
                     // console.log(resp)
                     
                         if (resp.status === 201) {
@@ -60,7 +61,7 @@ const Signup = () => {
                 })
                 .catch((error) => {
                     setLoading(false);
-                    if (error.status === 400) {
+                    if (error.response.status === 400) {
                         setAlreadyError(true)
                     }
                 })

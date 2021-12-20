@@ -12,11 +12,13 @@ function App() {
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
+    console.log("userRoute", active)
     return (auth && active) ? <Navigate to="/user" /> : children;
   }
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
+    console.log("pr", active)
     return (auth && active) ? children : <Navigate to="/" />;
   }
   return (
@@ -28,13 +30,12 @@ function App() {
               <Home />
             </UserRoute>} />
           <Route path="/signup" element={
-            <UserRoute>
+
               <Signup />
-            </UserRoute>} />
+            } />
           <Route path="/login" element={
-            <UserRoute>
               <Login />
-            </UserRoute>} />
+            } />
           <Route path="/verify" element={
             <UserRoute>
               <Verifymail />

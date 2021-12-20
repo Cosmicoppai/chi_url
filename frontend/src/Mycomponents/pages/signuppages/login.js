@@ -40,10 +40,12 @@ const Login = () => {
         }).then((resp) => {
             setLoading(false);
             localStorage.setItem("token", resp.data.access_token)
-            
+            console.log(resp)
+
+            localStorage.setItem("active", resp.data.is_active)
+
             if (resp.data.is_active === true) {
                 setRedirectlogin(true);
-                localStorage.setItem("active", 'Active')
             }
             else if (resp.data.is_active === false){
                 setRedirectverify(true);
@@ -51,7 +53,7 @@ const Login = () => {
         })
             .catch((error) => {
                 setLoading(false);
-                if (error.status === 400){
+                if (error.response.status === 400){
                     setAlreadyrror(true)
                 }
             })

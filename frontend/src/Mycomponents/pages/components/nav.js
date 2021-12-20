@@ -22,7 +22,7 @@ const Nav = () => {
         <div>
 
 
-            {!user && !active && (
+            {!user && (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">
@@ -41,7 +41,7 @@ const Nav = () => {
                     </nav>
                 </>
             )}
-            {user && active && (
+            {user &&  (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">

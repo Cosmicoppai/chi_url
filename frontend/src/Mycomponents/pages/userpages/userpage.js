@@ -41,7 +41,7 @@ const UserPage = () => {
                 // console.error(error); //check the error
             })
         return () => ac.abort();
-    }, [])
+    }, [datas])
 
     const moreRequest = async (e) => {
         e.preventDefault();
@@ -71,9 +71,6 @@ const UserPage = () => {
                 // console.error(error); //check the error
             })
     }
-    // console.log(datas)
-    // const columns = datas[0] && Object.keys(datas[0])
-    // const columns1 = datas1[0] && Object.keys(datas1[0])
     return (
         < >
             <Nav />
@@ -88,16 +85,6 @@ const UserPage = () => {
                         </tr>
                     </thead>
                     <tbody className="w-25">
-                        {/* {datas.map((row,pos)=> <tr className="w-25" key={pos}>
-                            {
-                                columns.map((column,col) => <td className="w-25" key={col}>{row[column]}</td>)
-                            }
-                        </tr>)}
-                        {datas1.map((row,index) => <tr className="w-25" key={index} >
-                            {
-                                columns1.map((column,ind) => <td className="w-25" key={ind}>{row[column]}</td>)
-                            }
-                        </tr>)} */}
                         {(datas || []).map((data, id) => {
                             return <tr key={id}>
                             <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>

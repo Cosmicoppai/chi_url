@@ -12,14 +12,26 @@ function App() {
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
-    console.log("userRoute", active)
-    return (auth && active) ? <Navigate to="/user" /> : children;
+    let activeStatus 
+    if (active === null){
+      activeStatus = false;
+    }
+    else{
+      activeStatus = active
+    }
+    return (auth && activeStatus == true) ? <Navigate to="/user" /> : children;
   }
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
-    console.log("pr", active)
-    return (auth && active) ? children : <Navigate to="/" />;
+    let activeStatus 
+    if (active === null){
+      activeStatus = false;
+    }
+    else{
+      activeStatus = active
+    }
+    return (auth && activeStatus == true)  ? children : <Navigate to="/" />;
   }
   return (
     <>

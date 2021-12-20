@@ -7,9 +7,16 @@ const Nav = () => {
     useEffect(() => {
         setInterval(() => {
     const active = localStorage.getItem("active");
+    let activeStatus 
+    if (active === null){
+      activeStatus = false;
+    }
+    else{
+      activeStatus = active
+    }
             const user = localStorage.getItem("token");
             setUser(user);
-            setActive(active);
+            setActive(activeStatus);
         }, 1)
     });
 
@@ -22,7 +29,7 @@ const Nav = () => {
         <div>
 
 
-            {!user && (
+            {!user  && active == false && (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">
@@ -41,7 +48,7 @@ const Nav = () => {
                     </nav>
                 </>
             )}
-            {user &&  (
+            {user && active == true && (
                 <>
                     <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
                         <div className="container-fluid ">

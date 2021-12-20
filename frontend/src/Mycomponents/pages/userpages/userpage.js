@@ -3,6 +3,7 @@ import axios from 'axios';
 import Nav from "../components/nav";
 import Footer from "../components/footer"
 import './userpage.css'
+import errorPage from '../Homepages/errorPage';
 
 
 //eslint-disable-next-line
@@ -17,7 +18,7 @@ const UserPage = () => {
     const [short, setShort] = useState('');
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
+    const user = localStorage.getItem("token");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -133,6 +134,8 @@ const UserPage = () => {
     }
     return (
         < >
+        {user && (
+        < >
             <Nav />
             <div className=" mb-5  " style={mystyle}>
                 <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
@@ -199,6 +202,13 @@ const UserPage = () => {
                 )}
             </div>
             <Footer />
+        </>
+        )}
+        {!user && (
+        < >
+            <errorPage/>
+        </>
+        )}
         </>
     )
 }

@@ -114,13 +114,17 @@ async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
 async def get_url(background_tasks: BackgroundTasks,
         hashed_url: str = Path(..., title="hashed url", description="Hashed url which is stored in the DB as key")):
 
-    _url = cache.get(hashed_url)  # check the cache
-    if not _url:
+    try:
+        _url = cache.get(hashed_url)  # check the cache
+        if not _url:
+            _url = session.execute(url_get_stmt, [hashed_url])
+            background_tasks.add_task(add_cache, _url[0][0], _url[0][1])  # cache the result
+    except redis.exceptions.ConnectionError:  # If Redis backend is not available hit the Database
         _url = session.execute(url_get_stmt, [hashed_url])
-        background_tasks.add_task(add_cache, _url[0][0], _url[0][1])  # cache the result
+
     try:
         background_tasks.add_task(add_resolve_count, _url[0][0], hashed_url, _url[0][1])  # update the resolveCount in the background
-        return RedirectResponse(url=f"{_url[0][0]}")  # Redirect to the mapped url from the DB♥
+        return RedirectResponse(url=f"{_url[0][0]}")  # Redirect to the mapped url from the DB ♥
     except IndexError or TypeError:
         raise HTTP_404_NOT_FOUND
 

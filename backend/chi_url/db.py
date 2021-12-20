@@ -3,6 +3,8 @@ from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
 from cassandra.auth import PlainTextAuthProvider
+from cassandra.cluster import NoHostAvailable, NoConnectionsAvailable
+from cassandra import DriverException, AuthenticationFailed
 from config import Settings
 from functools import lru_cache
 
@@ -39,4 +41,9 @@ _CLUSTER = Cluster(contact_points=['node-1',],port=9042, ssl_context=None,
                    auth_provider=_AUTH_PROVIDER,
                    execution_profiles={EXEC_PROFILE_DEFAULT: profiles})
 
-session = _CLUSTER.connect(_keyspace)
+while True:
+    try:
+        session = _CLUSTER.connect(_keyspace)
+        break
+    except NoHostAvailable or NoConnectionsAvailable or AuthenticationFailed or DriverException:
+        continue

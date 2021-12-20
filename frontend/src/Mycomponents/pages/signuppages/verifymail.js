@@ -1,11 +1,10 @@
 import axios from 'axios';
-import React, { useState } from 'react'
-import { Navigate, Link } from 'react-router-dom';
+import React from 'react'
+import { Link } from 'react-router-dom';
 import Footer from "../components/footer"
 
 const Verifymail = () => {
     localStorage.removeItem('token');
-    // const [redirect, setRedirect] = useState(false);
     const emailVerification = async () => {
         
         const token = localStorage.getItem("verifyMail");
@@ -16,7 +15,7 @@ const Verifymail = () => {
             }
         })
             .then(resp => {
-                console.log(resp);
+                // console.log(resp);
             localStorage.clear()
                 if (resp.status === 200) {
                     document.getElementById('verifyMail').style.display ='none'
@@ -24,7 +23,7 @@ const Verifymail = () => {
                 }
             })
             .catch(error => {
-                console.error(error);
+                // console.error(error);
             })
     }
 
@@ -60,9 +59,9 @@ const Verifymail = () => {
                 <button type="button" className="btn btn-dark w-25 mx-auto mb-5"
                     onClick={emailVerification}>Send</button>
             </div>
-            <div className="alert alert-dark d-flex justify-content-center text-center " id='alertBar' role="alert" style={mystyle2}>
-                Verify your email and login again to use our services!!!
-                <a type="button"  href="/login" className="btn btn-light ms-2">Go to login page</a>
+            <div className="alert alert-dark bg-transparent d-flex justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2}>
+            <h4>Verify your email and login again to use our services!!!</h4>
+                <a type="button"  href="/login" className="btn btn-lg btn-light ms-2">Go to login page</a>
             </div> 
             <Footer />
         </>

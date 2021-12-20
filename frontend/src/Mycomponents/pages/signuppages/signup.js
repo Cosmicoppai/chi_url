@@ -53,14 +53,16 @@ const Signup = () => {
                             setLoading(false);
                             setRedirect(true);
                         }
-                        else if ((resp.status === 400)) {
+                        if ((resp.status === 400)) {
                             setAlreadyError(true)
                         }
                     
                 })
                 .catch((error) => {
                     setLoading(false);
-                    // console.error(error);
+                    if (error.status === 400) {
+                        setAlreadyError(true)
+                    }
                 })
         
     }

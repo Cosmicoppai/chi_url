@@ -11,11 +11,13 @@ import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 function App() {
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth ? <Navigate to="/user" /> : children;
+    const active = localStorage.getItem("active");
+    return (auth && active) ? <Navigate to="/user" /> : children;
   }
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth ? children : <Navigate to="/" />;
+    const active = localStorage.getItem("active");
+    return (auth && active) ? children : <Navigate to="/" />;
   }
   return (
     <>
@@ -26,17 +28,17 @@ function App() {
               <Home />
             </UserRoute>} />
           <Route path="/signup" element={
-          <UserRoute>
-            <Signup />
-          </UserRoute>} />
+            <UserRoute>
+              <Signup />
+            </UserRoute>} />
           <Route path="/login" element={
-          <UserRoute>
-            <Login />
-          </UserRoute>} />
+            <UserRoute>
+              <Login />
+            </UserRoute>} />
           <Route path="/verify" element={
-            <ProtectedRoute>
+            <UserRoute>
               <Verifymail />
-            </ProtectedRoute>} />
+            </UserRoute>} />
           <Route path="/user" element={
             <ProtectedRoute>
               <UserPage />

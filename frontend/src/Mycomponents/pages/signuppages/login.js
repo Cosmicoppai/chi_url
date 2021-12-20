@@ -18,6 +18,7 @@ const Login = () => {
     const [redirectlogin, setRedirectlogin] = useState(false);
     const [redirectverify, setRedirectverify] = useState(false);
     const [usernameerror, setUsernamerror] = useState();
+    const [alreadyerror, setAlreadyrror] = useState();
     const [passworderror, setPassworderror] = useState();
 
 
@@ -44,6 +45,9 @@ const Login = () => {
             }
             else if (resp.data.is_active === false){
                 setRedirectverify(true);
+            }
+            if (resp.status === 400){
+                setAlreadyrror(true)
             }
         })
             .catch((error) => {
@@ -116,6 +120,11 @@ const Login = () => {
             {passworderror && (
                     <p className="text-danger " role="alert">
                         Password is required!
+                    </p>
+                )}
+            {alreadyerror && (
+                    <p className="text-danger h5" role="alert">
+                        Invalid Password or Username!!!
                     </p>
                 )}
 

@@ -17,6 +17,7 @@ const Verifymail = () => {
             .then(resp => {
                 console.log(resp);
                 if (resp.status === 200) {
+                    localStorage.clear()
                     setRedirect(true)
                 }
             })
@@ -26,7 +27,7 @@ const Verifymail = () => {
     }
     if (redirect) {
         return <Navigate
-         to="/user" />
+         to="/login" />
     }
 
 

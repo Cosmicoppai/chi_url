@@ -19,6 +19,7 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [error, setError] = useState();
+    const [alreadyerror, setAlreadyError] = useState();
     const [passworderror, setPassworderror] = useState();
     const [passwordregexerror, setPasswordregexerror] = useState();
     const [emailerror, setEmailerror] = useState();
@@ -52,12 +53,8 @@ const Signup = () => {
                             setLoading(false);
                             setRedirect(true);
                         }
-                        else {
-                            return (
-                                <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>Error!</strong> You should check in on some of those fields below.
-                                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
-                                </div>)
+                        else if ((resp.status === 400)) {
+                            setAlreadyError(true)
                         }
                     
                 })
@@ -240,6 +237,11 @@ const Signup = () => {
                 {error && (
                     <p className="text-danger" role="alert">
                         Password does not match!
+                    </p>
+                )}
+                {alreadyerror && (
+                    <p className="text-danger h5" role="alert">
+                        Email Id already exist!!
                     </p>
                 )}
         

@@ -1,11 +1,11 @@
 import React from 'react'
 
-const errorPage = () => {
+const ErrorPage = () => {
     return (
         <div>
-            <img width="90%" height="90%" className="d-block mx-auto" src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-3.png" alt="" />
+            <img width="90%" height="90%" className="d-block mx-auto" style={{cursor:'none'}} src="https://colorlib.com/wp/wp-content/uploads/sites/2/404-error-template-3.png" alt="" />
         </div>
     )
 }
 
-export default errorPage
+export default ErrorPage

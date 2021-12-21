@@ -5,18 +5,14 @@ const Nav = () => {
     const [user, setUser] = useState({});
     useEffect(() => {
         setInterval(() => {
-
             const user = localStorage.getItem("token");
             setUser(user);
-
         }, 1)
     });
-
     const logout = () => {
         localStorage.clear();
         window.location.replace("/login")
     }
-
     return (
         <div>
 

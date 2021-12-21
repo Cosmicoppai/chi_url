@@ -13,7 +13,6 @@ const Signup = () => {
         maxWidth: "500px"
     }
     const [emailReg, setemailReg] = useState('');
-    const [usernameReg, setusernameReg] = useState('');
     const [passwordReg, setpasswordReg] = useState('');
     const [confirmpassword, setconfirmpassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,18 +23,15 @@ const Signup = () => {
     const [passwordregexerror, setPasswordregexerror] = useState();
     const [emailerror, setEmailerror] = useState();
     const [emailregexerror, setEmailregexerror] = useState();
-    const [usernameerror, setUsernamerror] = useState();
-    const [usernameregexerror, setUsernameregexrror] = useState();
     const [confirmpassworderror, setConfirmpassworderror] = useState();
     
-    let button = usernameerror===false  && emailerror===false  && passworderror===false  && confirmpassworderror===false;
+    let button = emailerror===false  && passworderror===false  && confirmpassworderror===false;
     
     const signupClick = async (e) => {
         e.preventDefault();
         setLoading(true);
         
             await axios.post("add_user", {
-                username: usernameReg,
                 email: emailReg,
                 password: passwordReg
             },
@@ -47,9 +43,6 @@ const Signup = () => {
                     }
                 })
                 .then((resp) => {
-                    console.log(resp)
-                    // console.log(resp)
-                    
                         if (resp.status === 201) {
                             setLoading(false);
                             setRedirect(true);
@@ -77,7 +70,7 @@ const Signup = () => {
         setconfirmpassword(confPass);
         if(confPass  === ''){
             setConfirmpassworderror(true);
-            
+            setError(false);
         }
         else{
             setConfirmpassworderror(false);
@@ -99,6 +92,7 @@ const Signup = () => {
 
         if(Pass  === ''){
             setPassworderror(true);
+            setPasswordregexerror(false);
         }
         else{
             setPassworderror(false);
@@ -111,23 +105,7 @@ const Signup = () => {
         }
         
     }
-    const usernameHandler = (e) => {
-        const Name = e.target.value;
-        setusernameReg(Name);
-        if(Name  === ''){
-            setUsernamerror(true);
-        }
-        else{
-            setUsernamerror(false);
-        }
-        if(Name.length < 11 && Name.length > 2){
-            setUsernameregexrror(false);
-        }
-        else{
-            setUsernameregexrror(true);
-        }
-        
-    }
+    
     const emailHandler = (e) => {
         const Email = e.target.value;
         setemailReg(Email);
@@ -137,6 +115,7 @@ const Signup = () => {
         };
         if(Email  === ''){
             setEmailerror(true);
+            setEmailregexerror(false);
         }
         else{
             setEmailerror(false);
@@ -178,27 +157,6 @@ const Signup = () => {
                     </p>
                 )}
 
-                <label htmlFor="exampleInputUsername" className="form-label mt-3"
-                ><h5>Username</h5>
-                </label>
-                <input
-                    name="usernameReg"
-                    type="text"
-                    className="form-control"
-                    id="exampleInputUsername"
-                    value={usernameReg}
-                    onChange={(e) => { usernameHandler(e) }}
-                />
-                {usernameerror && (
-                    <p className="text-danger " role="alert">
-                        Username is required!
-                    </p>
-                )}
-                {usernameregexerror && (
-                    <p className="text-danger " role="alert">
-                        Your username should consist of minimum 2 and maximum 11 characters.
-                    </p>
-                )}
                 <label htmlFor="exampleInputPassword" className="form-label mt-3"
                 ><h5>Password</h5></label
                 >

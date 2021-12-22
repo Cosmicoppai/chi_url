@@ -6,8 +6,6 @@ import './userpage.css'
 import ErrorPage from '../Homepages/errorPage';
 
 
-//eslint-disable-next-line
-const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
@@ -20,6 +18,7 @@ const UserPage = () => {
     const [emptyError, setemptyError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,13 +38,34 @@ const UserPage = () => {
             setemptyError(false)
         }
 
-    }
 
-    // Link Validation Function
+
+
+    const submitHandler = (e) => {
+        const link = e.target.value;
+        setLink(link);
     const checkLink = (string) => {
-        // Regex to check if string is a valid URL
+        let HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
         return string.match(HTTP_URL_VALIDATOR_REGEX);
     };
+        if (link === '' || checkLink(link)) {
+            setError(false)
+            setSubmitbutton(true)
+        }
+        else {
+            setError(true)
+            setSubmitbutton(false)
+        }
+    }
+    let urlHost = 'www.' + window.location.hostname + '/';
+    setUrl(urlHost)
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        getLink(link);
+        setLink('');
+        setIsLoading(!isLoading);
+
+    }
 
     // Function that calls the backend is valid
     const getLink = async () => {

@@ -1,10 +1,10 @@
-from cassandra import ConsistencyLevel
+import time
+from cassandra import ConsistencyLevel, DriverException, AuthenticationFailed
 from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import NoHostAvailable, NoConnectionsAvailable
-from cassandra import DriverException, AuthenticationFailed
 from config import Settings
 from functools import lru_cache
 
@@ -46,4 +46,4 @@ while True:
         session = _CLUSTER.connect(_keyspace)
         break
     except NoHostAvailable or NoConnectionsAvailable or AuthenticationFailed or DriverException:
-        continue
+        time.sleep(10)  # wait before reconnecting

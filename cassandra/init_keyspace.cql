@@ -63,6 +63,8 @@ CREATE TABLE IF NOT EXISTS chi_url.user (
     AND min_index_interval = 128
     AND speculative_retry = '99p';
 
+CREATE INDEX IF NOT EXISTS email ON chi_url.user (email);
+
 CREATE ROLE IF NOT EXISTS cosmicoppai with superuser = true AND LOGIN = true and PASSWORD = 'dry-flower@04';
 
 ALTER KEYSPACE "system_auth"

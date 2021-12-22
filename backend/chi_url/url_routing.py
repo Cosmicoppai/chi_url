@@ -70,10 +70,11 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
         for tri in range(10):
             hashed_url = encoding(hex_num)[tri:7+tri]
             if session.execute(check_short_url_stmt, [hashed_url]).one():
+                print(session.execute(check_short_url_stmt, [hashed_url]).one())
                 continue
             else:
                 try:
-                    session.execute(check_short_url_stmt, [hashed_url])
+                    # session.execute(check_short_url_stmt, [hashed_url])
                     # raw_url is pydantic model, separate the url part
                     session.execute(url_add_stmt, [hashed_url, raw_url.url, _user])
                     background_tasks.add_task(add_resolve_count, raw_url.url, hashed_url, _user)
@@ -93,7 +94,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
 async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
     _user = _user.get('username', None)
     if _user:
-        statement = SimpleStatement(f"SELECT * FROM resolve_count WHERE user='{_user}'", fetch_size=5)
+        statement = SimpleStatement(f"SELECT * FROM resolve_count WHERE user='{_user}'", fetch_size=25)
         ps = binascii.unhexlify(paging_state) if paging_state else None  # check if paging state exists or not
         results = session.execute(statement, paging_state=ps)
         # web_session = {'paging_state': results.paging_state}

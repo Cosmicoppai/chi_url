@@ -31,7 +31,6 @@ const Verifymail = () => {
         marginTop: "150px",
         marginBottom: "350px",
     }
-   
 
     return (
         <>
@@ -59,6 +58,7 @@ const Verifymail = () => {
             <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
                 <a type="button" style={{color:'black'}}  href="/login" className="btn btn-lg btn-light ms-2">Go to login page</a>
             </div> 
+
             <Footer />
         </>
     )

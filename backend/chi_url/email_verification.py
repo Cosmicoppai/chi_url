@@ -12,7 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from config import EmailSettings, OriginSettings
 from functools import lru_cache
 from session_token import User, get_current_user
-from errors import HTTP_404_NOT_FOUND
+from errors import HTTP_401_EXPIRED_JWT
 from starlette.responses import RedirectResponse
 
 router = APIRouter()
@@ -65,15 +65,15 @@ def send_email(token:str, user:str, user_email:EmailStr):
 
         html = f"""
         <h2>Thanks {user} for signing up</h2>
-        <p>Verify Your email</p>
-        <a href="{_host.host}/verify/?token={token}">Verify</a>
+        <p>Please verify Your email</p>
+        <a href="{_host.host}/verify-email/?token={token}">Verify</a>
         """
         message.attach(MIMEText(html, 'html'))
         server.send_message(message)
 
 
 
-@router.get('/verify/', tags=["users"])
+@router.get('/verify-email/', tags=["users"])
 async def verify_acc(token):
     """
     Payload Format
@@ -82,7 +82,7 @@ async def verify_acc(token):
     try:
         payload = jwt.decode(token, SECRET_KEY, ALGORITHM)
     except jwt.ExpiredSignatureError or jwt.JWTClaimsError:  # check if token expired or not
-        raise HTTP_404_NOT_FOUND
+        raise HTTP_401_EXPIRED_JWT
     _user: str = payload.get('user')  # get the username from the token
     verification_code_from_jwt: str = payload.get('verification_code')  # get the verification code
     _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user_name='{_user}'").one()[0]  # get the verification code from the database

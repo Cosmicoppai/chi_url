@@ -105,7 +105,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
     if current_user.disable:  # if disable == True(i.e user id not active then raise inactive user flag)
-        raise HTTPException(status_code=400, detail="Inactive user")
+        raise HTTPException(status_code=403, detail="Inactive user")
     return {"username": current_user.username}
 
 
@@ -114,7 +114,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     _user = authenticate_user(form_data.username, form_data.password)  # Verify the credentials
     if not _user:
-        raise HTTPException(status_code=400, detail="Incorrect Username or Password", headers={"WWW-Authenticate": "Bearer"})
+        raise HTTPException(status_code=403, detail="Incorrect Username or Password", headers={"WWW-Authenticate": "Bearer"})
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     # Create an access token with data containing username of the user and the expire time of the token

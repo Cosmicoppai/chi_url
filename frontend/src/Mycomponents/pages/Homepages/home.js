@@ -4,6 +4,7 @@ import { Page } from './page'
 import Nav from '../components/nav'
 import Footer from "../components/footer"
 import { Link } from 'react-router-dom'
+import './home.css'
 
 
 

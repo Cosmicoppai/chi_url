@@ -31,6 +31,9 @@ const Verifymail = () => {
         marginTop: "150px",
         marginBottom: "350px",
     }
+     let mystyle = {
+        marginTop: "-150px"
+    }
 
     return (
         <>

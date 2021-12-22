@@ -6,6 +6,8 @@ import './userpage.css'
 import ErrorPage from '../Homepages/errorPage';
 
 
+//eslint-disable-next-line
+const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
@@ -14,38 +16,32 @@ const UserPage = () => {
     const [datas1, setdatas1] = useState([]);
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
-    const [url, setUrl] = useState('');
-    const [error, setError] = useState(false);
-    const [submitbutton, setSubmitbutton] = useState(false);
+    const [error, setError] = useState();
+    const [emptyError, setemptyError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
 
-
-
-    const submitHandler = (e) => {
-        const link = e.target.value;
-        setLink(link);
-    const checkLink = (string) => {
-        let HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-        return string.match(HTTP_URL_VALIDATOR_REGEX);
-    };
-        if (link === '' || checkLink(link)) {
-            setError(false)
-            setSubmitbutton(true)
-        }
-        else {
-            setError(true)
-            setSubmitbutton(false)
-        }
-    }
-    let urlHost = 'www.' + window.location.hostname + '/';
-    setUrl(urlHost)
     const handleSubmit = (e) => {
         e.preventDefault();
-        getLink(link);
-        setLink('');
-        setIsLoading(!isLoading);
+        if (checkLink(link) && link !== '') {
+            getLink(link);
+            setLink('');
+            setIsLoading(!isLoading);
+        }
+        else if(link === ''){
+            setemptyError(true)
+        }
+        else{
+            setError(true)
+        }
+
     }
+
+    // Link Validation Function
+    const checkLink = (string) => {
+        // Regex to check if string is a valid URL
+        return string.match(HTTP_URL_VALIDATOR_REGEX);
+    };
 
     // Function that calls the backend is valid
     const getLink = async () => {
@@ -142,88 +138,85 @@ const UserPage = () => {
     }
     return (
         < >
-            {user && (
-                < >
-                    <Nav />
-                    <div className=" mb-5  " style={mystyle}>
-                        <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
-                            <div className="mb-3 px-5 w-100 " >
-                                <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
-                                <input  type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => { submitHandler(e) }} />
-                            </div>
-                            {error && (
-                                <p className="text-danger " role="alert">
-                                    Yikes! That's not a valid url
-                                </p>
-                            )}
-                            {!isLoading && (
-                                <>
-                                    {!submitbutton && (
-                                        <button type="submit" className="btn btn-primary mb-1 px-5" disabled>Submit</button>
-                                    )}
-                                    {submitbutton && (
-                                        <button onClick={(e) => {
-                                            handleSubmit(e)
-                                            setTimeout(getUrls(), 5000);
-                                        }} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
-                                    )}
-                                </>
-
-                            )}
-                            {isLoading && (
-                                <button className="btn btn-primary" type="button" disabled>
-                                    <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                                    Loading...
-                                </button>
-                            )}
-                        </form>
-                        {short && (
-                            <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                                <h4 ><span type="text" className="badge  bg-dark px-5" >{url}{short}</span> </h4>
-                                <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`${url}${short}`)}>Copy</button>
-                            </div>
-                        )}
+        {user && (
+        < >
+            <Nav />
+            <div className=" mb-5  " style={mystyle}>
+                <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
+                    <div className="mb-3 px-5 w-100 " >
+                        <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
+                        <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => setLink(e.target.value)} />
                     </div>
-                    <div className="container" >
-                        <table className="table table-bordered text-center">
-                            <thead className="table-dark">
-                                <tr>
-                                    <th scope="col" className="w-25">Long Url</th>
-                                    <th scope="col" className="w-25">Shortened Url</th>
-                                    <th scope="col" className="w-25">Number of clicks</th>
-                                </tr>
-                            </thead>
-                            <tbody className="w-25">
-                                {(datas || []).map((data, id) => {
-                                    return <tr key={id}>
-                                        <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
-                                        <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
-                                        <td>{data.resolves}</td>
-                                    </tr>
-                                })}
-                                {(datas1 || []).map((data, id) => {
-                                    return <tr key={id}>
-                                        <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
-                                        <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
-                                        <td>{data.resolves}</td>
-                                    </tr>
-                                })}
-
-
-                            </tbody>
-                        </table>
-                        {button && (
-                            <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
-                        )}
+                    {error && (
+                        <p className="text-danger " role="alert">
+                            Yikes! That's not a valid url
+                        </p>
+                    )}
+                    {emptyError && (
+                        <p className="text-danger " role="alert">
+                            Url is required!!
+                        </p>
+                    )}
+                    {!isLoading && (
+                        <button onClick={(e) => {handleSubmit(e)
+                                               setTimeout(() => {
+                                                getUrls()
+                                               }, 5000); }} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
+                    )}
+                    {isLoading && (
+                        <button className="btn btn-primary" type="button" disabled>
+                            <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </button>
+                    )}
+                </form>
+                {short && (
+                    <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
+                        <h4 ><span type="text" className="badge  bg-dark px-5" >https://pbl.asia/{short}</span> </h4>
+                        <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`https://pbl.asia/${short}`) }>Copy</button>
                     </div>
-                    <Footer />
-                </>
-            )}
-            {!user && (
-                < >
-                    <ErrorPage />
-                </>
-            )}
+                )}
+            </div>
+            <div className="container" >
+                <table className="table table-bordered text-center">
+                    <thead className="table-dark">
+                        <tr>
+                            <th scope="col" className="w-25">Long Url</th>
+                            <th scope="col" className="w-25">Shortened Url</th>
+                            <th scope="col" className="w-25">Number of clicks</th>
+                        </tr>
+                    </thead>
+                    <tbody className="w-25">
+                        {(datas || []).map((data, id) => {
+                            return <tr key={id}>
+                                <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                <td>{data.resolves}</td>
+                            </tr>
+                        })}
+                        {(datas1 || []).map((data, id) => {
+                            return <tr key={id}>
+                                <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                <td>{data.resolves}</td>
+                            </tr>
+                        })}
+
+
+                    </tbody>
+                </table>
+                {button && (
+                    <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
+                )}
+            </div>
+            <Footer />
+        </>
+        )}
+        {!user && (
+        < >
+            <ErrorPage/>
+        </>
+        )}
         </>
     )
 }

@@ -6,8 +6,6 @@ import './userpage.css'
 import ErrorPage from '../Homepages/errorPage';
 
 
-//eslint-disable-next-line
-const HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
 const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
@@ -22,18 +20,16 @@ const UserPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
 
+
+
     const submitHandler = (e) => {
         const link = e.target.value;
         setLink(link);
-        if (link === '') {
-            setError(false)
-            setSubmitbutton(true)
-        }
-        else {
-            setError(true)
-            setSubmitbutton(false)
-        }
-        if (checkLink(link)) {
+    const checkLink = (string) => {
+        let HTTP_URL_VALIDATOR_REGEX = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+        return string.match(HTTP_URL_VALIDATOR_REGEX);
+    };
+        if (link === '' || checkLink(link)) {
             setError(false)
             setSubmitbutton(true)
         }
@@ -50,12 +46,6 @@ const UserPage = () => {
         setLink('');
         setIsLoading(!isLoading);
     }
-
-    // Link Validation Function
-    const checkLink = (string) => {
-        // Regex to check if string is a valid URL
-        return string.match(HTTP_URL_VALIDATOR_REGEX);
-    };
 
     // Function that calls the backend is valid
     const getLink = async () => {
@@ -75,6 +65,8 @@ const UserPage = () => {
                 setIsLoading(false);
                 if (response.status === 201) {
                     setShort(response.data.short_url);
+                    setLink('');
+                    setIsLoading(true);
                 }
             })
             .catch((error) => {
@@ -159,7 +151,7 @@ const UserPage = () => {
                         <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
                             <div className="mb-3 px-5 w-100 " >
                                 <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
-                                <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => { submitHandler(e) }} />
+                                <input  type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => { submitHandler(e) }} />
                             </div>
                             {error && (
                                 <p className="text-danger " role="alert">

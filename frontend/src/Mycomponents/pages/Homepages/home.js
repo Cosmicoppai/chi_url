@@ -8,12 +8,7 @@ import { Link } from 'react-router-dom'
 
 
 const Home = () => {
-    const mystyle={
-        marginTop:"-420px"
-    }
-    const style={
-        fontFamily:"fell, Georgia, Cambria, Times New Roman, Times, serif"
-    }
+
     return (
         <div>
              <Main/>  
@@ -24,8 +19,8 @@ const Home = () => {
                     </div>
                 </header>
 
-                <main className="px-3 d-flex  justify-content-center flex-column" style={mystyle}>
-                    <h1 className="text-center display-1" style={style}  >Welcome!</h1> 
+                <main className="px-3 d-flex  justify-content-center flex-column" id='mystyle' >
+                    <h1 className="text-center display-1"  id='style' >Welcome!</h1> 
                     <div className="col-lg-6 mx-auto">
                         <p className="lead mb-4 text-center h3">We are URL shortener service that provide you to create short links from very long URLs. Our short links have the size of seven characters only, which makes them easier to type, present, or tweet. </p>
                         <div className="d-grid gap-2 d-sm-flex justify-content-sm-center mt-2">

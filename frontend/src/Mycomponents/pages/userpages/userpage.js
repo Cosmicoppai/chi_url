@@ -21,8 +21,8 @@ const UserPage = () => {
     const [submitbutton, setSubmitbutton] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
-   
-    const submitHandler =(e)=>{
+
+    const submitHandler = (e) => {
         const link = e.target.value;
         setLink(link);
         if (link === '') {
@@ -30,34 +30,25 @@ const UserPage = () => {
             setSubmitbutton(true)
         }
         else {
-             setError(true)
-             setSubmitbutton(false)
+            setError(true)
+            setSubmitbutton(false)
         }
         if (checkLink(link)) {
             setError(false)
             setSubmitbutton(true)
         }
         else {
-             setError(true)
-             setSubmitbutton(false)
+            setError(true)
+            setSubmitbutton(false)
         }
     }
     let urlHost = 'www.' + window.location.hostname + '/';
     setUrl(urlHost)
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (checkLink(link)) {
-            setError(false)
-            setSubmitbutton(true)
-            getLink(link);
-            setLink('');
-            setIsLoading(!isLoading);
-        }
-        else {
-            setError(true)
-            setSubmitbutton(false)
-        }
-
+        getLink(link);
+        setLink('');
+        setIsLoading(!isLoading);
     }
 
     // Link Validation Function
@@ -168,7 +159,7 @@ const UserPage = () => {
                         <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
                             <div className="mb-3 px-5 w-100 " >
                                 <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
-                                <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => { submitHandler(e) }}/>
+                                <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => { submitHandler(e) }} />
                             </div>
                             {error && (
                                 <p className="text-danger " role="alert">

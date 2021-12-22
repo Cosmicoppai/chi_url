@@ -40,7 +40,7 @@ const Login = () => {
         }).then((resp) => {
             setLoading(false);
             localStorage.setItem("token", resp.data.access_token)
-            localStorage.setItem("veryEmail", resp.data.access_token)
+            localStorage.setItem("verifyMail", resp.data.access_token)
             localStorage.setItem("active", resp.data.is_active)
             if (resp.data.is_active === true) {
                 setRedirectlogin(true);

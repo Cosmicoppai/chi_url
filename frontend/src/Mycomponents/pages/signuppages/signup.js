@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
 import Nav from "../components/nav";
 import Footer from "../components/footer"
 
@@ -17,7 +16,7 @@ const Signup = () => {
     const [passwordReg, setpasswordReg] = useState('');
     const [confirmpassword, setconfirmpassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [redirect, setRedirect] = useState(false);
+    const [statusError, setstatusError] = useState(false);
     const [error, setError] = useState();
     const [passworderror, setPassworderror] = useState();
     const [passwordregexerror, setPasswordregexerror] = useState();
@@ -26,7 +25,7 @@ const Signup = () => {
     const [usernameerror, setUsernamerror] = useState();
     const [usernameregexerror, setUsernameregexrror] = useState();
     const [confirmpassworderror, setConfirmpassworderror] = useState();
-    const [alreadyerror, setAlreadyError] = useState();
+    const [alreadyerror, setAlreadyError] = useState('');
 
     let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false;
 
@@ -49,21 +48,22 @@ const Signup = () => {
             .then((resp) => {
                 if (resp.status === 201) {
                     setLoading(false);
-                    setRedirect(true);
+                    document.getElementById('alertBar').style.display='block'
+                    setusernameReg('')
+                    setemailReg('')
+                    setpasswordReg('')
+                    setconfirmpassword('')
                 }
 
             })
             .catch((error) => {
                 setLoading(false);
-                if (error.response.status === 400) {
-                    setAlreadyError(true)
+                if (error.response.status === 403) {
+                    setstatusError(true)
+                    setAlreadyError(error.response.detail)
                 }
             })
 
-    }
-
-    if (redirect) {
-        return <Navigate to="/login" />
     }
 
     const confirmPassWordHandler = (e) => {
@@ -151,6 +151,13 @@ const Signup = () => {
             <Nav />
             <div className="container bg-dark text-light border border-dark w-75 ">
                 <form className="container text-center  py-2 " style={mystyle}>
+                    <div class="alert alert-dark alert-dismissible fade show w-75 mx-auto" id='alertBar' style={{display:'none'}} role="alert">
+                        <h4 class="alert-heading">A verification link has been send to your email account</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <hr />
+                        <p class="mb-0">Please click on the link within 15 minutes to verify your account and login again to use our services!!!</p>
+                        <a type="button"  href="/login" className="btn btn-lg btn-light ms-2" style={{color:'black'}}>Go to login page</a>
+                    </div>
                     <h1 className="mt-1" style={{ fontFamily: 'Droid Sans' }}>Please Sign-up</h1>
                     <hr />
                     <label htmlFor="exampleInputEmail1" className="form-label mt-3"
@@ -239,9 +246,9 @@ const Signup = () => {
                             Password does not match!
                         </p>
                     )}
-                    {alreadyerror && (
+                    {statusError && (
                         <p className="text-danger h5" role="alert">
-                            Email Id already exist!!
+                            {alreadyerror}
                         </p>
                     )}
 

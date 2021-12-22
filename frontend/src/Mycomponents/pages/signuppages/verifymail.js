@@ -60,8 +60,8 @@ const Verifymail = () => {
                     onClick={emailVerification}>Send</button>
             </div>
             <div className="alert alert-dark bg-transparent d-flex justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2}>
-            <h4>Verify your email and login again to use our services!!!</h4>
-                <a type="button"  href="/login" className="btn btn-lg btn-light ms-2">Go to login page</a>
+            <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
+                <a type="button" style={{color:'black'}}  href="/login" className="btn btn-lg btn-light ms-2">Go to login page</a>
             </div> 
             <Footer />
         </>

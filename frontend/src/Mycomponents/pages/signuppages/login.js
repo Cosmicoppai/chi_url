@@ -51,7 +51,7 @@ const Login = () => {
         })
             .catch((error) => {
                 setLoading(false);
-                if (error.response.status === 400) {
+                if (error.response.status === 403) {
                     setAlreadyrror(true)
                 }
             })

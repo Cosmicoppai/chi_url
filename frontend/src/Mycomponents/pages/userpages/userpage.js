@@ -65,8 +65,6 @@ const UserPage = () => {
                 setIsLoading(false);
                 if (response.status === 201) {
                     setShort(response.data.short_url);
-                    setLink('');
-                    setIsLoading(true);
                 }
             })
             .catch((error) => {

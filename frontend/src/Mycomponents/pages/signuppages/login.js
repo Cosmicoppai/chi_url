@@ -12,18 +12,17 @@ const Login = () => {
         maxWidth: "500px"
     }
 
-    const [email, setEmail] = useState('');
+    const [userName, setusername] = useState('');
     const [passWord, setpassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [redirectlogin, setRedirectlogin] = useState(false);
     const [redirectverify, setRedirectverify] = useState(false);
-    const [emailError, setEmailerror] = useState();
-    const [emailregexError, setEmailregexerror] = useState();
-    const [alreadyerror, setAlreadyrror] = useState();
+    const [usernameerror, setUsernamerror] = useState();
     const [passworderror, setPassworderror] = useState();
+    const [alreadyerror, setAlreadyrror] = useState();
 
 
-    let button = emailError === false && passworderror === false;
+    let button = usernameerror === false && passworderror === false;
 
     const loginClick = async (e) => {
         e.preventDefault();
@@ -31,7 +30,7 @@ const Login = () => {
         await axios({
             url: "get_token",
             method: "POST",
-            data: 'grant_type=password&email=' + email + '&password=' + passWord,
+            data: 'grant_type=password&username=' + userName + '&password=' + passWord,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8;application/json',
@@ -76,29 +75,17 @@ const Login = () => {
         }
 
     }
-    const emailHandler = (e) => {
-        const Email = e.target.value;
-        setEmail(Email);
-        const passtest = (emailParameter) => {
-            let strongemail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return strongemail.test(String(emailParameter).toLowerCase());
-        };
-        if (Email === '') {
-            setEmailerror(true);
-            setEmailregexerror(false);
+    const usernameHandler = (e) => {
+        const Name = e.target.value;
+        setusername(Name);
+        if (Name === '') {
+            setUsernamerror(true);
         }
         else {
-            setEmailerror(false);
-        }
-        if (passtest(Email)) {
-            setEmailregexerror(false);
-        }
-        else {
-            setEmailregexerror(true);
+            setUsernamerror(false);
         }
 
     }
-
 
     return (
         <>
@@ -107,28 +94,24 @@ const Login = () => {
                 <form className="container text-center " style={mystyle}>
                     <h1 style={{ fontFamily: 'Droid Sans' }}>Login</h1>
                     <hr />
-                    <label htmlFor="exampleInputemailid mt-5" className="form-label mt-3"
-                    ><h5>Email Id</h5></label
+                    <label htmlFor="exampleInputUsername mt-5" className="form-label mt-3"
+                    ><h5>Username</h5></label
                     >
                     <input
                         type="text"
-                        className="form-control"
-                        id="exampleInputemailid"
-                        value={email}
-                        onChange={(e) => { emailHandler(e) }}
+                        className="form-control  "
+                        id="exampleInputUsername"
+                        value={userName}
+                        onChange={(e) => { usernameHandler(e) }}
                     />
-                    {emailError && (
+                    {usernameerror && (
                         <p className="text-danger " role="alert">
-                            Email is required!
-                        </p>
-                    )}
-                    {emailregexError && (
-                        <p className="text-danger " role="alert">
-                            You have entered an invalid e-mail.
+                            Username is required!
                         </p>
                     )}
                     <label htmlFor="exampleInputPassword1 " className="form-label mt-3"
-                    ><h5>Password</h5></label>
+                    ><h5>Password</h5></label
+                    >
                     <input
                         type="password"
                         className="form-control"
@@ -146,7 +129,6 @@ const Login = () => {
                             Invalid Password or Email!!!
                         </p>
                     )}
-
                     {!loading && (
 
                         <>

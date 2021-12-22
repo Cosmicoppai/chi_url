@@ -6,7 +6,6 @@ import Footer from "../components/footer"
 const Verifymail = () => {
     localStorage.removeItem('token');
     const emailVerification = async () => {
-        
         const token = localStorage.getItem("verifyMail");
         await axios.get('send-code', {
             headers: {
@@ -16,11 +15,9 @@ const Verifymail = () => {
         })
             .then(resp => {
                 // console.log(resp);
-            localStorage.clear()
-                if (resp.status === 200) {
-                    document.getElementById('verifyMail').style.display ='none'
-                    document.getElementById('alertBar').style.display ='block'
-                }
+                localStorage.clear()
+                document.getElementById('verifyMail').style.display = 'none'
+                document.getElementById('alertBar').style.display = 'flex'
             })
             .catch(error => {
                 // console.error(error);
@@ -31,10 +28,12 @@ const Verifymail = () => {
         marginTop: "150px",
         marginBottom: "350px",
     }
-     let mystyle2 = {
-        marginTop: "150px",
-        display : "none"
+    let mystyle2 = {
+        marginTop: "205px",
+        marginBottom: "350px",
+        display: 'none'
     }
+
 
     return (
         <>
@@ -51,17 +50,17 @@ const Verifymail = () => {
                 </div>
 
             </nav>
-            <div className="d-flex justify-content-center text-center flex-column" id='verifyMail' style={mystyle}>
+            <div className=" justify-content-center text-center flex-column" id='verifyMail' style={mystyle}>
                 <h2> Please Verify your email</h2>
                 <p>Please click on the send button to recieve the
                     verification link on your registered email id.</p>
                 <button type="button" className="btn btn-dark w-25 mx-auto mb-5"
                     onClick={emailVerification}>Send</button>
             </div>
-            <div className="alert alert-dark bg-transparent d-flex justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2} >
-            <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
-                <a type="button" style={{color:'black'}}  href="/login" className="btn btn-lg btn-light ms-2">Go to login page</a>
-            </div> 
+            <div className="alert alert-dark bg-transparent justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2} >
+                <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
+                <a type="button" style={{ color: 'black' }} href="/login" className="btn btn-lg btn-outline-light ms-2">Go to login page</a>
+            </div>
 
             <Footer />
         </>

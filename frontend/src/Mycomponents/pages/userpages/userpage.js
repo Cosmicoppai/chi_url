@@ -22,7 +22,7 @@ const UserPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
 
-    setUrl(window.location.origin + '/')
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (checkLink(link) && link !== '') {
@@ -66,6 +66,7 @@ const UserPage = () => {
                 // console.log(response.data.short_url); //check the resp
                 setIsLoading(false);
                 if (response.status === 201) {
+                    setUrl(window.location.origin + '/')
                     setShort(response.data.short_url);
                 }
             })

@@ -16,11 +16,13 @@ const UserPage = () => {
     const [datas1, setdatas1] = useState([]);
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
+    const [url, setUrl] = useState('');
     const [error, setError] = useState(false);
     const [emptyError, setemptyError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
 
+    setUrl(window.location.origin + '/')
     const handleSubmit = (e) => {
         e.preventDefault();
         if (checkLink(link) && link !== '') {
@@ -178,8 +180,8 @@ const UserPage = () => {
                         </form>
                         {short && (
                             <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                                <h4 ><span type="text" className="badge  bg-dark px-5" >https://pbl.asia/{short}</span> </h4>
-                                <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`https://pbl.asia/${short}`)}>Copy</button>
+                                <h4 ><span type="text" className="badge  bg-dark px-5" >{url}{short}</span> </h4>
+                                <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`${url}${short}`)}>Copy</button>
                             </div>
                         )}
                     </div>

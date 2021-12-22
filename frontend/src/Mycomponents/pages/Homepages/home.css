@@ -1,0 +1,11 @@
+#mystyle{
+    margin-top: -420px;
+}
+#style{
+    font-family: "fell, Georgia, Cambria, Times New Roman, Times, serif";
+}
+@media only screen and (max-width: 600px) {
+    #mystyle{
+        margin-top: -500px;
+    }
+  }

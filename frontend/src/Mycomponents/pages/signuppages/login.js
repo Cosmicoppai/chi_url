@@ -51,7 +51,7 @@ const Login = () => {
         })
             .catch((error) => {
                 setLoading(false);
-                if (error.response.status === 400) {
+                if (error.response.status === 403) {
                     setAlreadyrror(true)
                 }
             })
@@ -126,7 +126,7 @@ const Login = () => {
                     )}
                     {alreadyerror && (
                         <p className="text-danger h5" role="alert">
-                            Invalid Password or Email!!!
+                            Invalid Password or Username!!!
                         </p>
                     )}
                     {!loading && (

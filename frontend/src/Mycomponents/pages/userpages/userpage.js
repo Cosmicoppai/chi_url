@@ -14,11 +14,30 @@ const UserPage = () => {
     const [datas1, setdatas1] = useState([]);
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
-    const [url, setUrl] = useState('');
     const [error, setError] = useState(false);
-    const [submitbutton, setSubmitbutton] = useState(false);
+    const [emptyError, setemptyError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (checkLink(link) && link !== '') {
+            setemptyError(false)
+            setError(false)
+            getLink(link);
+            setLink('');
+            setIsLoading(!isLoading);
+        }
+        else if (link === '') {
+            setemptyError(true)
+            setError(false)
+        }
+        else {
+            setError(true)
+            setemptyError(false)
+        }
+
 
 
 
@@ -45,6 +64,7 @@ const UserPage = () => {
         getLink(link);
         setLink('');
         setIsLoading(!isLoading);
+
     }
 
     // Function that calls the backend is valid
@@ -149,26 +169,25 @@ const UserPage = () => {
                         <form className="d-flex justify-content-center align-items-center text-center flex-column w-100 " >
                             <div className="mb-3 px-5 w-100 " >
                                 <label htmlFor="exampleInputurl" className="form-label"><h1>Paste the URL to be shortened</h1></label>
-                                <input  type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => { submitHandler(e) }} />
+                                <input onSubmit={(e) => handleSubmit(e)} type="text" className="form-control " placeholder="Shorten your link" id="exampleInputurl" value={link} onChange={(e) => setLink(e.target.value)} />
                             </div>
                             {error && (
                                 <p className="text-danger " role="alert">
                                     Yikes! That's not a valid url
                                 </p>
                             )}
+                            {emptyError && (
+                                <p className="text-danger " role="alert">
+                                    Url is required!!
+                                </p>
+                            )}
                             {!isLoading && (
-                                <>
-                                    {!submitbutton && (
-                                        <button type="submit" className="btn btn-primary mb-1 px-5" disabled>Submit</button>
-                                    )}
-                                    {submitbutton && (
-                                        <button onClick={(e) => {
-                                            handleSubmit(e)
-                                            setTimeout(getUrls(), 5000);
-                                        }} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
-                                    )}
-                                </>
-
+                                <button onClick={(e) => {
+                                    handleSubmit(e)
+                                    setTimeout(() => {
+                                        getUrls()
+                                    }, 5000);
+                                }} type="submit" className="btn btn-primary mb-1 px-5">Submit</button>
                             )}
                             {isLoading && (
                                 <button className="btn btn-primary" type="button" disabled>
@@ -179,8 +198,8 @@ const UserPage = () => {
                         </form>
                         {short && (
                             <div className="d-flex justify-content-center align-items-center text-center flex-column w-100 ">
-                                <h4 ><span type="text" className="badge  bg-dark px-5" >{url}{short}</span> </h4>
-                                <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`${url}${short}`)}>Copy</button>
+                                <h4 ><span type="text" className="badge  bg-dark px-5" >https://pbl.asia/{short}</span> </h4>
+                                <button type="button" id='btnClick' className="btn btn-outline-dark" onClick={() => navigator.clipboard.writeText(`https://pbl.asia/${short}`)}>Copy</button>
                             </div>
                         )}
                     </div>

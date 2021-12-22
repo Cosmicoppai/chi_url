@@ -61,6 +61,7 @@ const Signup = () => {
                 if (error.response.status === 403) {
                     setstatusError(true)
                     setAlreadyError(error.detail)
+             
                 }
             })
 
@@ -152,6 +153,7 @@ const Signup = () => {
             <div className="container bg-dark text-light border border-dark w-75 ">
                 <form className="container text-center  py-2 " style={mystyle}>
                     <div class="alert alert-dark alert-dismissible fade show w-75 mx-auto" id='alertBar' style={{display:'none'}} role="alert">
+             
                         <h4 class="alert-heading">A verification link has been sent to your email address</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         <hr />

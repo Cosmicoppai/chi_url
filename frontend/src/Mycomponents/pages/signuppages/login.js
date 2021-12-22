@@ -126,7 +126,7 @@ const Login = () => {
                     )}
                     {alreadyerror && (
                         <p className="text-danger h5" role="alert">
-                            Invalid Password or Username!!!
+                            Invalid Username or Password!!!
                         </p>
                     )}
                     {!loading && (

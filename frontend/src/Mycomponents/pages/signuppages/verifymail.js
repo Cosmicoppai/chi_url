@@ -32,7 +32,6 @@ const Verifymail = () => {
         marginBottom: "350px",
     }
 
-
     return (
         <>
             <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark mb-4">
@@ -58,7 +57,8 @@ const Verifymail = () => {
             <div className="alert alert-dark bg-transparent d-flex justify-content-center text-center flex-column " id='alertBar' role="alert" >
             <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
                 <a type="button" style={{color:'black'}}  href="/login" className="btn btn-lg btn-light ms-2">Go to login page</a>
-            </div>
+            </div> 
+
             <Footer />
         </>
     )

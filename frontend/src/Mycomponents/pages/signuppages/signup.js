@@ -152,12 +152,11 @@ const Signup = () => {
             <Nav />
             <div className="container bg-dark text-light border border-dark w-75 ">
                 <form className="container text-center  py-2 " style={mystyle}>
-                    <div class="alert alert-dark alert-dismissible fade show w-75 mx-auto" id='alertBar' style={{display:'none'}} role="alert">
-             
-                        <h4 class="alert-heading">A verification link has been sent to your email address</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div className="alert alert-dark alert-dismissible fade show w-75 mx-auto" id='alertBar' style={{display:'none'}} role="alert">
+                        <h4 className="alert-heading">A verification link has been send to your email account</h4>
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         <hr />
-                        <p class="mb-0">Please click on the link within 15 minutes to verify your account and login again to use our services!!!</p>
+                        <p className="mb-0">Please click on the link within 15 minutes to verify your account and login again to use our services!!!</p>
                         <a type="button"  href="/login" className="btn btn-lg btn-light ms-2" style={{color:'black'}}>Go to login page</a>
                     </div>
                     <h1 className="mt-1" style={{ fontFamily: 'Droid Sans' }}>Please Sign-up</h1>

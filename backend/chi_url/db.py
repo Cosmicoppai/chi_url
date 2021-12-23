@@ -4,7 +4,6 @@ from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
 from cassandra.auth import PlainTextAuthProvider
-from cassandra.cluster import NoHostAvailable, NoConnectionsAvailable
 from config import Settings
 from functools import lru_cache
 
@@ -45,5 +44,5 @@ while True:
     try:
         session = _CLUSTER.connect(_keyspace)
         break
-    except NoHostAvailable or NoConnectionsAvailable or AuthenticationFailed or DriverException:
+    except DriverException or AuthenticationFailed:
         time.sleep(10)  # wait before reconnecting

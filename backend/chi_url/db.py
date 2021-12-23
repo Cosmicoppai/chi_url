@@ -1,4 +1,5 @@
-from cassandra import ConsistencyLevel
+import time
+from cassandra import ConsistencyLevel, DriverException, AuthenticationFailed
 from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
@@ -39,4 +40,9 @@ _CLUSTER = Cluster(contact_points=['node-1', 'node-2', 'node-3'],port=9042, ssl_
                    auth_provider=_AUTH_PROVIDER,
                    execution_profiles={EXEC_PROFILE_DEFAULT: profiles})
 
-session = _CLUSTER.connect(_keyspace)
+while True:
+    try:
+        session = _CLUSTER.connect(_keyspace)
+        break
+    except DriverException or AuthenticationFailed:
+        time.sleep(10)  # wait before reconnecting

@@ -12,8 +12,10 @@ from email.mime.multipart import MIMEMultipart
 from config import EmailSettings, OriginSettings
 from functools import lru_cache
 from session_token import User, get_current_user
-from errors import HTTP_404_NOT_FOUND
+from errors import HTTP_401_EXPIRED_JWT, HTTP_404_NOT_FOUND
 from starlette.responses import RedirectResponse
+from string import Template
+from email_template import EMAIL_TEMPLATE
 
 router = APIRouter()
 
@@ -62,18 +64,13 @@ def send_email(token:str, user:str, user_email:EmailStr):
         message['Subject'] = 'Verify Email'
         message['From'] = formataddr((str(Header('小 URL', 'utf-8')), _email_address))
         message['To'] = user_email
-
-        html = f"""
-        <h2>Thanks {user} for signing up</h2>
-        <p>Verify Your email</p>
-        <a href="{_host.host}/verify/?token={token}">Verify</a>
-        """
+        html = Template(EMAIL_TEMPLATE).substitute(name=user, url=f"{_host.host}/verify-email/?token={token}")
         message.attach(MIMEText(html, 'html'))
         server.send_message(message)
 
 
 
-@router.get('/verify/', tags=["users"])
+@router.get('/verify-email/', tags=["users"])
 async def verify_acc(token):
     """
     Payload Format
@@ -82,7 +79,7 @@ async def verify_acc(token):
     try:
         payload = jwt.decode(token, SECRET_KEY, ALGORITHM)
     except jwt.ExpiredSignatureError or jwt.JWTClaimsError:  # check if token expired or not
-        raise HTTP_404_NOT_FOUND
+        raise HTTP_401_EXPIRED_JWT
     _user: str = payload.get('user')  # get the username from the token
     verification_code_from_jwt: str = payload.get('verification_code')  # get the verification code
     _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user_name='{_user}'").one()[0]  # get the verification code from the database
@@ -96,6 +93,8 @@ async def verify_acc(token):
 
 @router.get("/send-code", status_code=status.HTTP_200_OK)  # To send verification code again
 def resend_verification_code(_user: User = Depends(get_current_user)):  # get the username from the jwt
-    _email = session.execute(f"SELECT email From user WHERE user_name='{_user.username}'").one()[0]  # get the email id from the db
-    send_verification_code(user=_user.username, user_email=_email)  # call the function to send email
-    return RedirectResponse(url=f"{_host.host}/user")
+    if _user.disable:
+        _email = session.execute(f"SELECT email From user WHERE user_name='{_user.username}'").one()[0]  # get the email id from the db
+        send_verification_code(user=_user.username, user_email=_email)  # call the function to send email
+        return RedirectResponse(url=f"{_host.host}/user")
+    return HTTP_404_NOT_FOUND

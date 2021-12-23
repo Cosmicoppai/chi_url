@@ -1,40 +1,50 @@
-import { React, useEffect } from 'react'
+import React from 'react'
 import Login from "./Mycomponents/pages/signuppages/login";
 import Signup from "./Mycomponents/pages/signuppages/signup"
 import Verifymail from "./Mycomponents/pages/signuppages/verifymail";
 import Home from "./Mycomponents/pages/Homepages/home";
 import UserPage from "./Mycomponents/pages/userpages/userpage";
-import Nav from "./Mycomponents/components/nav";
-import Footer from "./Mycomponents/components/footer"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Redirect } from 'react-router';
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
+
 
 function App() {
-  useEffect(() => {
-
-
-  })
+  function UserRoute({ children }) {
+    const auth = localStorage.getItem("token");
+    return auth   ? <Navigate to="/user" /> : children;
+  }
+  function ProtectedRoute({ children }) {
+    const auth = localStorage.getItem("token");
+    return auth  ? children : <Navigate to="/" />;
+  }
   return (
     <>
-
       <Router>
-        <Nav />
-        <Switch>
-          <Route path="/" exact  render={() => {
-            const user = localStorage.getItem("token");
-            return (
-              user ?
-                <Redirect to="/user" /> :
-                <Redirect to="/home" />
-            )
-          }} />
-          <Route path="/home" exact component={Home} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/user" exact component={UserPage} />
-          <Route path="/verify" exact component={Verifymail} />
-        </Switch>
-        <Footer />
+        <Routes>
+          <Route path="/" element={
+            <UserRoute>
+              <Home />
+            </UserRoute>} />
+          <Route path="/signup" element={
+            <UserRoute>
+              <Signup />
+            </UserRoute>
+            } />
+          <Route path="/login" element={
+             <UserRoute>
+              <Login />
+            </UserRoute>
+            } />
+          <Route path="/verify" element={
+            <ProtectedRoute>
+              <Verifymail />
+            </ProtectedRoute>} />
+          <Route path="/user" element={
+            <ProtectedRoute>
+              <UserPage />
+            </ProtectedRoute>} />
+          <Route path='*' element={<ErrorPage />} />
+        </Routes>
       </Router>
 
 

@@ -27,10 +27,10 @@
 > ### Load Balancer and Reverse Proxy
 > * Nginx
 > ### Cloud Platform
-> * AWS
+> * Linode
 > ### Container Tool
 > * Docker
-> ### Caching
+>  ### Caching Backend
 > * Redis
 
 

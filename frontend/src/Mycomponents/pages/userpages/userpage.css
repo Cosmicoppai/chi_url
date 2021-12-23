@@ -1,0 +1,10 @@
+.visitedLink:link, .visitedLink:visited {
+    color: #343434;
+    cursor: pointer;
+  }
+  
+  .visitedLink:link:active, .visitedLink:visited:active,.visitedLink:hover {
+    color: white;
+    text-decoration:none;
+    background-color:#343434
+  }

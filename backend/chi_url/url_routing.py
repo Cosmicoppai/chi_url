@@ -69,12 +69,10 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
         """
         for tri in range(10):
             hashed_url = encoding(hex_num)[tri:7+tri]
-            if session.execute(check_short_url_stmt, [hashed_url]).one():
-                print(session.execute(check_short_url_stmt, [hashed_url]).one())
+            if session.execute(check_short_url_stmt, [hashed_url]).one():  # check if url already exists o not
                 continue
             else:
                 try:
-                    # session.execute(check_short_url_stmt, [hashed_url])
                     # raw_url is pydantic model, separate the url part
                     session.execute(url_add_stmt, [hashed_url, raw_url.url, _user])
                     background_tasks.add_task(add_resolve_count, raw_url.url, hashed_url, _user)

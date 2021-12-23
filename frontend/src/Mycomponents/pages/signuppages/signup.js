@@ -60,7 +60,7 @@ const Signup = () => {
                 setLoading(false);
                 if (error.response.status === 403) {
                     setstatusError(true)
-                    setAlreadyError(error.detail)
+                    setAlreadyError(error.response.data.detail)
              
                 }
             })

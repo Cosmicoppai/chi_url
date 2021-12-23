@@ -4,6 +4,7 @@ import Nav from "../components/nav";
 import Footer from "../components/footer"
 import './userpage.css'
 import ErrorPage from '../Homepages/errorPage';
+import { Navigate } from 'react-router-dom';
 
 
 //eslint-disable-next-line
@@ -18,6 +19,7 @@ const UserPage = () => {
     const [short, setShort] = useState('');
     const [url, setUrl] = useState('');
     const [error, setError] = useState(false);
+    const [redirect, setRedirect] = useState(false);
     const [emptyError, setemptyError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
@@ -72,7 +74,10 @@ const UserPage = () => {
             })
             .catch((error) => {
                 setIsLoading(false);
-                // console.error(error); //check the error
+                if (error.response.status === 403) {
+                    localStorage.clear()
+                    setRedirect(true)
+                }
             })
 
     }
@@ -100,7 +105,10 @@ const UserPage = () => {
 
             })
             .catch((error) => {
-                // console.error(error); //check the error
+                if (error.response.status === 403) {
+                    localStorage.clear()
+                    setRedirect(true)
+                }
             })
     }
     useEffect(() => {
@@ -137,7 +145,9 @@ const UserPage = () => {
                 // console.error(error); //check the error
             })
     }
-
+    if (redirect) {
+        return <Navigate to="/login" />
+    }
     // stylesheet
     let mystyle = {
         backgroundColor: "#F8F9FA",

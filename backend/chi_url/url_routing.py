@@ -59,7 +59,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
     _user = _user.get('username', None)
 
     if _user:
-        _time = str(time.time_ns())  # get the current time
+        _time = str(time.time_ns())[::-1]  # get the current time
         hex_num = int((_user + _time).encode().hex(), 16)  # unique string consist of username+current_time
 
         """

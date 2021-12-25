@@ -12,7 +12,6 @@ import binascii
 from errors import HTTP_404_NOT_FOUND, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
 import redis
 
-
 logging.basicConfig(handlers=[logging.FileHandler(filename="../logs/url_hashing.log", encoding="utf-8")], level=logging.ERROR)
 
 url_add_stmt = session.prepare("Insert INTO url_map (short_url, created_on, url, user) VALUES (?, toTimestamp(now()), ?, ?)")
@@ -68,7 +67,7 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
         return server Error if all possible values are checked
         """
         for tri in range(10):
-            hashed_url = encoding(hex_num)[tri:7+tri]
+            hashed_url = encoding(hex_num)[tri:7 + tri]
             if session.execute(check_short_url_stmt, [hashed_url]).one():  # check if url already exists o not
                 continue
             else:
@@ -81,7 +80,6 @@ async def add_url(background_tasks: BackgroundTasks, raw_url: Url, _user: User =
                 except Exception as e:
                     with open("../logs/db_error.log", 'a') as f:
                         f.write(str(e))
-                    
 
         raise HTTP_500_INTERNAL_SERVER_ERROR
 
@@ -111,26 +109,33 @@ async def url_stats(paging_state=None, _user=Depends(get_current_active_user)):
 
 @router.get("/{hashed_url}", tags=["url"])
 async def get_url(background_tasks: BackgroundTasks,
-        hashed_url: str = Path(..., title="hashed url", description="Hashed url which is stored in the DB as key")):
+                  hashed_url: str = Path(..., title="hashed url", description="Hashed url which is stored in the DB as key")):
 
     try:
-        _url = cache.get(hashed_url)  # check the cache
-        if not _url:
-            _url = session.execute(url_get_stmt, [hashed_url])
-            background_tasks.add_task(add_cache, _url[0][0], _url[0][1])  # cache the result
+        _url = cache.lrange(hashed_url, 0, 1)  # check the cache
+        if _url:
+            url, user = _url[0].decode("utf-8"), _url[1].decode("utf-8")
+        else:
+            try:
+                _url = session.execute(url_get_stmt, [hashed_url])[0]
+                url, user = _url[0], _url[1]
+                background_tasks.add_task(add_cache, hashed_url, *[user, url])  # cache the result using tail push
+            except IndexError or TypeError:
+                raise HTTP_404_NOT_FOUND
     except redis.exceptions.ConnectionError:  # If Redis backend is not available hit the Database
-        _url = session.execute(url_get_stmt, [hashed_url])
+        try:
+            _url = session.execute(url_get_stmt, [hashed_url])
+            url, user = _url[0], _url[1]
+        except IndexError or TypeError:
+            raise HTTP_404_NOT_FOUND
 
-    try:
-        background_tasks.add_task(add_resolve_count, _url[0][0], hashed_url, _url[0][1])  # update the resolveCount in the background
-        return RedirectResponse(url=f"{_url[0][0]}")  # Redirect to the mapped url from the DB ♥
-    except IndexError or TypeError:
-        raise HTTP_404_NOT_FOUND
+    background_tasks.add_task(add_resolve_count, url, hashed_url, user)  # update the resolveCount in the background
+    return RedirectResponse(url=f"{url}")  # Redirect to the mapped url from the DB ♥
 
 
-def add_resolve_count(url:str, short_url:str, user: str):
+def add_resolve_count(url: str, short_url: str, user: str):
     session.execute(f"UPDATE resolve_count SET resolves=resolves+1 WHERE user='{user}' AND url='{url}' AND short_url='{short_url}'")
 
 
-def add_cache(url:str, short_url:str):
-    cache.set(name=short_url, value=url)
+def add_cache(short_url: str, *values):
+    cache.lpush(short_url, *values)

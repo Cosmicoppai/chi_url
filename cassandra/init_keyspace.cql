@@ -67,5 +67,4 @@ CREATE INDEX IF NOT EXISTS email ON chi_url.user (email);
 
 CREATE ROLE IF NOT EXISTS cosmicoppai with superuser = true AND LOGIN = true and PASSWORD = 'dry-flower@04';
 
-ALTER KEYSPACE "system_auth"
-WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 1};
+ALTER KEYSPACE "system_auth" WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 1};

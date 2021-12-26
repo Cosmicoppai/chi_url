@@ -197,34 +197,36 @@ const UserPage = () => {
                         )}
                     </div>
                     <div className="container" >
-                        <table className="table table-bordered text-center">
-                            <tbody className="w-25">
-                                <thead className="table-dark" >
-                                    <tr>
-                                        <th scope="col" className="w-25">Long Url</th>
-                                        <th scope="col" className="w-25">Shortened Url</th>
-                                        <th scope="col" className="w-25">Number of clicks</th>
-                                    </tr>
-                                </thead>
-                                {(datas || []).map((data, id) => {
-                                    return <tr key={id}>
-                                        <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
-                                        <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
-                                        <td>{data.resolves}</td>
-                                    </tr>
+                        {datas && (
+                            <table className="table table-bordered text-center">
+                                    <thead className="table-dark" >
+                                        <tr>
+                                            <th scope="col" className="w-25">Long Url</th>
+                                            <th scope="col" className="w-25">Shortened Url</th>
+                                            <th scope="col" className="w-25">Number of clicks</th>
+                                        </tr>
+                                    </thead>
+                                <tbody className="w-25">
+                                    {(datas || []).map((data, id) => {
+                                        return <tr key={id}>
+                                            <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                            <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                            <td>{data.resolves}</td>
+                                        </tr>
 
-                                })}
-                                {(datas1 || []).map((data, id) => {
-                                    return <tr key={id}>
-                                        <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
-                                        <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
-                                        <td>{data.resolves}</td>
-                                    </tr>
-                                })}
+                                    })}
+                                    {(datas1 || []).map((data, id) => {
+                                        return <tr key={id}>
+                                            <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                            <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                            <td>{data.resolves}</td>
+                                        </tr>
+                                    })}
 
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        )}
                         {button && (
                             <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
                         )}

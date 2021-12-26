@@ -14,6 +14,7 @@ const UserPage = () => {
     const [pagingStatus, setPagingstatus] = useState('');
     const [datas, setdatas] = useState([]);
     const [button, setbutton] = useState(false);
+    const [dataValue, setdataValue] = useState(false);
     const [datas1, setdatas1] = useState([]);
     const [link, setLink] = useState('');
     const [short, setShort] = useState('');
@@ -92,6 +93,13 @@ const UserPage = () => {
         })
             .then((resp) => {
                 // console.log(resp); //check the resp
+                let data = resp.data.stats
+                if (data.length === 0){
+                    setdataValue(false)
+                }
+                else{
+                    setdataValue(true)
+                }
                 if (resp.data.paging_state === null) {
                     setPagingstatus(resp.data.paging_state)
                     setdatas(resp.data.stats)
@@ -197,7 +205,7 @@ const UserPage = () => {
                         )}
                     </div>
                     <div className="container" >
-                        {datas && (
+                        {dataValue && (
                             <table className="table table-bordered text-center">
                                     <thead className="table-dark" >
                                         <tr>

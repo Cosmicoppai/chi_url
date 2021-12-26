@@ -9,6 +9,9 @@
     background-color:#343434
   }
 
+.tableMargin{
+    margin-bottom: 200px;
+}	
 .fix-width {
 	width: fit-content;
 	overflow-y: hidden;

@@ -204,7 +204,7 @@ const UserPage = () => {
                             </div>
                         )}
                     </div>
-                    <div className="container" id=”lifestyle”>
+                    <div className="container" id=”scrollTable”>
                         {dataValue && (
                             <table className="table table-bordered text-center">
                                     <thead className="table-dark" >

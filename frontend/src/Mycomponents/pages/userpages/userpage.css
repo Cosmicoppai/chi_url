@@ -8,3 +8,7 @@
     text-decoration:none;
     background-color:#343434
   }
+#scrollTable{
+    max-height: 300px;
+    overflow-y: scroll;
+}

@@ -21,6 +21,7 @@ const UserPage = () => {
     const [url, setUrl] = useState('');
     const [error, setError] = useState(false);
     const [redirect, setRedirect] = useState(false);
+    const [mobileTable, setmobileTablet] = useState(false);
     const [emptyError, setemptyError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const user = localStorage.getItem("token");
@@ -93,11 +94,17 @@ const UserPage = () => {
         })
             .then((resp) => {
                 // console.log(resp); //check the resp
+                if (window.innerWidth < 600) {
+                    setmobileTablet(true)
+                }
+                else {
+                    setmobileTablet(false)
+                }
                 let data = resp.data.stats
-                if (data.length === 0){
+                if (data.length === 0) {
                     setdataValue(false)
                 }
-                else{
+                else {
                     setdataValue(true)
                 }
                 if (resp.data.paging_state === null) {
@@ -204,10 +211,51 @@ const UserPage = () => {
                             </div>
                         )}
                     </div>
-                    <div className="container">
-                    <table className="table table-bordered text-center">
-                        {dataValue && (
-                            
+                    {mobileTable && (
+                    <div className="container mb-5">
+                        <div class="center-block fix-width scroll-inner tableMargin">
+                            <table class="table1 table-striped text-center">
+                                {dataValue && (
+                                    <>
+                                        <thead className="table-dark" >
+                                            <tr>
+                                                <th scope="col" className="w-25">Long Url</th>
+                                                <th scope="col" className="w-25">Shortened Url</th>
+                                                <th scope="col" className="w-25">Number of clicks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="w-25">
+                                            {(datas || []).map((data, id) => {
+                                                return <tr key={id}>
+                                                    <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                                    <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                                    <td>{data.resolves}</td>
+                                                </tr>
+
+                                            })}
+                                            {(datas1 || []).map((data, id) => {
+                                                return <tr key={id}>
+                                                    <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                                    <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                                    <td>{data.resolves}</td>
+                                                </tr>
+                                            })}
+
+
+                                        </tbody>
+                                    </>
+
+                                )}
+                            </table>
+                        </div>
+                    </div>
+                    )}
+                    {!mobileTable &&(
+                    <div className="container mb-5">
+                        <table className="table table-bordered text-center tableMargin">
+                            {dataValue && (
+                                <>
+
                                     <thead className="table-dark" >
                                         <tr>
                                             <th scope="col" className="w-25">Long Url</th>
@@ -215,32 +263,34 @@ const UserPage = () => {
                                             <th scope="col" className="w-25">Number of clicks</th>
                                         </tr>
                                     </thead>
-                                <tbody className="w-25">
-                                    {(datas || []).map((data, id) => {
-                                        return <tr key={id}>
-                                            <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
-                                            <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
-                                            <td>{data.resolves}</td>
-                                        </tr>
+                                    <tbody className="w-25">
+                                        {(datas || []).map((data, id) => {
+                                            return <tr key={id}>
+                                                <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                                <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                                <td>{data.resolves}</td>
+                                            </tr>
 
-                                    })}
-                                    {(datas1 || []).map((data, id) => {
-                                        return <tr key={id}>
-                                            <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
-                                            <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
-                                            <td>{data.resolves}</td>
-                                        </tr>
-                                    })}
+                                        })}
+                                        {(datas1 || []).map((data, id) => {
+                                            return <tr key={id}>
+                                                <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
+                                                <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
+                                                <td>{data.resolves}</td>
+                                            </tr>
+                                        })}
 
 
-                                </tbody>
-                            
-                        )}
+                                    </tbody>
+                                </>
+
+                            )}
                         </table>
                         {button && (
                             <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
                         )}
                     </div>
+                    )}
                     <Footer />
                 </>
             )}

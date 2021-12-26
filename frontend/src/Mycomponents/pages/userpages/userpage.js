@@ -204,9 +204,10 @@ const UserPage = () => {
                             </div>
                         )}
                     </div>
-                    <div className="container" id=”scrollTable”>
+                    <div className="container">
+                    <table className="table table-bordered text-center">
                         {dataValue && (
-                            <table className="table table-bordered text-center">
+                            
                                     <thead className="table-dark" >
                                         <tr>
                                             <th scope="col" className="w-25">Long Url</th>
@@ -233,8 +234,9 @@ const UserPage = () => {
 
 
                                 </tbody>
-                            </table>
+                            
                         )}
+                        </table>
                         {button && (
                             <button type="button" className="btn btn-dark mt-2 d-grid mx-auto btn-lg mb-3" onClick={moreRequest}>More</button>
                         )}

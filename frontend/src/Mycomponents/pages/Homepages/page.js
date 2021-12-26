@@ -41,7 +41,7 @@ export const Page = () => {
                         </div>
                         <div>
                             <h2>Compatible</h2>
-                            <p>We provide data of the  amount of clicks that your shortened url has received</p>
+                            <p>Compatible with all devices such as desktop, tablets and phones</p>
                         </div>
                     </div>
                     <div className="col d-flex align-items-start pt-3 ">

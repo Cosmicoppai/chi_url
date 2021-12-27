@@ -214,10 +214,10 @@ const UserPage = () => {
                     {mobileTable && (
                     <div className="container mb-5">
                         <div class="center-block fix-width scroll-inner tableMargin">
-                            <table class="table1 table-striped text-center">
+                            <table class="table1 table-striped text-center table-bordered">
                                 {dataValue && (
                                     <>
-                                        <thead className="table-dark" >
+                                        <thead className="bg-dark text-light" >
                                             <tr>
                                                 <th scope="col" className="w-25">Long Url</th>
                                                 <th scope="col" className="w-25">Shortened Url</th>

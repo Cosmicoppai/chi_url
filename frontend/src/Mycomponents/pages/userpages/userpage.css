@@ -10,11 +10,11 @@
 }
 
 .tableMargin {
-    margin-bottom: 200px;
+    margin-bottom: 100px;
 }
 
 .fix-width {
-    width: fit-content;
+    width: 100%;
     overflow-y: hidden;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;

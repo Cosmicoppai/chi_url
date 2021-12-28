@@ -109,7 +109,8 @@ const Signup = () => {
     }
     const usernameHandler = (e) => {
         const Name = e.target.value;
-        setusernameReg(Name);
+        const NameValue = Name.toLowerCase()
+        setusernameReg(NameValue);
         if (Name === '') {
             setUsernamerror(true);
             setUsernameregexrror(false);
@@ -127,7 +128,8 @@ const Signup = () => {
     }
     const emailHandler = (e) => {
         const Email = e.target.value;
-        setemailReg(Email);
+        const EmailValue = Email.toLowerCase()
+        setemailReg(EmailValue);
         const passtest = (emailParameter) => {
             let strongemail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return strongemail.test(String(emailParameter).toLowerCase());

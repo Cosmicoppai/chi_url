@@ -42,12 +42,17 @@ const Login = () => {
             localStorage.setItem("token", resp.data.access_token)
             localStorage.setItem("verifyMail", resp.data.access_token)
             localStorage.setItem("active", resp.data.is_active)
-            if (resp.data.is_active === true) {
-                setRedirectlogin(true);
+            function redirect(){
+                if (resp.data.is_active === true) {
+                    setRedirectlogin(true);
+                }
+                else {
+                    setRedirectverify(true);
+                }
             }
-            else {
-                setRedirectverify(true);
-            }
+            setTimeout(() => {
+                redirect()
+            }, 3000);
         })
             .catch((error) => {
                 setLoading(false);
@@ -77,7 +82,8 @@ const Login = () => {
     }
     const usernameHandler = (e) => {
         const Name = e.target.value;
-        setusername(Name);
+        const NameValue = Name.toLowerCase()
+        setusername(NameValue);
         if (Name === '') {
             setUsernamerror(true);
         }

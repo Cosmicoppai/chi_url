@@ -9,6 +9,14 @@ import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 
 
 function App() {
+  function VerifyRoute({ children }) {
+    const active = localStorage.getItem("active");
+    let activeStatus
+    if(active === null){
+      activeStatus = false;
+    }
+    return activeStatus   ? children : <Navigate to="/" />;
+  }
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");
     return auth   ? <Navigate to="/user" /> : children;
@@ -36,9 +44,9 @@ function App() {
             </UserRoute>
             } />
           <Route path="/verify" element={
-            <ProtectedRoute>
+            <VerifyRoute>
               <Verifymail />
-            </ProtectedRoute>} />
+            </VerifyRoute>} />
           <Route path="/user" element={
             <ProtectedRoute>
               <UserPage />

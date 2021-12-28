@@ -30,6 +30,7 @@ class EmailSettings(BaseSettings):
 class OriginSettings(BaseSettings):
     origin: str
     origin2: str
+    origin3: str
     host: str
 
     class Config:

@@ -117,7 +117,7 @@ const Signup = () => {
         else {
             setUsernamerror(false);
         }
-        if (Name.length < 11 && Name.length > 2) {
+        if (Name.length < 12 && Name.length > 2) {
             setUsernameregexrror(false);
         }
         else {

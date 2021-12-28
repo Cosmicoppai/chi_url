@@ -42,7 +42,8 @@ _CLUSTER = Cluster(contact_points=['node-1',],port=9042, ssl_context=None,
 
 while True:
     try:
+        time.sleep(30)  # wait before connecting
         session = _CLUSTER.connect(_keyspace)
         break
     except DriverException or AuthenticationFailed or NoHostAvailable:
-        time.sleep(10)  # wait before reconnecting
+        pass

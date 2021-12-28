@@ -13,9 +13,13 @@ function App() {
     const active = localStorage.getItem("active");
     let activeStatus
     if(active === null){
-      activeStatus = false;
+      activeStatus = true;
     }
-    return activeStatus   ? children : <Navigate to="/" />;
+    else{
+      activeStatus = active;
+    }
+    
+    return activeStatus   ? <Navigate to="/" /> : children;
   }
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");

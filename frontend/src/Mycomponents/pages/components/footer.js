@@ -8,7 +8,7 @@ const Footer = () => {
     return (
         <div>
             {user && (
-                <footer className="footer mt-auto py-3 bg-light text-dark fixed-bottom">
+                <footer className="footer py-1 bg-light text-dark fixed-bottom mt-5">
                     <div className="container text-center ">
                         Copyright &copy;小URL
                     </div>

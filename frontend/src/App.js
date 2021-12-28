@@ -15,6 +15,10 @@ function App() {
     if(active === null){
       activeStatus = false;
     }
+    else{
+      activeStatus = active;
+    }
+    
     return activeStatus   ? children : <Navigate to="/" />;
   }
   function UserRoute({ children }) {

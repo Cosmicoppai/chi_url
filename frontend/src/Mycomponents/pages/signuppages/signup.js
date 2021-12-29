@@ -12,7 +12,9 @@ const Signup = () => {
         maxWidth: "500px"
     }
     const [emailReg, setemailReg] = useState('');
+    const [email, setemail] = useState('');
     const [usernameReg, setusernameReg] = useState('');
+    const [username, setusername] = useState('');
     const [passwordReg, setpasswordReg] = useState('');
     const [confirmpassword, setconfirmpassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -27,15 +29,15 @@ const Signup = () => {
     const [confirmpassworderror, setConfirmpassworderror] = useState();
     const [alreadyerror, setAlreadyError] = useState('');
 
-    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false;
+    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false && usernameregexerror ===false && emailregexerror === false && passwordregexerror ===false && error===false;
 
     const signupClick = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         await axios.post("add_user", {
-            username: usernameReg,
-            email: emailReg,
+            username: username,
+            email: email,
             password: passwordReg
         },
             {
@@ -50,7 +52,9 @@ const Signup = () => {
                     setLoading(false);
                     document.getElementById('alertBar').style.display='block'
                     setusernameReg('')
+                    setusername('')
                     setemailReg('')
+                    setemail('')
                     setpasswordReg('')
                     setconfirmpassword('')
                 }
@@ -110,6 +114,8 @@ const Signup = () => {
     const usernameHandler = (e) => {
         const Name = e.target.value;
         setusernameReg(Name);
+        const NameValue = Name.toLowerCase()
+        setusername(NameValue)
         if (Name === '') {
             setUsernamerror(true);
             setUsernameregexrror(false);
@@ -127,7 +133,9 @@ const Signup = () => {
     }
     const emailHandler = (e) => {
         const Email = e.target.value;
-        setemailReg(Email);
+        setemailReg(Email)
+        const EmailValue = Email.toLowerCase()
+        setemail(EmailValue);
         const passtest = (emailParameter) => {
             let strongemail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return strongemail.test(String(emailParameter).toLowerCase());

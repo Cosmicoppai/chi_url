@@ -13,6 +13,7 @@ const Login = () => {
     }
 
     const [userName, setusername] = useState('');
+    const [userNamereg, setusernamereg] = useState('');
     const [passWord, setpassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [redirectlogin, setRedirectlogin] = useState(false);
@@ -30,7 +31,7 @@ const Login = () => {
         await axios({
             url: "get_token",
             method: "POST",
-            data: 'grant_type=password&username=' + userName + '&password=' + passWord,
+            data: 'grant_type=password&username=' + userNamereg + '&password=' + passWord,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8;application/json',
@@ -42,12 +43,17 @@ const Login = () => {
             localStorage.setItem("token", resp.data.access_token)
             localStorage.setItem("verifyMail", resp.data.access_token)
             localStorage.setItem("active", resp.data.is_active)
-            if (resp.data.is_active === true) {
-                setRedirectlogin(true);
+            function redirect(){
+                if (resp.data.is_active === true) {
+                    setRedirectlogin(true);
+                }
+                else {
+                    setRedirectverify(true);
+                }
             }
-            else {
-                setRedirectverify(true);
-            }
+            setTimeout(() => {
+                redirect()
+            }, 3000);
         })
             .catch((error) => {
                 setLoading(false);
@@ -78,6 +84,8 @@ const Login = () => {
     const usernameHandler = (e) => {
         const Name = e.target.value;
         setusername(Name);
+        const NameValue = Name.toLowerCase()
+        setusernamereg(NameValue)
         if (Name === '') {
             setUsernamerror(true);
         }

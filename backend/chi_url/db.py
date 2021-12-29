@@ -1,6 +1,6 @@
 import time
-from cassandra import ConsistencyLevel, DriverException, AuthenticationFailed
-from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT, NoHostAvailable
+from cassandra import ConsistencyLevel
+from cassandra.cluster import Cluster, ExecutionProfile, EXEC_PROFILE_DEFAULT
 from cassandra.policies import DCAwareRoundRobinPolicy
 import logging
 from cassandra.auth import PlainTextAuthProvider

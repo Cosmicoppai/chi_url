@@ -5,6 +5,7 @@ import Footer from "../components/footer"
 
 const Verifymail = () => {
     const emailVerification = async () => {
+        localStorage.removeItem('token');
         const token = localStorage.getItem("verifyMail");
         await axios.get('send-code', {
             headers: {
@@ -13,9 +14,7 @@ const Verifymail = () => {
             }
         })
             .then(resp => {
-                // console.log(resp);
-                localStorage.removeItem('token');
-                localStorage.removeItem('verifyMail');
+                localStorage.clear();
                 document.getElementById('verifyMail').style.display = 'none'
                 document.getElementById('alertBar').style.display = 'flex'
             })

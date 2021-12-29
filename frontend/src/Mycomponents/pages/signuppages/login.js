@@ -98,7 +98,7 @@ const Login = () => {
     return (
         <>
             <Nav />
-            <div className="container bg-dark text-light border border-dark w-xl-50 w-lg-50 w-md-50 w-sm-70 w-100 ">
+            <div className="container bg-dark text-light border border-dark w-xl-50 w-lg-50 w-md-50 w-sm-70 w-75 ">
                 <form className="container text-center " style={mystyle}>
                     <h1 style={{ fontFamily: 'Droid Sans' }}>Login</h1>
                     <hr />

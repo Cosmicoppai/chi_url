@@ -44,5 +44,5 @@ while True:
     try:
         session = _CLUSTER.connect(_keyspace)
         break
-    except DriverException or AuthenticationFailed or NoHostAvailable:
+    except :
         time.sleep(10)  # wait before reconnecting

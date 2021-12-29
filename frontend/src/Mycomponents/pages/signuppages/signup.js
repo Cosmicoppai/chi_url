@@ -29,7 +29,7 @@ const Signup = () => {
     const [confirmpassworderror, setConfirmpassworderror] = useState();
     const [alreadyerror, setAlreadyError] = useState('');
 
-    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false;
+    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false && usernameregexerror ===true && emailregexerror === true && passwordregexerror ===true && error===false;
 
     const signupClick = async (e) => {
         e.preventDefault();
@@ -123,7 +123,7 @@ const Signup = () => {
         else {
             setUsernamerror(false);
         }
-        if (Name.length < 11 && Name.length > 2) {
+        if (Name.length < 12 && Name.length > 2) {
             setUsernameregexrror(false);
         }
         else {

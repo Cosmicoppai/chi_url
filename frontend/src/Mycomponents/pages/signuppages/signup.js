@@ -29,7 +29,7 @@ const Signup = () => {
     const [confirmpassworderror, setConfirmpassworderror] = useState();
     const [alreadyerror, setAlreadyError] = useState('');
 
-    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false && usernameregexerror ===true && emailregexerror === true && passwordregexerror ===true && error===false;
+    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false && usernameregexerror ===false && emailregexerror === false && passwordregexerror ===false && error===false;
 
     const signupClick = async (e) => {
         e.preventDefault();

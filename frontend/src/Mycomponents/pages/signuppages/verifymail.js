@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 import Footer from "../components/footer"
 
 const Verifymail = () => {
-    localStorage.removeItem('token');
     const emailVerification = async () => {
-        const token = localStorage.getItem("verifyMail");
+        const token = localStorage.getItem("token");
         await axios.get('send-code', {
             headers: {
                 'Authorization': ` Bearer ${token}`,

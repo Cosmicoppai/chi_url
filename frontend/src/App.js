@@ -11,15 +11,7 @@ import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 function App() {
   function VerifyRoute({ children }) {
     const active = localStorage.getItem("active");
-    let activeStatus
-    if(active === null){
-      activeStatus = true;
-    }
-    else{
-      activeStatus = active;
-    }
-    
-    return activeStatus   ? <Navigate to="/" /> : children;
+    return active  ? <Navigate to="/" /> : children;
   }
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");

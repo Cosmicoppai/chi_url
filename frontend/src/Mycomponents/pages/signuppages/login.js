@@ -41,19 +41,18 @@ const Login = () => {
         }).then((resp) => {
             setLoading(false);
             localStorage.setItem("token", resp.data.access_token)
-            localStorage.setItem("verifyMail", resp.data.access_token)
             localStorage.setItem("active", resp.data.is_active)
             function redirect(){
                 if (resp.data.is_active === true) {
                     setRedirectlogin(true);
                 }
-                else {
+                else if (resp.data.is_active === false) {
                     setRedirectverify(true);
                 }
             }
             setTimeout(() => {
                 redirect()
-            }, 3000);
+            }, 1000); 
         })
             .catch((error) => {
                 setLoading(false);
@@ -98,7 +97,7 @@ const Login = () => {
     return (
         <>
             <Nav />
-            <div className="container bg-dark text-light border border-dark w-50">
+            <div className="container bg-dark text-light border border-dark w-xl-50 w-lg-50 w-md-50 w-sm-70 w-75">
                 <form className="container text-center " style={mystyle}>
                     <h1 style={{ fontFamily: 'Droid Sans' }}>Login</h1>
                     <hr />

@@ -161,7 +161,7 @@ const Signup = () => {
             <div className="container bg-dark text-light border border-dark w-75 ">
                 <form className="container text-center  py-2 " style={mystyle}>
                     <div className="alert alert-dark alert-dismissible fade show w-75 mx-auto" id='alertBar' style={{display:'none'}} role="alert">
-                        <h4 className="alert-heading">A verification link has been send to your email account</h4>
+                        <h4 className="alert-heading">A verification link has been sent to your email account</h4>
                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         <hr />
                         <p className="mb-0">Please click on the link within 15 minutes to verify your account and login again to use our services!!!</p>
@@ -220,6 +220,7 @@ const Signup = () => {
                         type="password"
                         className="form-control"
                         id="exampleInputPassword"
+                        autocomplete="new-password"
                         value={passwordReg}
                         onChange={(e) => { PassWordHandler(e) }}
                     />
@@ -242,6 +243,7 @@ const Signup = () => {
                         type="password"
                         className="form-control"
                         id="exampleInputPassword1"
+                        autocomplete="new-password"
                         value={confirmpassword}
                         onChange={(e) => { confirmPassWordHandler(e) }}
                     />

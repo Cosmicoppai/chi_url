@@ -15,8 +15,7 @@ function App() {
   }
   function UserRoute({ children }) {
     const auth = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    return auth && user  ? <Navigate to="/user" /> : children;
+    return auth  ? <Navigate to="/user" /> : children;
   }
   function ProtectedRoute({ children }) {
     const auth = localStorage.getItem("token");

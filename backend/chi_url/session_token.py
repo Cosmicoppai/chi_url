@@ -31,10 +31,6 @@ class Token(BaseModel):
     token_type: str
 
 
-class TokenData(BaseModel):
-    username: Optional[str] = None
-
-
 class User(BaseModel):
     username: str
     disable: Optional[bool] = False
@@ -94,10 +90,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         username: str = payload.get("sub")
         if username is None:
             raise HTTP_401_UNAUTHORIZED
-        token_data = TokenData(username=username)
     except JWTError:
         raise HTTP_401_UNAUTHORIZED
-    _user = get_user(username=token_data.username)
+    _user = get_user(username=username)
     if _user is None:
         raise HTTP_401_UNAUTHORIZED
     return _user

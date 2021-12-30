@@ -5,8 +5,7 @@ import Footer from "../components/footer"
 
 const Verifymail = () => {
     const emailVerification = async () => {
-        localStorage.removeItem('token');
-        const token = localStorage.getItem("verifyMail");
+        const token = localStorage.getItem("token");
         await axios.get('send-code', {
             headers: {
                 'Authorization': ` Bearer ${token}`,

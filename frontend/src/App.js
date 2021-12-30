@@ -9,44 +9,49 @@ import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 
 
 function App() {
-  function VerifyRoute({ children }) {
+  function NotActiveRoute({ children }) {
+    const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
-    return active  ? children : <Navigate to="/" />;
+    console.log("NotActive", active)
+    return auth && (active == 'false')? children : <Navigate to="/" />;
   }
-  function UserRoute({ children }) {
+  function ActiveRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth  ? <Navigate to="/user" /> : children;
+    const active = localStorage.getItem("active");
+    console.log(active)
+	  console.log("userPage", auth && active)
+    return auth && (active == 'true') ? children : <Navigate to="/verify" />;
   }
-  function ProtectedRoute({ children }) {
+  function HomeRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth  ? children : <Navigate to="/" />;
+    return !auth ? children : <Navigate to="/user" />
   }
   return (
     <>
       <Router>
         <Routes>
           <Route path="/" element={
-            <UserRoute>
+            <HomeRoute>
               <Home />
-            </UserRoute>} />
+            </HomeRoute>} />
           <Route path="/signup" element={
-            <UserRoute>
+            <HomeRoute>
               <Signup />
-            </UserRoute>
+            </HomeRoute>
             } />
           <Route path="/login" element={
-             <UserRoute>
+             <HomeRoute>
               <Login />
-            </UserRoute>
+            </HomeRoute>
             } />
           <Route path="/verify" element={
-            <VerifyRoute>
+            <NotActiveRoute>
               <Verifymail />
-            </VerifyRoute>} />
+            </NotActiveRoute>} />
           <Route path="/user" element={
-            <ProtectedRoute>
+            <ActiveRoute>
               <UserPage />
-            </ProtectedRoute>} />
+            </ActiveRoute>} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
       </Router>

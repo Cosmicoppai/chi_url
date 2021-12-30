@@ -220,6 +220,7 @@ const Signup = () => {
                         type="password"
                         className="form-control"
                         id="exampleInputPassword"
+                        autocomplete="new-password"
                         value={passwordReg}
                         onChange={(e) => { PassWordHandler(e) }}
                     />
@@ -242,6 +243,7 @@ const Signup = () => {
                         type="password"
                         className="form-control"
                         id="exampleInputPassword1"
+                        autocomplete="new-password"
                         value={confirmpassword}
                         onChange={(e) => { confirmPassWordHandler(e) }}
                     />

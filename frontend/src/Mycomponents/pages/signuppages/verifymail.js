@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React,{useState} from 'react'
 import { Link } from 'react-router-dom';
-import Footer from "../components/footer"
 
 const Verifymail = () => {
     const [loading, setloading] = useState(false)
     const [sendBox, setsendBox] = useState(true)
+    const [reloginBox, setreloginBox] = useState(false)
 
     const emailVerification = async () => {
         setloading(true)
@@ -20,6 +20,7 @@ const Verifymail = () => {
                 localStorage.clear();
                 setsendBox(false)
                 setloading(false)
+                setreloginBox(true)
             })
             .catch(error => {
                 // console.error(error);
@@ -61,18 +62,18 @@ const Verifymail = () => {
                     onClick={emailVerification}>Send</button>
             </div>
             )}
-            {!sendBox &&(
-            <div className="alert alert-dark bg-transparent justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2} >
+            {reloginBox &&(
+            <div className="alert alert-dark  bg-transparent justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2} >
                 <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
                 <a type="button" style={{ color: 'black' }} href="/login" className="btn btn-lg btn-outline-light ms-2">Go to login page</a>
             </div>
             )}
             {loading &&(
-                <div className="spinner-border justify-content-center text-center" role="status">
+                <div className="spinner-border d-flex justify-content-center  text-center mx-auto" style={{marginTop:'200px'}} role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
             )}
-            <Footer />
+        
         </>
     )
 }

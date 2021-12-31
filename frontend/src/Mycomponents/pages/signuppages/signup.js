@@ -27,7 +27,7 @@ const Signup = () => {
     const [usernameregexerror, setUsernameregexrror] = useState();
     const [loading, setLoading] = useState(false);
     const [statusError, setstatusError] = useState(false);
-    const [alreadyerror, setAlreadyError] = useState('');
+    const [statuscodeError, setstatuscodeError] = useState('');
 
     let button = usernameerror === false && emailerror === false && passworderror === false && 
     confirmpassworderror === false && usernameregexerror ===false && emailregexerror === false && passwordregexerror ===false && 
@@ -66,7 +66,7 @@ const Signup = () => {
                 setLoading(false);
                 if (confirmpasswordregexerror.response.status === 403) {
                     setstatusError(true)
-                    setAlreadyError(confirmpasswordregexerror.response.data.detail)
+                    setstatuscodeError(confirmpasswordregexerror.response.data.detail)
                 }
             })
 
@@ -260,7 +260,7 @@ const Signup = () => {
                     )}
                     {statusError && (
                         <p className="text-danger h5" role="alert">
-                            {alreadyerror}
+                            {statuscodeError}
                         </p>
                     )}
 

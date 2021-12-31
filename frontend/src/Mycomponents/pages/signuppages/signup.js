@@ -17,19 +17,21 @@ const Signup = () => {
     const [username, setusername] = useState('');
     const [passwordReg, setpasswordReg] = useState('');
     const [confirmpassword, setconfirmpassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [statusError, setstatusError] = useState(false);
-    const [error, setError] = useState();
+    const [confirmpasswordregexerror, setConfirmpasswordregexerror] = useState();
+    const [confirmpassworderror, setConfirmpassworderror] = useState();
     const [passworderror, setPassworderror] = useState();
     const [passwordregexerror, setPasswordregexerror] = useState();
     const [emailerror, setEmailerror] = useState();
     const [emailregexerror, setEmailregexerror] = useState();
     const [usernameerror, setUsernamerror] = useState();
     const [usernameregexerror, setUsernameregexrror] = useState();
-    const [confirmpassworderror, setConfirmpassworderror] = useState();
+    const [loading, setLoading] = useState(false);
+    const [statusError, setstatusError] = useState(false);
     const [alreadyerror, setAlreadyError] = useState('');
 
-    let button = usernameerror === false && emailerror === false && passworderror === false && confirmpassworderror === false && usernameregexerror ===false && emailregexerror === false && passwordregexerror ===false && error===false;
+    let button = usernameerror === false && emailerror === false && passworderror === false && 
+    confirmpassworderror === false && usernameregexerror ===false && emailregexerror === false && passwordregexerror ===false && 
+    confirmpasswordregexerror===false;
 
     const signupClick = async (e) => {
         e.preventDefault();
@@ -60,12 +62,11 @@ const Signup = () => {
                 }
 
             })
-            .catch((error) => {
+            .catch((confirmpasswordregexerror) => {
                 setLoading(false);
-                if (error.response.status === 403) {
+                if (confirmpasswordregexerror.response.status === 403) {
                     setstatusError(true)
-                    setAlreadyError(error.response.data.detail)
-             
+                    setAlreadyError(confirmpasswordregexerror.response.data.detail)
                 }
             })
 
@@ -76,15 +77,15 @@ const Signup = () => {
         setconfirmpassword(confPass);
         if (confPass === '') {
             setConfirmpassworderror(true);
-            setError(false)
+            setConfirmpasswordregexerror(false)
         }
         else {
             setConfirmpassworderror(false);
         }
         if (passwordReg !== confPass) {
-            setError(true)
+            setConfirmpasswordregexerror(true)
         } else {
-            setError(false)
+            setConfirmpasswordregexerror(false)
         }
 
     }
@@ -252,7 +253,7 @@ const Signup = () => {
                             Confirm Password is required!
                         </p>
                     )}
-                    {error && (
+                    {confirmpasswordregexerror && (
                         <p className="text-danger" role="alert">
                             Password does not match!
                         </p>

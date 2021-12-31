@@ -42,17 +42,12 @@ const Login = () => {
             setLoading(false);
             localStorage.setItem("token", resp.data.access_token)
             localStorage.setItem("active", resp.data.is_active)
-            function redirect(){
                 if (resp.data.is_active === true) {
                     setRedirectuser(true);
                 }
                 else if (resp.data.is_active === false) {
                     setRedirectverify(true);
                 }
-            }
-            setTimeout(() => {
-                redirect()
-            }, 1000); 
         })
             .catch((error) => {
                 setLoading(false);

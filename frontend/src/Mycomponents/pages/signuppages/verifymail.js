@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 const Verifymail = () => {
     const [loading, setloading] = useState(false)
     const [sendBox, setsendBox] = useState(true)
-    const [reloginBox, setreloginBox] = useState(false)
+    const [alertBox, setalertBox] = useState(false)
 
     const emailVerification = async () => {
+        setsendBox(false)
         setloading(true)
         const token = localStorage.getItem("token");
         await axios.get('send-code', {
@@ -18,9 +19,8 @@ const Verifymail = () => {
         })
             .then(resp => {
                 localStorage.clear();
-                setsendBox(false)
                 setloading(false)
-                setreloginBox(true)
+                setalertBox(true)
             })
             .catch(error => {
                 // console.error(error);
@@ -62,7 +62,7 @@ const Verifymail = () => {
                     onClick={emailVerification}>Send</button>
             </div>
             )}
-            {reloginBox &&(
+            {alertBox &&(
             <div className="alert alert-dark  bg-transparent justify-content-center text-center flex-column " id='alertBar' role="alert" style={mystyle2} >
                 <h4>Please click on the link within 15 minutes to verify your account and login again to use our services!!!</h4>
                 <a type="button" style={{ color: 'black' }} href="/login" className="btn btn-lg btn-outline-light ms-2">Go to login page</a>

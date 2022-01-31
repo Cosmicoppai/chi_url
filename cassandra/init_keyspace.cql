@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS chi_url.resolve_count (
     url text,
     short_url text,
     resolves counter,
-    PRIMARY KEY (user, url, short_url)
+    PRIMARY KEY (user, short_url, url)
 ) WITH CLUSTERING ORDER BY (url ASC, short_url ASC)
     AND bloom_filter_fp_chance = 0.01
     AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
@@ -67,5 +67,4 @@ CREATE INDEX IF NOT EXISTS email ON chi_url.user (email);
 
 CREATE ROLE IF NOT EXISTS cosmicoppai with superuser = true AND LOGIN = true and PASSWORD = 'dry-flower@04';
 
-ALTER KEYSPACE "system_auth"
-WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 3};
+ALTER KEYSPACE "system_auth" WITH REPLICATION = {'class' : 'NetworkTopologyStrategy', 'Mumbai': 1};

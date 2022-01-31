@@ -9,40 +9,46 @@ import ErrorPage from './Mycomponents/pages/Homepages/errorPage';
 
 
 function App() {
-  function UserRoute({ children }) {
+  function NotActiveRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth   ? <Navigate to="/user" /> : children;
+    const active = localStorage.getItem("active");
+    return auth && (active === 'false')? children : <Navigate to="/" />;
   }
-  function ProtectedRoute({ children }) {
+  function ActiveRoute({ children }) {
     const auth = localStorage.getItem("token");
-    return auth  ? children : <Navigate to="/" />;
+    const active = localStorage.getItem("active");
+    return auth && (active === 'true') ? children : <Navigate to="/verify" />;
+  }
+  function HomeRoute({ children }) {
+    const auth = localStorage.getItem("token");
+    return !auth ? children : <Navigate to="/user" />
   }
   return (
     <>
       <Router>
         <Routes>
           <Route path="/" element={
-            <UserRoute>
+            <HomeRoute>
               <Home />
-            </UserRoute>} />
+            </HomeRoute>} />
           <Route path="/signup" element={
-            <UserRoute>
+            <HomeRoute>
               <Signup />
-            </UserRoute>
+            </HomeRoute>
             } />
           <Route path="/login" element={
-             <UserRoute>
+             <HomeRoute>
               <Login />
-            </UserRoute>
+            </HomeRoute>
             } />
           <Route path="/verify" element={
-            <ProtectedRoute>
+            <NotActiveRoute>
               <Verifymail />
-            </ProtectedRoute>} />
+            </NotActiveRoute>} />
           <Route path="/user" element={
-            <ProtectedRoute>
+            <ActiveRoute>
               <UserPage />
-            </ProtectedRoute>} />
+            </ActiveRoute>} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
       </Router>

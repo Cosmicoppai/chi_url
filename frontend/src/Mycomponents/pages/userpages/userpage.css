@@ -1,10 +1,47 @@
 .visitedLink:link, .visitedLink:visited {
     color: #343434;
     cursor: pointer;
-  }
-  
-  .visitedLink:link:active, .visitedLink:visited:active,.visitedLink:hover {
+}
+
+.visitedLink:link:active, .visitedLink:visited:active, .visitedLink:hover {
     color: white;
-    text-decoration:none;
-    background-color:#343434
-  }
+    text-decoration: none;
+    background-color: #343434
+}
+
+.tableMargin {
+    margin-bottom: 100px;
+}
+
+.fix-width {
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table1 {
+    width: 700px;
+    margin-bottom: 0;
+    max-width: none;
+}
+
+
+
+.scroll-inner::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scroll-inner::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.scroll-inner::-webkit-scrollbar-track {
+    background-color: transparentize(#ccc, 0.7);
+}
+
+.scroll-inner::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: transparentize(#ccc, 0.5);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}

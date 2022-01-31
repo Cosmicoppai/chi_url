@@ -40,7 +40,9 @@
     "nth-check": ">=2.0.1",
     "tmpl": ">=1.0.5",
     "immer": ">=9.0.6",
-    "axios": ">=0.21.2"
+    "axios": ">=0.21.2",
+    "follow-redirects": ">=1.14.7",
+    "node-forge": ">=1.0.0"
   },
   "eslintConfig": {
     "extends": [

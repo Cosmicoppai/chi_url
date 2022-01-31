@@ -12,15 +12,15 @@ const Login = () => {
         maxWidth: "500px"
     }
 
-    const [userName, setusername] = useState('');
-    const [userNamereg, setusernamereg] = useState('');
+    const [usernameReg, setusernameReg] = useState('');
+    const [username, setUsername] = useState('');
     const [passWord, setpassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [redirectlogin, setRedirectlogin] = useState(false);
-    const [redirectverify, setRedirectverify] = useState(false);
     const [usernameerror, setUsernamerror] = useState();
     const [passworderror, setPassworderror] = useState();
-    const [alreadyerror, setAlreadyrror] = useState();
+    const [loading, setLoading] = useState(false);
+    const [redirectuser, setRedirectuser] = useState(false);
+    const [redirectverify, setRedirectverify] = useState(false);
+    const [statuscodeError, setStatuscodeerror] = useState();
 
 
     let button = usernameerror === false && passworderror === false;
@@ -31,7 +31,7 @@ const Login = () => {
         await axios({
             url: "get_token",
             method: "POST",
-            data: 'grant_type=password&username=' + userNamereg + '&password=' + passWord,
+            data: 'grant_type=password&username=' + username + '&password=' + passWord,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8;application/json',
@@ -42,28 +42,23 @@ const Login = () => {
             setLoading(false);
             localStorage.setItem("token", resp.data.access_token)
             localStorage.setItem("active", resp.data.is_active)
-            function redirect(){
                 if (resp.data.is_active === true) {
-                    setRedirectlogin(true);
+                    setRedirectuser(true);
                 }
                 else if (resp.data.is_active === false) {
                     setRedirectverify(true);
                 }
-            }
-            setTimeout(() => {
-                redirect()
-            }, 1000); 
         })
             .catch((error) => {
                 setLoading(false);
                 if (error.response.status === 403) {
-                    setAlreadyrror(true)
+                    setStatuscodeerror(true)
                 }
             })
 
 
     }
-    if (redirectlogin) {
+    if (redirectuser) {
         return <Navigate to="/user" />
     }
     if (redirectverify) {
@@ -82,9 +77,9 @@ const Login = () => {
     }
     const usernameHandler = (e) => {
         const Name = e.target.value;
-        setusername(Name);
+        setusernameReg(Name);
         const NameValue = Name.toLowerCase()
-        setusernamereg(NameValue)
+        setUsername(NameValue)
         if (Name === '') {
             setUsernamerror(true);
         }
@@ -97,7 +92,7 @@ const Login = () => {
     return (
         <>
             <Nav />
-            <div className="container bg-dark text-light border border-dark w-xl-50 w-lg-50 w-md-50 w-sm-70 w-75">
+            <div className="container bg-dark text-light border border-dark w-xl-50 w-lg-50 w-md-50 w-sm-75 w-100">
                 <form className="container text-center " style={mystyle}>
                     <h1 style={{ fontFamily: 'Droid Sans' }}>Login</h1>
                     <hr />
@@ -108,7 +103,7 @@ const Login = () => {
                         type="text"
                         className="form-control  "
                         id="exampleInputUsername"
-                        value={userName}
+                        value={usernameReg}
                         onChange={(e) => { usernameHandler(e) }}
                     />
                     {usernameerror && (
@@ -131,7 +126,7 @@ const Login = () => {
                             Password is required!
                         </p>
                     )}
-                    {alreadyerror && (
+                    {statuscodeError && (
                         <p className="text-danger h5" role="alert">
                             Invalid Username or Password!!!
                         </p>

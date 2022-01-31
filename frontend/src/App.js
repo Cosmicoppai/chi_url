@@ -12,15 +12,12 @@ function App() {
   function NotActiveRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
-    console.log("NotActive", active)
-    return auth && (active == 'false')? children : <Navigate to="/" />;
+    return auth && (active === 'false')? children : <Navigate to="/" />;
   }
   function ActiveRoute({ children }) {
     const auth = localStorage.getItem("token");
     const active = localStorage.getItem("active");
-    console.log(active)
-	  console.log("userPage", auth && active)
-    return auth && (active == 'true') ? children : <Navigate to="/verify" />;
+    return auth && (active === 'true') ? children : <Navigate to="/verify" />;
   }
   function HomeRoute({ children }) {
     const auth = localStorage.getItem("token");

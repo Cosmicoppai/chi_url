@@ -29,13 +29,13 @@ logging.basicConfig(handlers=[logging.FileHandler(filename='../logs/db_error.log
 
 profiles = ExecutionProfile(
     load_balancing_policy=DCAwareRoundRobinPolicy(),
-    consistency_level=ConsistencyLevel.LOCAL_QUORUM,
+    consistency_level=ConsistencyLevel.ONE,
     request_timeout=15,
 )
 
 _AUTH_PROVIDER = PlainTextAuthProvider(username=_username, password=_password)
 
-_CLUSTER = Cluster(contact_points=['node-1', 'node-2', 'node-3'],port=9042, ssl_context=None,
+_CLUSTER = Cluster(contact_points=['node-1',],port=9042, ssl_context=None,
                    protocol_version=5,
                    auth_provider=_AUTH_PROVIDER,
                    execution_profiles={EXEC_PROFILE_DEFAULT: profiles})

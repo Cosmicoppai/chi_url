@@ -1,10 +1,14 @@
-from fastapi import FastAPI
-import session_token, email_verification, users, add_url, url_stats, delete_url, url_routing
-from fastapi.middleware.cors import CORSMiddleware
 from functools import lru_cache
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import add_url
+import delete_url
+import email_verification
+import session_token
+import url_routing
+import url_stats
+import users
 from config import OriginSettings
-
-
 
 app = FastAPI(
     title='小 URL',
@@ -13,7 +17,7 @@ app = FastAPI(
     contact={
         "name": "CosmicOppai",
         "url": "https://github.com/Cosmicoppai/chi_url",
-        "email": "oppaiharem69@gmail.com",
+        "email": "comsicoppai@protonmail.com",
     },
     license_info={
         "name": "MIT",

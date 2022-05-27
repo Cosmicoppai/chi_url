@@ -45,17 +45,17 @@ def create_email_verification_token(data: dict):
     return encoded_jwt
 
 
-def send_verification_code(user: str, user_email:EmailStr):
+def send_verification_code(user: str, user_email: EmailStr):
     verification_code = random.randrange(100000, 1000000)
-    verification_token = create_email_verification_token(data={'user':user, "verification_code": verification_code})
+    verification_token = create_email_verification_token(data={'user': user, "verification_code": verification_code})
     send_email(token=verification_token, user=user, user_email=user_email)  # send the mail
-    session.execute(f"UPDATE user SET verification_code='{verification_code}' WHERE user_name='{user}';")  # update the verification code in the database
+    session.execute(
+        f"UPDATE user SET verification_code='{verification_code}' WHERE user_name='{user}';")  # update the verification code in the database
 
-    return {"status":status.HTTP_200_OK, "message":"Email Sent"}
+    return {"status": status.HTTP_200_OK, "message": "Email Sent"}
 
 
-
-def send_email(token:str, user:str, user_email:EmailStr):
+def send_email(token: str, user: str, user_email: EmailStr):
     context = ssl.create_default_context()
     message = MIMEMultipart('alternative')
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
@@ -69,8 +69,7 @@ def send_email(token:str, user:str, user_email:EmailStr):
         server.send_message(message)
 
 
-
-@router.get('/verify-email/', tags=["users"])
+@router.get('/verify_email/', tags=["users"])
 async def verify_acc(token):
     """
     Payload Format
@@ -82,19 +81,22 @@ async def verify_acc(token):
         raise HTTP_401_EXPIRED_JWT
     _user: str = payload.get('user')  # get the username from the token
     verification_code_from_jwt: str = payload.get('verification_code')  # get the verification code
-    _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user_name='{_user}'").one()[0]  # get the verification code from the database
+    _verification_code = session.execute(f"SELECT verification_code FROM user WHERE user_name='{_user}'").one()[
+        0]  # get the verification code from the database
 
     if verification_code_from_jwt == int(_verification_code):  # check if both tokens are same or not
-        session.execute(f"UPDATE user SET disabled=FALSE, verification_code=NULL WHERE user_name='{_user}'")  # Activate the user
+        session.execute(
+            f"UPDATE user SET disabled=FALSE, verification_code=NULL WHERE user_name='{_user}'")  # Activate the user
         return {"status": status.HTTP_200_OK, "message": "Email Successfully verified"}
 
-    return {"status":status.HTTP_400_BAD_REQUEST, "message":"Verification code not valid"}
+    return {"status": status.HTTP_400_BAD_REQUEST, "message": "Verification code not valid"}
 
 
-@router.get("/send-code", status_code=status.HTTP_200_OK)  # To send verification code again
+@router.get("/send_code", status_code=status.HTTP_200_OK)  # To send verification code again
 def resend_verification_code(_user: User = Depends(get_current_user)):  # get the username from the jwt
     if _user.disable:
-        _email = session.execute(f"SELECT email From user WHERE user_name='{_user.username}'").one()[0]  # get the email id from the db
+        _email = session.execute(f"SELECT email From user WHERE user_name='{_user.username}'").one()[
+            0]  # get the email id from the db
         send_verification_code(user=_user.username, user_email=_email)  # call the function to send email
         return RedirectResponse(url=f"{_host.host}/user")
     return HTTP_404_NOT_FOUND

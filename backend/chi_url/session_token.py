@@ -19,7 +19,7 @@ def cached_keys():
 _keys = cached_keys()  # Load the keys from the .env
 
 SECRET_KEY = _keys.secret_key  # Load the secret key from env var
-ALGORITHM = _keys.algorithm  # Load the hashing algo from the env var
+ALGORITHM = _keys.algorithm  # Load the white list of hashing algorithms
 ACCESS_TOKEN_EXPIRE_MINUTES = 10080
 
 
@@ -75,10 +75,7 @@ def authenticate_user(username: str, password: str):
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta  # If token already exists, renew it
-    else:
-        expire = datetime.utcnow() + timedelta(days=7)  # else assign a new token
+    expire = datetime.utcnow() + expires_delta
     to_encode.update({'exp': expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -112,7 +109,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status_code=403, detail="Incorrect Username or Password", headers={"WWW-Authenticate": "Bearer"})
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
-    # Create an access token with data containing username of the user and the expire time of the token
+    # Create an access token with data containing username of the user and the expiry time of the token
     access_token = create_access_token(
         data={"sub": _user.username}, expires_delta=access_token_expires
     )

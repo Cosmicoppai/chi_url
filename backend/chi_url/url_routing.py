@@ -13,8 +13,8 @@ router = APIRouter()
 
 @router.get("/{hashed_url}", tags=["url"])
 async def get_url(background_tasks: BackgroundTasks,
-                  hashed_url: str = Path(..., title="hashed url", description="Hashed url which is stored in the DB as key")):
-
+                  hashed_url: str = Path(..., title="hashed url",
+                                         description="Hashed url which is stored in the DB as key")):
     try:
         _url = cache.lrange(hashed_url, 0, 1)  # check the cache
         if _url:
@@ -23,11 +23,10 @@ async def get_url(background_tasks: BackgroundTasks,
             url, user = get_url_from_db(hashed_url)
             background_tasks.add_task(add_cache, hashed_url, *[user, url])  # cache the result using tail push
     except redis.exceptions.ConnectionError:  # If Redis backend is not available hit the Database
-        url,user = get_url_from_db(hashed_url)
+        url, user = get_url_from_db(hashed_url)
 
     background_tasks.add_task(add_resolve_count, url, hashed_url, user)  # update the resolveCount in the background
     return RedirectResponse(url=f"{url}")  # Redirect to the mapped url from the DB ♥
-
 
 
 def add_cache(short_url: str, *values):

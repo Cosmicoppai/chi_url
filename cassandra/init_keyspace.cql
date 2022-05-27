@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS chi_url.resolve_count (
     short_url text,
     resolves counter,
     PRIMARY KEY (user, short_url, url)
-) WITH CLUSTERING ORDER BY (url ASC, short_url ASC)
+) WITH CLUSTERING ORDER BY (short_url ASC, url ASC)
     AND bloom_filter_fp_chance = 0.01
     AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
     AND cdc = false

@@ -37,7 +37,7 @@ services:
     env_file:
       - .env
     ports:
-    - 8000:8000
+    - "8000:8000"
     restart: always
 
   # Frontend
@@ -61,7 +61,7 @@ services:
   nginx:
     image: nginx:1.21-alpine
     ports:
-    - 80:80
+    - "80:80"
     volumes:
     - ./local_nginx:/etc/nginx/conf.d
     - react_build:/usr/share/nginx/html

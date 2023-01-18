@@ -64,7 +64,7 @@ def send_email(token: str, user: str, user_email: EmailStr):
         message['Subject'] = 'Verify Email'
         message['From'] = formataddr((str(Header('小 URL', 'utf-8')), _email_address))
         message['To'] = user_email
-        html = Template(EMAIL_TEMPLATE).substitute(name=user, url=f"{_host.host}/verify-email/?token={token}")
+        html = Template(EMAIL_TEMPLATE).substitute(name=user, url=f"{_host.host}/verify_email/?token={token}")
         message.attach(MIMEText(html, 'html'))
         server.send_message(message)
 

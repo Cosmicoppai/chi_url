@@ -1,5 +1,5 @@
 
-CREATE KEYSPACE IF NOT EXISTS chi_url  WITH replication = {'class': 'NetworkTopologyStrategy', 'Mumbai': '3'}  AND durable_writes = true;
+CREATE KEYSPACE IF NOT EXISTS chi_url  WITH replication = {'class': 'NetworkTopologyStrategy', 'Mumbai': '1'}  AND durable_writes = true;
 
 CREATE TABLE IF NOT EXISTS chi_url.resolve_count (
     user text,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS chi_url.resolve_count (
     short_url text,
     resolves counter,
     PRIMARY KEY (user, short_url, url)
-) WITH CLUSTERING ORDER BY (url ASC, short_url ASC)
+) WITH CLUSTERING ORDER BY (short_url ASC, url ASC)
     AND bloom_filter_fp_chance = 0.01
     AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
     AND cdc = false

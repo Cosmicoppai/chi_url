@@ -65,7 +65,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "node-1, node-2"
+          - seeds: "node-1"
 
 
 concurrent_reads: 32
@@ -89,9 +89,9 @@ storage_port: 7000
 
 ssl_storage_port: 7001
 
-listen_address: 172.19.0.2
+listen_address: 172.21.0.4
 
-broadcast_address: 172.19.0.2
+broadcast_address: 172.21.0.4
 
 start_native_transport: true
 
@@ -100,7 +100,7 @@ native_transport_allow_older_protocols: true
 
 rpc_address: 0.0.0.0
 
-broadcast_rpc_address: 172.19.0.2
+broadcast_rpc_address: 172.21.0.4
 
 # enable or disable keepalive on rpc/native connections
 rpc_keepalive: true

@@ -3,7 +3,7 @@ services:
 
   #Node 1
   node-1:
-    image: cassandra:4.0
+    image: cassandra:4.0.4
     container_name: node-1
     environment: &environment
       - CASSANDRA_CLUSTER_NAME=cluster1
@@ -17,7 +17,7 @@ services:
 
   # schema loading node
   pseudo-node:
-    image: cassandra:4.0
+    image: cassandra:4.0.4
     container_name: pseudo-node
     environment: *environment
     volumes:
@@ -65,7 +65,7 @@ services:
     volumes:
     - ./local_nginx:/etc/nginx/conf.d
     - react_build:/usr/share/nginx/html
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    command: "/bin/sh -c 'nginx -g \"daemon off;\"'"
     depends_on:
       - backend
       - frontend

@@ -57,7 +57,7 @@ const UserPage = () => {
     const getLink = async () => {
         const token = localStorage.getItem("token");
         await axios.post('add_url', {
-            originDomain: link
+            url: link
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const UserPage = () => {
 
     const getUrls = () => {
         const token = localStorage.getItem("token");
-        axios.get('originDomain-stats', {
+        axios.get('url_stats', {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'accept': 'application/json'
@@ -135,7 +135,7 @@ const UserPage = () => {
     const moreRequest = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
-        await axios.get(`originDomain-stats/?paging_state=${pagingStatus}`
+        await axios.get(`url_stats/?paging_state=${pagingStatus}`
             ,
             {
                 headers: {
@@ -227,7 +227,7 @@ const UserPage = () => {
                                         <tbody className="w-25">
                                             {(data || []).map((data, id) => {
                                                 return <tr key={id}>
-                                                    <td> <a className="visitedLink" href={data.originDomain} rel="noreferrer" target="_blank">{data.originDomain}</a> </td>
+                                                    <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
                                                     <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
                                                     <td>{data.resolves}</td>
                                                 </tr>
@@ -235,7 +235,7 @@ const UserPage = () => {
                                             })}
                                             {(moreData || []).map((data, id) => {
                                                 return <tr key={id}>
-                                                    <td> <a className="visitedLink" href={data.originDomain} rel="noreferrer" target="_blank">{data.originDomain}</a> </td>
+                                                    <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
                                                     <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
                                                     <td>{data.resolves}</td>
                                                 </tr>
@@ -266,7 +266,7 @@ const UserPage = () => {
                                     <tbody className="w-25">
                                         {(data || []).map((data, id) => {
                                             return <tr key={id}>
-                                                <td> <a className="visitedLink" href={data.originDomain} rel="noreferrer" target="_blank">{data.originDomain}</a> </td>
+                                                <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
                                                 <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
                                                 <td>{data.resolves}</td>
                                             </tr>
@@ -274,7 +274,7 @@ const UserPage = () => {
                                         })}
                                         {(moreData || []).map((data, id) => {
                                             return <tr key={id}>
-                                                <td> <a className="visitedLink" href={data.originDomain} rel="noreferrer" target="_blank">{data.originDomain}</a> </td>
+                                                <td> <a className="visitedLink" href={data.url} rel="noreferrer" target="_blank">{data.url}</a> </td>
                                                 <td><a className="visitedLink" href={data.short_url} rel="noreferrer" target="_blank">{data.short_url}</a></td>
                                                 <td>{data.resolves}</td>
                                             </tr>
